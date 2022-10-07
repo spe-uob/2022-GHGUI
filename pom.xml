@@ -122,6 +122,14 @@
             <mainClass>uk.ac.bristol.App</mainClass>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>com.gluonhq</groupId>
+          <artifactId>gluonfx-maven-plugin</artifactId>
+          <version>1.0.15</version>
+          <configuration>
+            <mainClass>uk.ac.bristol.App</mainClass>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
