@@ -1,0 +1,10 @@
+name: Formatter
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Google Java Format
+        uses: axel-op/googlejavaformat-action@v3.6.0
