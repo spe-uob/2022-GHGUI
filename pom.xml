@@ -84,7 +84,7 @@
             <appVersion>1.0.0</appVersion>
             <vendor>uk.ac.bristol</vendor>
             <destination>target/dist</destination>
-            <module>uk.ac.bristol.App</module>
+            <module>uk.ac.bristol/App</module>
             <runtimeImage>target/ghgui</runtimeImage>
             <linuxShortcut>true</linuxShortcut>
             <linuxPackageName>ghgui</linuxPackageName>
