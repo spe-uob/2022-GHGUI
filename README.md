@@ -1,5 +1,9 @@
 # 2022-GHGUI
 
+GHGUI is a University of Bristol SPE project aimed at providing an open source multiplatform alternatives to apps like GitKraken and GitHub Desktop, with features that aim to make using Git as simple as can be, so that you can spend your time developing instead of resolving conflicts and fixing the consequences of command misuse.
+
+Current planned features include all the basic features of the Git workflow, with tight GitHub integration, as well as branch visualisation, support for multiple accounts and repositories and UX that focuses on safety and clarity.
+
 # Installing and Running
 
 ## Running With Maven
