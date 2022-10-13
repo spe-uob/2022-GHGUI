@@ -1,7 +1,6 @@
 package uk.ac.bristol;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,9 +21,7 @@ public class App extends Application {
 
     // Apply CSS
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
-    scene.getStylesheets()
-        .add(getClass().getResource("stylesheet.css")
-            .toExternalForm());
+    scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
 
     primaryStage.setScene(scene);
     primaryStage.show();
