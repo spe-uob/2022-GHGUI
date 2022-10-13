@@ -16,7 +16,7 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("ghgui.fxml"));
     Scene scene = new Scene(root, 300, 275);
 
     // Apply CSS
