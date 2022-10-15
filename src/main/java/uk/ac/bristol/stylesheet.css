@@ -1,0 +1,6 @@
+/* defines a styleclass, this styleclass can be
+   applied to objects in javafx-scenebuilder */
+.menuButton {
+  background-color: pink;
+  -fx-background-color: pink;
+}
