@@ -1,6 +1,16 @@
 /* defines a styleclass, this styleclass can be
-   applied to objects in javafx-scenebuilder */
+   applied to objects in javafx-scenebuilder
+
+   current colours are ripped off from discord*/
+
 .menuButton {
-  background-color: pink;
-  -fx-background-color: pink;
+  -fx-border: 30px solid black;
+  -fx-background-color: #5663F7;
+  -fx-text-fill: #FFFFFF;
+}
+.tab-pane {
+  -fx-background-color:  #23272A;
+}
+.background {
+  -fx-background-color:   #5663F7;
 }
