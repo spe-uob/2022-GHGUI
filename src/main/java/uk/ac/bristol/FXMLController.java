@@ -23,7 +23,7 @@ public class FXMLController {
   }
 
   @FXML
-  private void mouseClick(Event e) {
+  private void mouseClicked(Event e) {
     System.out.println("Mouse clicked on a button. Event details below:");
     System.out.println(e);
   }
