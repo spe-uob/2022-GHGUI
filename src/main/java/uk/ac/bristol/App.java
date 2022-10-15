@@ -33,6 +33,7 @@ public class App extends Application {
         .getStylesheets()
         .add(getClass().getClassLoader().getResource("stylesheet.css").toExternalForm());
 
+    primaryStage.setTitle("ghgui");
     primaryStage.setScene(scene);
     primaryStage.show();
   }

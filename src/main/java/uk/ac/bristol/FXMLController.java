@@ -8,6 +8,7 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.Alert.AlertType;
@@ -37,7 +38,10 @@ public class FXMLController {
     if (gitDirectory != null) {
       Tab tab = new Tab(gitDirectory.getParent());
       try {
-        tab.setContent(FXMLLoader.load(getClass().getClassLoader().getResource("tab.fxml")));
+        Node contents = FXMLLoader.load(getClass().getClassLoader().getResource("tab.fxml"));
+        contents.prefHeight(0);
+        contents.prefWidth(0);
+        tab.setContent(contents);
       } catch (IOException ex) {
         AlertBuilder.build(AlertType.ERROR, "IOException occured",
             "Failed to load .fxml file for tabs").showAndWait();
