@@ -3,15 +3,13 @@ package uk.ac.bristol;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.eclipse.jgit.lib.Repository;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
+import org.eclipse.jgit.lib.Repository;
 
 public class App extends Application {
   static Map<Tab, Repository> mapTabToRepo = new HashMap<Tab, Repository>();
