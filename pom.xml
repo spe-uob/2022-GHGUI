@@ -110,7 +110,8 @@
               <item>javafx.scene.control.Menu</item>
               <item>javafx.scene.control.MenuItem</item>
               <item>javafx.scene.control.MenuBar</item>
-              <item>uk.ac.bristol.FXMLController</item>
+              <item>uk.ac.bristol.Controllers.MainController</item>
+              <item>uk.ac.bristol.Controllers.TabController</item>
             </reflectionList>
           </configuration>
         </plugin>

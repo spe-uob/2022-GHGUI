@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.eclipse.jgit.lib.Repository;
 
 public class App extends Application {
-  static Map<Tab, Repository> mapTabToRepo = new HashMap<Tab, Repository>();
+  public static Map<Tab, Repository> mapTabToRepo = new HashMap<Tab, Repository>();
 
   public static void main(String[] args) {
     launch(args);
@@ -27,8 +27,7 @@ public class App extends Application {
 
     // Apply CSS
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
-    scene
-        .getStylesheets()
+    scene.getStylesheets()
         .add(getClass().getClassLoader().getResource("stylesheet.css").toExternalForm());
 
     primaryStage.setTitle("ghgui");
