@@ -9,7 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.App;
@@ -19,7 +19,7 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 // assigned to Events on objects in javafx-scenebuilder
 public class MainController {
   @FXML
-  private AnchorPane mainWindow;
+  private GridPane root;
 
   @FXML
   private TabPane tabs;
@@ -27,7 +27,7 @@ public class MainController {
   @FXML
   private void selectDirectory(Event e) {
     DirectoryChooser directoryChooser = new DirectoryChooser();
-    File selectedDirectory = directoryChooser.showDialog(mainWindow.getScene().getWindow());
+    File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
       return;
     }
