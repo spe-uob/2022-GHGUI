@@ -7,5 +7,6 @@ module uk.ac.bristol {
 
   exports uk.ac.bristol;
 
-  opens uk.ac.bristol.Controllers to javafx.fxml;
+  opens uk.ac.bristol.Controllers to
+      javafx.fxml;
 }

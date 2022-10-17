@@ -11,18 +11,16 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.App;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
 public class MainController {
-  @FXML
-  private GridPane root;
+  @FXML private GridPane root;
 
-  @FXML
-  private TabPane tabs;
+  @FXML private TabPane tabs;
 
   @FXML
   private void selectDirectory(Event e) {
@@ -43,22 +41,28 @@ public class MainController {
         contents.prefWidth(0);
         tab.setContent(contents);
       } catch (IOException ex) {
-        AlertBuilder
-            .build(AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
+        AlertBuilder.build(
+                AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
             .showAndWait();
       }
       try {
         App.mapTabToRepo.put(tab, repositoryBuilder.readEnvironment().build());
         tabs.getTabs().add(tab);
       } catch (IOException ex) {
-        AlertBuilder
-            .build(AlertType.ERROR, "IOException occured", "Failed to build the repository at "
-                + selectedDirectory.getAbsolutePath() + "\nThe repository could not be accessed")
+        AlertBuilder.build(
+                AlertType.ERROR,
+                "IOException occured",
+                "Failed to build the repository at "
+                    + selectedDirectory.getAbsolutePath()
+                    + "\nThe repository could not be accessed")
             .showAndWait();
       }
     } else {
-      AlertBuilder.build(AlertType.ERROR, "Failed to locate repository",
-          "Git repository not found at " + selectedDirectory.getAbsolutePath()).showAndWait();
+      AlertBuilder.build(
+              AlertType.ERROR,
+              "Failed to locate repository",
+              "Git repository not found at " + selectedDirectory.getAbsolutePath())
+          .showAndWait();
     }
   }
 }

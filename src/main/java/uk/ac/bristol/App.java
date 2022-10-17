@@ -27,7 +27,8 @@ public class App extends Application {
 
     // Apply CSS
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
-    scene.getStylesheets()
+    scene
+        .getStylesheets()
         .add(getClass().getClassLoader().getResource("stylesheet.css").toExternalForm());
 
     primaryStage.setTitle("ghgui");

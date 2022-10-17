@@ -8,8 +8,7 @@ import javafx.scene.layout.GridPane;
 // assigned to Events on objects in javafx-scenebuilder
 public class TabController {
 
-  @FXML
-  private GridPane root;
+  @FXML private GridPane root;
 
   @FXML
   private void mouseClicked(Event e) {
