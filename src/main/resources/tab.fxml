@@ -50,11 +50,7 @@
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Terminal" />
          </children>
       </HBox>
-      <HBox fx:id="status" alignment="CENTER" styleClass="tab-pane" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
-         <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Staging Information" />
-         </children>
-      </HBox>
+      <HBox fx:id="status" alignment="CENTER" styleClass="tab-pane" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
    </children>
    <padding>
       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

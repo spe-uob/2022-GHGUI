@@ -3,8 +3,7 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="341.0" text="Project Status" type="TitledPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StatusController">
+<TitledPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="341.0" text="Project Status" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.Controllers.StatusController">
    <content>
       <VBox prefHeight="533.0" prefWidth="339.0">
          <children>
@@ -13,4 +12,4 @@
          </children>
       </VBox>
    </content>
-</fx:root>
+</TitledPane>
