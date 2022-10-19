@@ -105,12 +105,20 @@
           <version>1.0.15</version>
           <configuration>
             <mainClass>uk.ac.bristol.App</mainClass>
+            <bundlesList>
+              <item>
+                org.eclipse.jgit.internal.JGitText
+              </item>
+            </bundlesList>
             <reflectionList>
               <item>javafx.scene.control.Menu</item>
               <item>javafx.scene.control.MenuItem</item>
               <item>javafx.scene.control.MenuBar</item>
+              <item>javafx.scene.text.Text</item>
+              <item>javafx.scene.layout.GridPane</item>
               <item>uk.ac.bristol.Controllers.MainController</item>
               <item>uk.ac.bristol.Controllers.TabController</item>
+              <item>org.eclipse.jgit.internal.JGitText</item>
             </reflectionList>
           </configuration>
         </plugin>
