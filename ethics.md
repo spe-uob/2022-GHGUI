@@ -1,1 +1,0 @@
-Our project is a desktop application that does not send telemetry or other user data to any central location, and as such, the GDPR is not a concern and no further action will be taken in the interest of data protection. Personal data stored locally to be given to the GitHub API may be encrypted as a security measure. 
