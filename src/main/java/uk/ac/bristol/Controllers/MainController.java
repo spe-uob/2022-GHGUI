@@ -43,7 +43,6 @@ public class MainController {
                 AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
             .showAndWait();
         ex.printStackTrace();
-
       }
       try {
         App.mapTabToRepo.put(tab, repositoryBuilder.readEnvironment().build());

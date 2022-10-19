@@ -8,19 +8,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
+
 public class StatusController implements Initializable {
 
-    @FXML private TitledPane root;
+  @FXML private TitledPane root;
 
-    @FXML
-    private void mouseClicked(Event e) {
-        System.out.println("Mouse clicked on a button. Event details below:");
-        System.out.println(e);
-    }
+  @FXML
+  private void mouseClicked(Event e) {
+    System.out.println("Mouse clicked on a button. Event details below:");
+    System.out.println(e);
+  }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        root.prefHeight(0);
-        root.prefWidth(0);
-    }
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    root.prefHeight(0);
+    root.prefWidth(0);
+  }
 }
