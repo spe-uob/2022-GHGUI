@@ -1,4 +1,4 @@
-package uk.ac.bristol;
+package uk.ac.bristol.Controllers;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,21 +9,23 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import uk.ac.bristol.AlertBuilder;
+import uk.ac.bristol.App;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
-public class FXMLController {
-  @FXML private AnchorPane mainWindow;
+public class MainController {
+  @FXML private GridPane root;
 
   @FXML private TabPane tabs;
 
   @FXML
   private void selectDirectory(Event e) {
     DirectoryChooser directoryChooser = new DirectoryChooser();
-    File selectedDirectory = directoryChooser.showDialog(mainWindow.getScene().getWindow());
+    File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
       return;
     }
@@ -35,8 +37,6 @@ public class FXMLController {
       Tab tab = new Tab(gitDirectory.getParent());
       try {
         Node contents = FXMLLoader.load(getClass().getClassLoader().getResource("tab.fxml"));
-        contents.prefHeight(0);
-        contents.prefWidth(0);
         tab.setContent(contents);
       } catch (IOException ex) {
         AlertBuilder.build(
@@ -62,15 +62,5 @@ public class FXMLController {
               "Git repository not found at " + selectedDirectory.getAbsolutePath())
           .showAndWait();
     }
-  }
-
-  @FXML
-  private void mouseClicked(Event e) {
-    System.out.println("Mouse clicked on a button. Event details below:");
-    System.out.println(e);
-  }
-
-  private void tabevent(Event e) {
-    System.out.println(e);
   }
 }

@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.eclipse.jgit.lib.Repository;
 
 public class App extends Application {
-  static Map<Tab, Repository> mapTabToRepo = new HashMap<Tab, Repository>();
+  public static Map<Tab, Repository> mapTabToRepo = new HashMap<Tab, Repository>();
 
   public static void main(String[] args) {
     launch(args);

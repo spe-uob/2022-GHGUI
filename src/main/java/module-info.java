@@ -3,10 +3,10 @@ module uk.ac.bristol {
   requires transitive javafx.controls;
   requires javafx.fxml;
   requires javafx.base;
-  requires org.eclipse.jgit;
+  requires transitive org.eclipse.jgit;
 
   exports uk.ac.bristol;
 
-  opens uk.ac.bristol to
+  opens uk.ac.bristol.Controllers to
       javafx.fxml;
 }
