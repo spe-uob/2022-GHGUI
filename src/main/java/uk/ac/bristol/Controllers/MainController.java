@@ -39,8 +39,6 @@ public class MainController {
       Tab tab = new Tab(gitDirectory.getParent());
       try {
         Node contents = FXMLLoader.load(getClass().getClassLoader().getResource("tab.fxml"));
-        contents.prefHeight(0);
-        contents.prefWidth(0);
         tab.setContent(contents);
       } catch (IOException ex) {
         AlertBuilder
