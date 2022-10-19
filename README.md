@@ -1,10 +1,32 @@
-# 2022-GHGUI
+# Overview
+## Scope and Objectives
+This project aims to create a simple, user experience oriented, cross-platform desktop app
+that allows users to manage Git repositories, with focus on tight integration with GitHub. 
 
-GHGUI is a University of Bristol SPE project aimed at providing an open source multiplatform alternatives to apps like GitKraken and GitHub Desktop, with features that aim to make using Git as simple as can be, so that you can spend your time developing instead of resolving conflicts and fixing the consequences of command misuse.
+We hope that this project will offer a free to use open-source alternative to more popular 
+applications such as GitHub Desktop and GitKraken.
+## Features
+When the project is finished, we aim to provide
+- Full support for the typical Git workflow without the need to use a terminal
+- A visual representation of branches and merges, and ways to act on the branch tree easily 
+- Beginner (and rage-fuelled 3AM developer) friendly UI that makes it clear what will happen to the repository after every action
+- UI to give you an idea of what is being worked on, and by whom, at a glance.
+- Support for multiple repositories to be open at once, even for repositories owned by different GitHub accounts
+- Integration for GitHub features, such as pull requests
+- Support for customization of window sizes and proportions, as well as themes.
+- Support for easily resolving conflicts
+## End Users and Stakeholders 
+This project is for the people - at the end of it all, we would like to provide a release on GitHub for all to enjoy and modify to their liking, as well as some documentation to help them get started. 
+As such, our stakeholders and end users are the developers that want a simpler way to work with Git. 
+We want to help developers like ourselves that are tired of the paranoia of working with the command line, or with 
+GUI systems that don't offer simplicity and ease of use as a part of their feature-set.
 
-Current planned features include all the basic features of the Git workflow, with tight GitHub integration, as well as branch visualisation, support for multiple accounts and repositories and UX that focuses on safety and clarity.
+## Ethics 
+Our project will not be collecting or sending any user data aside from the data needed to interact with the 
+GitHub API, and this connection will be strictly between GitHub and the user. Data may be created and stored locally as Git 
+repository information or metadata.
 
-# Installing and Running
+# Installation and Use
 
 ## Running With Maven
 
