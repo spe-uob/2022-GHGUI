@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<fx:root fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="563.0" prefWidth="341.0" text="Project Status" type="TitledPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StatusController">
+   <content>
+      <VBox prefHeight="533.0" prefWidth="339.0">
+         <children>
+            <TitledPane prefHeight="200.0" prefWidth="200.0" text="Staged Changes" />
+            <TitledPane prefHeight="200.0" prefWidth="200.0" text="Unstaged Changes" />
+         </children>
+      </VBox>
+   </content>
+</fx:root>

@@ -42,6 +42,8 @@ public class MainController {
         AlertBuilder.build(
                 AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
             .showAndWait();
+        ex.printStackTrace();
+
       }
       try {
         App.mapTabToRepo.put(tab, repositoryBuilder.readEnvironment().build());
@@ -54,6 +56,7 @@ public class MainController {
                     + selectedDirectory.getAbsolutePath()
                     + "\nThe repository could not be accessed")
             .showAndWait();
+        ex.printStackTrace();
       }
     } else {
       AlertBuilder.build(
