@@ -37,7 +37,7 @@ mvn javafx:run
 
 Note: If you do not have maven installed, you can replace `mvn` with `.\mvnw.cmd` on Windows or `./mvnw` on MacOS/Linux.
 
-## Building a Custom Runtime
+## Building a Custom Runtime (temporarily deprecated, [see here](/../../issues/66))
 
 Since Java 9, the JRE has introduced the Java Platform Module System (JPMS). Jlink is a tool that allows us to compile our project alongside a custom runtime image that contains *only* the exact modules and runtime dependencies needed to create a functioning program. To create a custom runtime image, run:
 ```
