@@ -33,7 +33,7 @@ public class MainController {
     File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory != null) {
-      Tab tab = new Tab(gitDirectory.getParent());
+      Tab tab = new Tab(gitDirectory.getParentFile().getName());
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("tab.fxml"));
       try {
         Node contents = fxmlLoader.load();

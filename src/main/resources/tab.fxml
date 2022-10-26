@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -31,6 +32,7 @@
       </HBox>
       <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane" GridPane.columnSpan="3">
          <children>
+            <ComboBox fx:id="remote" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="100.0" />
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="menuButton" text="Push" />
             <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
             <Button mnemonicParsing="false" onMouseClicked="#fetch" styleClass="menuButton" text="Fetch" />
