@@ -17,10 +17,8 @@ import uk.ac.bristol.AlertBuilder;
 // assigned to Events on objects in javafx-scenebuilder
 public class TabController implements Initializable {
 
-  @FXML
-  private GridPane root;
-  @FXML
-  private AnchorPane statusPane;
+  @FXML private GridPane root;
+  @FXML private AnchorPane statusPane;
 
   @FXML
   private void mouseClicked(Event e) {

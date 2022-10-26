@@ -11,8 +11,7 @@ import javafx.scene.control.TitledPane;
 
 public class StatusController implements Initializable {
 
-  @FXML
-  private TitledPane root;
+  @FXML private TitledPane root;
 
   @FXML
   private void mouseClicked(Event e) {
