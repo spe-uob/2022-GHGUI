@@ -13,7 +13,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.AlertBuilder;
-import uk.ac.bristol.App;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
@@ -35,8 +34,9 @@ public class MainController {
 
     if (gitDirectory != null) {
       Tab tab = new Tab(gitDirectory.getParent());
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("tab.fxml"));
       try {
-        Node contents = FXMLLoader.load(getClass().getClassLoader().getResource("tab.fxml"));
+        Node contents = fxmlLoader.load();
         tab.setContent(contents);
       } catch (IOException ex) {
         AlertBuilder.build(
@@ -44,7 +44,8 @@ public class MainController {
             .showAndWait();
       }
       try {
-        App.mapTabToRepo.put(tab, repositoryBuilder.readEnvironment().build());
+        TabController controller = fxmlLoader.getController();
+        controller.setRepo(repositoryBuilder.readEnvironment().build());
         tabs.getTabs().add(tab);
       } catch (IOException ex) {
         AlertBuilder.build(
