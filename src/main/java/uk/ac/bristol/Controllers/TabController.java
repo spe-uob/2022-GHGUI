@@ -1,5 +1,6 @@
 package uk.ac.bristol.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -7,9 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -23,6 +27,7 @@ public class TabController implements Initializable {
 
   private Git repo;
   @FXML private GridPane root;
+  @FXML private AnchorPane statusPane;
   @FXML private ComboBox<String> remote;
 
   @FXML
@@ -63,7 +68,16 @@ public class TabController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    root.prefHeight(0);
-    root.prefWidth(0);
+    try {
+      TitledPane statusContents =
+          FXMLLoader.load(getClass().getClassLoader().getResource("status.fxml"));
+      AnchorPane.setTopAnchor(statusContents, 0.0);
+      AnchorPane.setLeftAnchor(statusContents, 0.0);
+      AnchorPane.setRightAnchor(statusContents, 0.0);
+      statusPane.getChildren().add(statusContents);
+    } catch (IOException e) {
+      AlertBuilder.build(AlertType.ERROR, "Error.", "Failed to load in status.fxml").showAndWait();
+      e.printStackTrace();
+    }
   }
 }
