@@ -21,7 +21,6 @@ public class StatusController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    System.out.println("here");
     root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
     root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
   }

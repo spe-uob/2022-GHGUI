@@ -11,6 +11,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.AlertBuilder;
 
@@ -46,7 +47,7 @@ public class MainController {
       }
       try {
         TabController controller = fxmlLoader.getController();
-        controller.setRepo(repositoryBuilder.readEnvironment().build());
+        controller.setRepo(new Git(repositoryBuilder.readEnvironment().build()));
         tabs.getTabs().add(tab);
       } catch (IOException ex) {
         AlertBuilder.build(
