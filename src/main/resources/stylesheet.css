@@ -8,9 +8,11 @@
   -fx-background-color: #5663F7;
   -fx-text-fill: #FFFFFF;
 }
+
 .tab-pane {
-  -fx-background-color:  #23272A;
+  -fx-background-color: #23272A;
 }
+
 .background {
-  -fx-background-color:   #5663F7;
+  -fx-background-color: #5663F7;
 }

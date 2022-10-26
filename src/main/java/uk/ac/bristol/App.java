@@ -23,12 +23,11 @@ public class App extends Application {
 
     // Load and display FXML
     Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ghgui.fxml"));
-    Scene scene = new Scene(root, 300, 275);
+    Scene scene = new Scene(root, 800, 500);
 
     // Apply CSS
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
-    scene
-        .getStylesheets()
+    scene.getStylesheets()
         .add(getClass().getClassLoader().getResource("stylesheet.css").toExternalForm());
 
     primaryStage.setTitle("ghgui");

@@ -9,16 +9,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import uk.ac.bristol.AlertBuilder;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
 public class TabController implements Initializable {
 
-  @FXML private GridPane root;
-  @FXML private HBox status;
+  @FXML
+  private GridPane root;
+  @FXML
+  private AnchorPane statusPane;
 
   @FXML
   private void mouseClicked(Event e) {
@@ -28,12 +30,13 @@ public class TabController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    root.prefHeight(0);
-    root.prefWidth(0);
     try {
       TitledPane statusContents =
           FXMLLoader.load(getClass().getClassLoader().getResource("status.fxml"));
-      status.getChildren().add(statusContents);
+      AnchorPane.setTopAnchor(statusContents, 0.0);
+      AnchorPane.setLeftAnchor(statusContents, 0.0);
+      AnchorPane.setRightAnchor(statusContents, 0.0);
+      statusPane.getChildren().add(statusContents);
     } catch (IOException e) {
       AlertBuilder.build(AlertType.ERROR, "Error.", "Failed to load in status.fxml").showAndWait();
       e.printStackTrace();

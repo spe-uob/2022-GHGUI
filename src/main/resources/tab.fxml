@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -40,17 +41,17 @@
             <Insets bottom="10.0" top="10.0" />
          </padding>
       </HBox>
-      <HBox alignment="CENTER" styleClass="tab-pane" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
+      <HBox alignment="CENTER" styleClass="tab-pane" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="General Git Tools" />
          </children>
       </HBox>
-      <HBox alignment="CENTER" styleClass="tab-pane" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES">
+      <HBox alignment="CENTER" styleClass="tab-pane" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Terminal" />
          </children>
       </HBox>
-      <HBox fx:id="status" alignment="CENTER" styleClass="tab-pane" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+      <AnchorPane fx:id="statusPane" styleClass="tab-pane" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
    </children>
    <padding>
       <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

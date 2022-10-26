@@ -11,7 +11,8 @@ import javafx.scene.control.TitledPane;
 
 public class StatusController implements Initializable {
 
-  @FXML private TitledPane root;
+  @FXML
+  private TitledPane root;
 
   @FXML
   private void mouseClicked(Event e) {
@@ -21,7 +22,8 @@ public class StatusController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    root.prefHeight(0);
-    root.prefWidth(0);
+    System.out.println("here");
+    root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
+    root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
   }
 }
