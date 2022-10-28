@@ -22,6 +22,11 @@ public class StatusController implements Initializable {
     System.out.println("Mouse clicked on a button. Event details below:");
     System.out.println(e);
   }
+  @FXML
+  private void requestRefresh(Event e) {
+    refresh();
+  }
+
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -31,5 +36,9 @@ public class StatusController implements Initializable {
   }
   public void setRepo(Git repository) {
     this.repo = repository;
+  }
+
+  private void refresh() {
+    // Not yet implemented
   }
 }
