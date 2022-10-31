@@ -4,6 +4,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
+
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -35,10 +39,20 @@ public class StatusController implements Initializable {
     root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
   }
   public void setRepo(Git repository) {
-    this.repo = repository;
+    // not terribly consistent with the setRepo of tabcontroller but we'll live for now
+    repo = repository;
   }
 
   private void refresh() {
-    // Not yet implemented
+    Status status = null;
+    try {
+      status = repo.status().call();
+    } catch (NoWorkTreeException | GitAPIException e) {
+      // Auto-generated catch block
+      e.printStackTrace();
+    }
+    if (status != null) {
+      System.out.println(status);
+    }
   }
 }

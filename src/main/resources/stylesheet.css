@@ -3,16 +3,27 @@
 
    current colours are ripped off from discord*/
 
+/* JavaFX documentation recommends that you put each attribute on it's own line, 
+rather than defining size, colour, style etc. all on one single line.*/
+  
 .menuButton {
-  -fx-border: 30px solid black;
+  -fx-border: 30px;
+  -fx-border: solid;
+  -fx-border: black; 
+  border: 30px 30px 30px 30px solid black;
   -fx-background-color: #5663F7;
+  background-color: #5663F7;
   -fx-text-fill: #FFFFFF;
 }
 
 .tab-pane {
   -fx-background-color: #23272A;
+  background-color: #23272A;
+
 }
 
 .background {
   -fx-background-color: #5663F7;
+  background-color: #5663F7;
+
 }

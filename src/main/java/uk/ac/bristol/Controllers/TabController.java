@@ -50,8 +50,8 @@ public class TabController implements Initializable {
   @FXML
   private void checkout(Event e) {}
 
-  public void setRepo(Repository repo) {
-    this.repo = new Git(repo);
+  public void setRepo(Repository repository) {
+    repo = new Git(repository);
 
     try {
       ObservableList<String> repoNames =
