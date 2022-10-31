@@ -76,7 +76,7 @@
             <launcher>ghgui</launcher>
             <jlinkImageName>ghgui</jlinkImageName>
             <jlinkZipName>ghgui</jlinkZipName>
-            <mainClass>uk.ac.bristol.App</mainClass>
+            <mainClass>uk.ac.bristol/uk.ac.bristol.App</mainClass>
           </configuration>
         </plugin>
         <plugin>
