@@ -7,7 +7,7 @@
 rather than defining size, colour, style etc. all on one single line.*/
   
 .menuButton {
-  -fx-border: 30px;
+  -fx-border: 30px 30px 30px 30px;
   -fx-border: solid;
   -fx-border: black; 
   border: 30px 30px 30px 30px solid black;
