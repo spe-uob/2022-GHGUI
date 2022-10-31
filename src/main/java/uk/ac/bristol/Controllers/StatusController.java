@@ -2,12 +2,6 @@ package uk.ac.bristol.Controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.Status;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import org.eclipse.jgit.errors.NoWorkTreeException;
-
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +9,9 @@ import javafx.scene.control.TitledPane;
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.errors.NoWorkTreeException;
 
 public class StatusController implements Initializable {
 
