@@ -68,10 +68,10 @@ public class TabController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    FXMLLoader statusloader = new FXMLLoader(getClass().getClassLoader().getResource("status.fxml"));
+    FXMLLoader statusloader =
+        new FXMLLoader(getClass().getClassLoader().getResource("status.fxml"));
     try {
-      TitledPane statusContents =
-          statusloader.load();
+      TitledPane statusContents = statusloader.load();
       StatusController statuscontroller = statusloader.getController();
       statuscontroller.setRepo(this.repo);
       AnchorPane.setTopAnchor(statusContents, 0.0);

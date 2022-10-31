@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
+import org.eclipse.jgit.api.Git;
 
 public class StatusController implements Initializable {
 
@@ -26,11 +27,11 @@ public class StatusController implements Initializable {
     System.out.println("Mouse clicked on a button. Event details below:");
     System.out.println(e);
   }
+
   @FXML
   private void requestRefresh(Event e) {
     refresh();
   }
-
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -38,6 +39,7 @@ public class StatusController implements Initializable {
     root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
     root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
   }
+
   public void setRepo(Git repository) {
     // not terribly consistent with the setRepo of tabcontroller but we'll live for now
     repo = repository;
