@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -14,6 +12,7 @@ import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.AlertBuilder;
+import uk.ac.bristol.Controllers.Factories.TabControllerFactory;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
@@ -35,20 +34,9 @@ public class MainController {
 
     if (gitDirectory != null) {
       Tab tab = new Tab(gitDirectory.getParentFile().getName());
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource("tab.fxml"));
       try {
-        Node contents = fxmlLoader.load();
-        tab.setContent(contents);
-      } catch (IOException ex) {
-        AlertBuilder.build(
-                AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
-            .showAndWait();
-        ex.printStackTrace();
-      }
-      try {
-        TabController controller = fxmlLoader.getController();
-        controller.setRepo(new Git(repositoryBuilder.readEnvironment().build()));
-        tabs.getTabs().add(tab);
+        tab.setContent(
+            TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
       } catch (IOException ex) {
         AlertBuilder.build(
                 AlertType.ERROR,
@@ -59,6 +47,32 @@ public class MainController {
             .showAndWait();
         ex.printStackTrace();
       }
+      tabs.getTabs().add(tab);
+      //   FXMLLoader fxmlLoader = new
+      // FXMLLoader(getClass().getClassLoader().getResource("tab.fxml"));
+      //   try {
+      //     Node contents = fxmlLoader.load();
+      //     tab.setContent(contents);
+      //   } catch (IOException ex) {
+      //     AlertBuilder.build(
+      //             AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
+      //         .showAndWait();
+      //     ex.printStackTrace();
+      //   }
+      //   try {
+      //     TabController controller = fxmlLoader.getController();
+      //     controller.setRepo(new Git(repositoryBuilder.readEnvironment().build()));
+      //     tabs.getTabs().add(tab);
+      //   } catch (IOException ex) {
+      // AlertBuilder.build(
+      //         AlertType.ERROR,
+      //         "IOException occured",
+      //         "Failed to build the repository at "
+      //             + selectedDirectory.getAbsolutePath()
+      //             + "\nThe repository could not be accessed")
+      //     .showAndWait();
+      // ex.printStackTrace();
+      //   }
     } else {
       AlertBuilder.build(
               AlertType.ERROR,

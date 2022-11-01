@@ -6,12 +6,19 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
+import org.eclipse.jgit.api.Git;
 
 public class StatusController implements Initializable {
-
+  private Git repo;
   @FXML private TitledPane root;
+
+  public StatusController(Git repo) {
+    this.repo = repo;
+  }
 
   @FXML
   private void mouseClicked(Event e) {
@@ -21,7 +28,7 @@ public class StatusController implements Initializable {
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
-    root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
+    AnchorPane.setLeftAnchor(root, 0.0);
+    AnchorPane.setRightAnchor(root, 0.0);
   }
 }
