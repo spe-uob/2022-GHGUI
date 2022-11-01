@@ -7,9 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-
-// This class contains functions that can be
-// assigned to Events on objects in javafx-scenebuilder
 import org.eclipse.jgit.api.Git;
 
 public class StatusController implements Initializable {
