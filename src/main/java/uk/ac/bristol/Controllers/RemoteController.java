@@ -34,7 +34,7 @@ public class RemoteController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     root.setText(remote.getName());
-    root.setPrefWidth(TitledPane.USE_COMPUTED_SIZE);
+    root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
     try {
       ObservableList<Button> buttons =
           this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()

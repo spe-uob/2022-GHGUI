@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?scenebuilder-stylesheet ./stylesheet.css?>
 
-<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="429.0" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.Controllers.RemoteController">
+<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="30.0" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.Controllers.RemoteController">
    <content>
       <VBox fx:id="container">
          <children>
             <HBox fx:id="buttons">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Fetch" HBox.hgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Prune" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Fetch" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Prune" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
