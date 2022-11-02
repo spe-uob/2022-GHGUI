@@ -18,8 +18,6 @@ public class TabController implements Initializable {
   private Git repo;
   @FXML private GridPane root;
   @FXML private AnchorPane statusPane, informationPane;
-  // private InformationController informationController;
-  // private StatusController statusController;
 
   public TabController(Git repo) {
     this.repo = repo;
@@ -37,7 +35,6 @@ public class TabController implements Initializable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     statusPane.getChildren().add(StatusControllerFactory.build(repo));
-    // System.out.println(informationPane);
     informationPane.getChildren().add(InformationControllerFactory.build(repo));
   }
 }

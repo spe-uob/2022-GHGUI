@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.eclipse.jgit.api.Git;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.Controllers.StatusController;
 
 public class StatusControllerFactory {
@@ -16,9 +17,8 @@ public class StatusControllerFactory {
     Parent root = null;
     try {
       root = loader.load();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (IOException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
     return root;
   }

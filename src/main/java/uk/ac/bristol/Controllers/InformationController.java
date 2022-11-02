@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.Controllers.Factories.RemoteControllerFactory;
 
 public class InformationController implements Initializable {
@@ -39,9 +40,8 @@ public class InformationController implements Initializable {
                   })
               .toArray(Button[]::new);
       local.getChildren().addAll(repoButtons);
-    } catch (GitAPIException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (GitAPIException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
 
     try {
@@ -50,8 +50,8 @@ public class InformationController implements Initializable {
               .map(remoteConfig -> RemoteControllerFactory.build(repo, remoteConfig))
               .toArray(TitledPane[]::new);
       remote.getChildren().addAll(remotes);
-    } catch (GitAPIException e) {
-      e.printStackTrace();
+    } catch (GitAPIException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
   }
 }

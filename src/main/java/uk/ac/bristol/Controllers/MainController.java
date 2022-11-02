@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
@@ -38,47 +37,11 @@ public class MainController {
         tab.setContent(
             TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
       } catch (IOException ex) {
-        AlertBuilder.build(
-                AlertType.ERROR,
-                "IOException occured",
-                "Failed to build the repository at "
-                    + selectedDirectory.getAbsolutePath()
-                    + "\nThe repository could not be accessed")
-            .showAndWait();
-        ex.printStackTrace();
+        AlertBuilder.build(ex).showAndWait();
       }
       tabs.getTabs().add(tab);
-      //   FXMLLoader fxmlLoader = new
-      // FXMLLoader(getClass().getClassLoader().getResource("tab.fxml"));
-      //   try {
-      //     Node contents = fxmlLoader.load();
-      //     tab.setContent(contents);
-      //   } catch (IOException ex) {
-      //     AlertBuilder.build(
-      //             AlertType.ERROR, "IOException occured", "Failed to load .fxml file for tabs")
-      //         .showAndWait();
-      //     ex.printStackTrace();
-      //   }
-      //   try {
-      //     TabController controller = fxmlLoader.getController();
-      //     controller.setRepo(new Git(repositoryBuilder.readEnvironment().build()));
-      //     tabs.getTabs().add(tab);
-      //   } catch (IOException ex) {
-      // AlertBuilder.build(
-      //         AlertType.ERROR,
-      //         "IOException occured",
-      //         "Failed to build the repository at "
-      //             + selectedDirectory.getAbsolutePath()
-      //             + "\nThe repository could not be accessed")
-      //     .showAndWait();
-      // ex.printStackTrace();
-      //   }
     } else {
-      AlertBuilder.build(
-              AlertType.ERROR,
-              "Failed to locate repository",
-              "Git repository not found at " + selectedDirectory.getAbsolutePath())
-          .showAndWait();
+      AlertBuilder.build(new IOException()).showAndWait();
     }
   }
 }

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.transport.RemoteConfig;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.Controllers.RemoteController;
 
 public class RemoteControllerFactory {
@@ -17,9 +18,8 @@ public class RemoteControllerFactory {
     Parent root = null;
     try {
       root = loader.load();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (IOException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
     return root;
   }

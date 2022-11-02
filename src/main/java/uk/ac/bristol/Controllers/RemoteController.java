@@ -22,6 +22,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.transport.RemoteConfig;
+import uk.ac.bristol.AlertBuilder;
 
 public class RemoteController implements Initializable {
   private Git repo;
@@ -57,9 +58,8 @@ public class RemoteController implements Initializable {
               .filter(a -> a != null)
               .collect(Collectors.toCollection(FXCollections::observableArrayList));
       container.getChildren().addAll(buttons);
-    } catch (GitAPIException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (GitAPIException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
   }
 
@@ -72,9 +72,8 @@ public class RemoteController implements Initializable {
   private void fetch() {
     try {
       System.out.println(repo.fetch().setRemote(remote.getName()).call().getMessages());
-    } catch (GitAPIException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (GitAPIException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
     reset_buttons();
   }
@@ -83,9 +82,8 @@ public class RemoteController implements Initializable {
   private void prune() {
     try {
       (new GC((FileRepository) repo.getRepository())).prune(null);
-    } catch (IOException | ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    } catch (IOException | ParseException ex) {
+      AlertBuilder.build(ex).showAndWait();
     }
     reset_buttons();
   }
