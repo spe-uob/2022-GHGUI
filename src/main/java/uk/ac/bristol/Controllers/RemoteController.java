@@ -1,6 +1,8 @@
 package uk.ac.bristol.Controllers;
 
+import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,6 +19,8 @@ import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.transport.RemoteConfig;
 
 public class RemoteController implements Initializable {
@@ -31,10 +35,7 @@ public class RemoteController implements Initializable {
     this.remote = remote;
   }
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    root.setText(remote.getName());
-    root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
+  private void generate_buttons() {
     try {
       ObservableList<Button> buttons =
           this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()
@@ -60,5 +61,39 @@ public class RemoteController implements Initializable {
       // TODO Auto-generated catch block
       e.printStackTrace();
     }
+  }
+
+  private void reset_buttons() {
+    container.getChildren().removeIf(child -> child != buttons);
+    generate_buttons();
+  }
+
+  @FXML
+  private void fetch() {
+    try {
+      System.out.println(repo.fetch().setRemote(remote.getName()).call().getMessages());
+    } catch (GitAPIException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    reset_buttons();
+  }
+
+  @FXML
+  private void prune() {
+    try {
+      (new GC((FileRepository) repo.getRepository())).prune(null);
+    } catch (IOException | ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    reset_buttons();
+  }
+
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
+    root.setText(remote.getName());
+    root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
+    generate_buttons();
   }
 }

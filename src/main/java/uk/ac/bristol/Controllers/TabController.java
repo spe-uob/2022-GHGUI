@@ -5,12 +5,9 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.transport.FetchResult;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.Controllers.Factories.InformationControllerFactory;
 import uk.ac.bristol.Controllers.Factories.StatusControllerFactory;
 
@@ -30,19 +27,6 @@ public class TabController implements Initializable {
 
   @FXML
   private void push(Event e) {}
-
-  @FXML
-  private void fetch(Event e) {
-    System.out.println(repo);
-    try {
-      // TODO set remote
-      // FetchResult res = repo.fetch().setRemote(remote.getValue()).call();
-      FetchResult res = repo.fetch().setRemote("origin").call();
-      System.out.println(res.getMessages());
-    } catch (Exception ex) {
-      AlertBuilder.build(AlertType.ERROR, "oh dear", ex.toString());
-    }
-  }
 
   @FXML
   private void commit(Event e) {}

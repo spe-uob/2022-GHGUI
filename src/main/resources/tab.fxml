@@ -14,7 +14,6 @@
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="menuButton" text="Push" />
             <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
-            <Button mnemonicParsing="false" onMouseClicked="#fetch" styleClass="menuButton" text="Fetch" />
             <Button mnemonicParsing="false" onMouseClicked="#checkout" styleClass="menuButton" text="Checkout" />
          </children>
          <padding>

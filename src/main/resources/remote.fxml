@@ -12,8 +12,8 @@
          <children>
             <HBox fx:id="buttons">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Fetch" HBox.hgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" text="Prune" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#fetch" text="Fetch" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#prune" text="Prune" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>
