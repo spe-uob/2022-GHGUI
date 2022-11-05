@@ -4,6 +4,8 @@ module uk.ac.bristol {
   requires javafx.fxml;
   requires javafx.base;
   requires transitive org.eclipse.jgit;
+  requires lombok;
+  requires org.apache.logging.log4j;
 
   exports uk.ac.bristol;
 

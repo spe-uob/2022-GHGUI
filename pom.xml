@@ -14,6 +14,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+    <lombok.version>1.18.24</lombok.version>
+    <log4j-slf4j-impl.version>2.11.0</log4j-slf4j-impl.version>
   </properties>
 
   <repositories>
@@ -45,6 +47,17 @@
       <artifactId>javafx-fxml</artifactId>
       <version>19</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>${log4j-slf4j-impl.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -62,6 +75,13 @@
               <arg>--add-exports</arg>
               <arg>javafx.graphics/com.sun.glass.ui=com.andrei</arg>
             </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
         <plugin>
