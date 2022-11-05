@@ -73,6 +73,7 @@ public class InformationController implements Initializable, Refreshable {
   public void onRefreshEvent(RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshInformation)) {
       refresh();
+      System.out.println("Refreshed information pane");
     }
   }
 }

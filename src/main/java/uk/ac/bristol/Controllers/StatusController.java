@@ -47,6 +47,7 @@ public class StatusController implements Initializable, Refreshable {
   public void onRefreshEvent(RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshStatus)) {
       refresh();
+      System.out.println("Refreshed status pane");
     }
   }
 }

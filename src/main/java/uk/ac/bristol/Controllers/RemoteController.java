@@ -78,7 +78,8 @@ public class RemoteController implements Initializable, Refreshable {
     } catch (GitAPIException ex) {
       AlertBuilder.build(ex).showAndWait();
     }
-    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    // eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshTab));
     refresh();
   }
 
@@ -109,6 +110,7 @@ public class RemoteController implements Initializable, Refreshable {
   public void onRefreshEvent(RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshRemote)) {
       refresh();
+      System.out.println("Refreshed remote");
     }
   }
 }

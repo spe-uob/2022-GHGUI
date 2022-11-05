@@ -55,6 +55,7 @@ public class TabController implements Initializable, Refreshable {
   public void onRefreshEvent(RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshTab)) {
       refresh();
+      System.out.println("Refreshed tab");
     }
   }
 }
