@@ -47,8 +47,7 @@ public class TabController implements Initializable, Refreshable {
 
   @Override
   public void refresh() {
-    // TODO Auto-generated method stub
-
+    // Currently unnecessary
   }
 
   @Subscribe

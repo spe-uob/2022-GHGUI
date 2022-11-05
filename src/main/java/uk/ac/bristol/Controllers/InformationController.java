@@ -31,11 +31,7 @@ public class InformationController implements Initializable, Refreshable {
     this.repo = repo;
   }
 
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    AnchorPane.setLeftAnchor(root, 0.0);
-    AnchorPane.setRightAnchor(root, 0.0);
-
+  private void generateComponents() {
     try {
       Button[] repoButtons =
           this.repo.branchList().call().stream()
@@ -64,9 +60,17 @@ public class InformationController implements Initializable, Refreshable {
   }
 
   @Override
-  public void refresh() {
-    // TODO Auto-generated method stub
+  public void initialize(URL location, ResourceBundle resources) {
+    AnchorPane.setLeftAnchor(root, 0.0);
+    AnchorPane.setRightAnchor(root, 0.0);
+    generateComponents();
+  }
 
+  @Override
+  public void refresh() {
+    remote.getChildren().clear();
+    local.getChildren().clear();
+    generateComponents();
   }
 
   @Subscribe

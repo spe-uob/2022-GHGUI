@@ -40,7 +40,6 @@ public class StatusController implements Initializable, Refreshable {
   @Override
   public void refresh() {
     // TODO Auto-generated method stub
-
   }
 
   @Subscribe

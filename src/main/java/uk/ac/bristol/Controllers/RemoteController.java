@@ -44,7 +44,7 @@ public class RemoteController implements Initializable, Refreshable {
     this.remote = remote;
   }
 
-  private void generate_buttons() {
+  private void generateButtons() {
     try {
       ObservableList<Button> buttons =
           this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()
@@ -79,6 +79,8 @@ public class RemoteController implements Initializable, Refreshable {
       AlertBuilder.build(ex).showAndWait();
     }
     eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    // since we only need to refresh this one controller, we call refresh manually instead of
+    // refreshing all remote controllers through the event bus
     refresh();
   }
 
@@ -96,13 +98,13 @@ public class RemoteController implements Initializable, Refreshable {
   public void initialize(URL location, ResourceBundle resources) {
     root.setText(remote.getName());
     root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
-    generate_buttons();
+    generateButtons();
   }
 
   @Override
   public void refresh() {
     container.getChildren().removeIf(child -> child != buttons);
-    generate_buttons();
+    generateButtons();
   }
 
   @Subscribe
