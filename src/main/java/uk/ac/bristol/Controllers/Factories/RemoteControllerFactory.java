@@ -1,5 +1,6 @@
 package uk.ac.bristol.Controllers.Factories;
 
+import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,10 +12,10 @@ import uk.ac.bristol.Controllers.RemoteController;
 public class RemoteControllerFactory {
   static final String fileName = "remote.fxml";
 
-  public static Parent build(Git repo, RemoteConfig remote) {
+  public static Parent build(EventBus eventBus, Git repo, RemoteConfig remote) {
     FXMLLoader loader =
         new FXMLLoader(new Object() {}.getClass().getClassLoader().getResource(fileName));
-    loader.setControllerFactory(controllerClass -> new RemoteController(repo, remote));
+    loader.setControllerFactory(controllerClass -> new RemoteController(eventBus, repo, remote));
     Parent root = null;
     try {
       root = loader.load();

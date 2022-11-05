@@ -1,5 +1,7 @@
 package uk.ac.bristol.Controllers;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import java.io.IOException;
 import java.net.URL;
 import java.text.ParseException;
@@ -23,15 +25,21 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.AlertBuilder;
+import uk.ac.bristol.Controllers.Events.RefreshEvent;
+import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
+import uk.ac.bristol.Controllers.Events.Refreshable;
 
-public class RemoteController implements Initializable {
+public class RemoteController implements Initializable, Refreshable {
+  private EventBus eventBus;
   private Git repo;
   private RemoteConfig remote;
   @FXML private TitledPane root;
   @FXML private VBox container;
   @FXML private HBox buttons;
 
-  public RemoteController(Git repo, RemoteConfig remote) {
+  public RemoteController(EventBus eventBus, Git repo, RemoteConfig remote) {
+    this.eventBus = eventBus;
+    eventBus.register(this);
     this.repo = repo;
     this.remote = remote;
   }
@@ -63,11 +71,6 @@ public class RemoteController implements Initializable {
     }
   }
 
-  private void reset_buttons() {
-    container.getChildren().removeIf(child -> child != buttons);
-    generate_buttons();
-  }
-
   @FXML
   private void fetch() {
     try {
@@ -75,7 +78,8 @@ public class RemoteController implements Initializable {
     } catch (GitAPIException ex) {
       AlertBuilder.build(ex).showAndWait();
     }
-    reset_buttons();
+    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    refresh();
   }
 
   @FXML
@@ -85,7 +89,7 @@ public class RemoteController implements Initializable {
     } catch (IOException | ParseException ex) {
       AlertBuilder.build(ex).showAndWait();
     }
-    reset_buttons();
+    refresh();
   }
 
   @Override
@@ -93,5 +97,18 @@ public class RemoteController implements Initializable {
     root.setText(remote.getName());
     root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
     generate_buttons();
+  }
+
+  @Override
+  public void refresh() {
+    container.getChildren().removeIf(child -> child != buttons);
+    generate_buttons();
+  }
+
+  @Subscribe
+  public void onRefreshEvent(RefreshEvent event) {
+    if (event.contains(RefreshEventTypes.RefreshRemote)) {
+      refresh();
+    }
   }
 }

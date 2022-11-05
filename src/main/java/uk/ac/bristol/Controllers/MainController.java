@@ -17,7 +17,6 @@ import uk.ac.bristol.Controllers.Factories.TabControllerFactory;
 // assigned to Events on objects in javafx-scenebuilder
 public class MainController {
   @FXML private GridPane root;
-
   @FXML private TabPane tabs;
 
   @FXML

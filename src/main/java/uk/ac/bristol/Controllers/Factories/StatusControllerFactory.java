@@ -1,5 +1,6 @@
 package uk.ac.bristol.Controllers.Factories;
 
+import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,10 +11,10 @@ import uk.ac.bristol.Controllers.StatusController;
 public class StatusControllerFactory {
   static final String fileName = "status.fxml";
 
-  public static Parent build(Git repo) {
+  public static Parent build(EventBus eventBus, Git repo) {
     FXMLLoader loader =
         new FXMLLoader(new Object() {}.getClass().getClassLoader().getResource(fileName));
-    loader.setControllerFactory(controllerClass -> new StatusController(repo));
+    loader.setControllerFactory(controllerClass -> new StatusController(eventBus, repo));
     Parent root = null;
     try {
       root = loader.load();

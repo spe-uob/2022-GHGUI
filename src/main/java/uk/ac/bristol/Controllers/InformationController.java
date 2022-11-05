@@ -1,5 +1,7 @@
 package uk.ac.bristol.Controllers;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -12,14 +14,20 @@ import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.AlertBuilder;
+import uk.ac.bristol.Controllers.Events.RefreshEvent;
+import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
+import uk.ac.bristol.Controllers.Events.Refreshable;
 import uk.ac.bristol.Controllers.Factories.RemoteControllerFactory;
 
-public class InformationController implements Initializable {
+public class InformationController implements Initializable, Refreshable {
+  private EventBus eventBus;
   private Git repo;
   @FXML private TitledPane root;
   @FXML private VBox local, remote;
 
-  public InformationController(Git repo) {
+  public InformationController(EventBus eventBus, Git repo) {
+    this.eventBus = eventBus;
+    eventBus.register(this);
     this.repo = repo;
   }
 
@@ -47,11 +55,24 @@ public class InformationController implements Initializable {
     try {
       TitledPane[] remotes =
           this.repo.remoteList().call().stream()
-              .map(remoteConfig -> RemoteControllerFactory.build(repo, remoteConfig))
+              .map(remoteConfig -> RemoteControllerFactory.build(eventBus, repo, remoteConfig))
               .toArray(TitledPane[]::new);
       remote.getChildren().addAll(remotes);
     } catch (GitAPIException ex) {
       AlertBuilder.build(ex).showAndWait();
+    }
+  }
+
+  @Override
+  public void refresh() {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Subscribe
+  public void onRefreshEvent(RefreshEvent event) {
+    if (event.contains(RefreshEventTypes.RefreshInformation)) {
+      refresh();
     }
   }
 }
