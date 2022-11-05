@@ -78,8 +78,7 @@ public class RemoteController implements Initializable, Refreshable {
     } catch (GitAPIException ex) {
       AlertBuilder.build(ex).showAndWait();
     }
-    // eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
-    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshTab));
+    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
     refresh();
   }
 
