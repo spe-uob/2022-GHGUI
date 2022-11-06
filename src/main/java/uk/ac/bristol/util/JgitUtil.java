@@ -177,14 +177,15 @@ public class JgitUtil {
   /**
    * get credentials provider
    *
-   * @param gitUser     git account
+   * @param gitUser git account
    * @param getPassword git password
    * @return UsernamePasswordCredentialsProvider
    */
-  public static UsernamePasswordCredentialsProvider getCredentialsProvider(String gitUser, String getPassword) {
+  public static UsernamePasswordCredentialsProvider getCredentialsProvider(
+      String gitUser, String getPassword) {
     log.info("get credentials provider user:{},password:{}", gitUser, getPassword);
     UsernamePasswordCredentialsProvider credentialsProvider = null;
-    //check parameters is not null or not empty
+    // check parameters is not null or not empty
     if (StringUtils.isEmptyOrNull(gitUser) && StringUtils.isEmptyOrNull(getPassword)) {
       credentialsProvider = new UsernamePasswordCredentialsProvider(gitUser, getPassword);
     }
