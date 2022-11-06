@@ -8,9 +8,9 @@ module uk.ac.bristol {
 
   exports uk.ac.bristol;
 
-  opens uk.ac.bristol.Controllers to
+  opens uk.ac.bristol.controllers to
       javafx.fxml,
       com.google.common;
-  opens uk.ac.bristol.Controllers.Events to
+  opens uk.ac.bristol.controllers.events to
       com.google.common;
 }

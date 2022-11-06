@@ -1,4 +1,4 @@
-package uk.ac.bristol.Controllers;
+package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -10,11 +10,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.eclipse.jgit.api.Git;
-import uk.ac.bristol.Controllers.Events.RefreshEvent;
-import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
-import uk.ac.bristol.Controllers.Events.Refreshable;
-import uk.ac.bristol.Controllers.Factories.InformationControllerFactory;
-import uk.ac.bristol.Controllers.Factories.StatusControllerFactory;
+import uk.ac.bristol.controllers.events.RefreshEvent;
+import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
@@ -24,23 +24,29 @@ public class TabController implements Initializable, Refreshable {
   @FXML private GridPane root;
   @FXML private AnchorPane statusPane, informationPane;
 
-  public TabController(Git repo) {
+  public TabController(final Git repo) {
     this.eventBus = new EventBus();
     eventBus.register(this);
     this.repo = repo;
   }
 
   @FXML
-  private void push(Event e) {}
+  private void push(final Event e) {
+    // TODO
+  }
 
   @FXML
-  private void commit(Event e) {}
+  private void commit(final Event e) {
+    // TODO
+  }
 
   @FXML
-  private void checkout(Event e) {}
+  private void checkout(final Event e) {
+    // TODO
+  }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public final void initialize(final URL location, final ResourceBundle resources) {
     statusPane.getChildren().add(StatusControllerFactory.build(eventBus, repo));
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, repo));
   }
@@ -51,7 +57,7 @@ public class TabController implements Initializable, Refreshable {
   }
 
   @Subscribe
-  public void onRefreshEvent(RefreshEvent event) {
+  public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshTab)) {
       refresh();
       System.out.println("Refreshed tab");

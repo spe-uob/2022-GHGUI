@@ -1,4 +1,4 @@
-package uk.ac.bristol.Controllers;
+package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -25,9 +25,9 @@ import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.AlertBuilder;
-import uk.ac.bristol.Controllers.Events.RefreshEvent;
-import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
-import uk.ac.bristol.Controllers.Events.Refreshable;
+import uk.ac.bristol.controllers.events.RefreshEvent;
+import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.Refreshable;
 
 public class RemoteController implements Initializable, Refreshable {
   private EventBus eventBus;
@@ -37,7 +37,7 @@ public class RemoteController implements Initializable, Refreshable {
   @FXML private VBox container;
   @FXML private HBox buttons;
 
-  public RemoteController(EventBus eventBus, Git repo, RemoteConfig remote) {
+  public RemoteController(final EventBus eventBus, final Git repo, final RemoteConfig remote) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.repo = repo;
@@ -95,20 +95,20 @@ public class RemoteController implements Initializable, Refreshable {
   }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public final void initialize(final URL location, final ResourceBundle resources) {
     root.setText(remote.getName());
     root.setPrefHeight(TitledPane.USE_COMPUTED_SIZE);
     generateButtons();
   }
 
   @Override
-  public void refresh() {
+  public final void refresh() {
     container.getChildren().removeIf(child -> child != buttons);
     generateButtons();
   }
 
   @Subscribe
-  public void onRefreshEvent(RefreshEvent event) {
+  public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshRemote)) {
       refresh();
       System.out.println("Refreshed remote");

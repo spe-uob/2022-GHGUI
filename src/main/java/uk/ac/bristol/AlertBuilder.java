@@ -6,8 +6,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 
-public class AlertBuilder {
-  public static Alert build(Exception ex) {
+public final class AlertBuilder {
+  private AlertBuilder() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
+  public static Alert build(final Exception ex) {
     Alert alert = new Alert(AlertType.ERROR);
     alert.setResizable(true);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");
