@@ -9,6 +9,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import org.eclipse.jgit.util.StringUtils;
 
 /** Java-git Tools */
 @Log4j2
@@ -173,7 +174,22 @@ public class JgitUtil {
       }
     }
   }
-
+  /**
+   * get credentials provider
+   *
+   * @param gitUser     git account
+   * @param getPassword git password
+   * @return UsernamePasswordCredentialsProvider
+   */
+  public static UsernamePasswordCredentialsProvider getCredentialsProvider(String gitUser, String getPassword) {
+    log.info("get credentials provider user:{},password:{}", gitUser, getPassword);
+    UsernamePasswordCredentialsProvider credentialsProvider = null;
+    //check parameters is not null or not empty
+    if (StringUtils.isEmptyOrNull(gitUser) && StringUtils.isEmptyOrNull(getPassword)) {
+      credentialsProvider = new UsernamePasswordCredentialsProvider(gitUser, getPassword);
+    }
+    return credentialsProvider;
+  }
   /**
    * Traverse recursively delete folders
    *
