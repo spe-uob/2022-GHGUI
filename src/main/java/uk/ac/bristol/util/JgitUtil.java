@@ -2,9 +2,11 @@ package uk.ac.bristol.util;
 
 import java.io.File;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
@@ -12,8 +14,9 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /** Java-git Tools */
+@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
 @Slf4j
-public class JgitUtil {
+public final class JgitUtil {
 
   /**
    * Check out repository code
@@ -24,18 +27,18 @@ public class JgitUtil {
    * @param gitPassword git password
    */
   public static Boolean cloneRepository(
-      String url, String localPath, String gitName, String gitPassword) {
+      final String url, final String localPath, final String gitName, final String gitPassword) {
     Git git = null;
     try {
       log.info("");
       // log.info("Start checking out Master codes,git path:{},checkout path：{}", url, localPath);
-      File file = new File(localPath);
+      final File file = new File(localPath);
       if (file.isDirectory()) {
         // log.info("the path:{}，Existing folder, delete the original file, overwrite", localPath);
         deleteFile(file);
       }
 
-      CredentialsProvider credentialsProvider =
+      final CredentialsProvider credentialsProvider =
           new UsernamePasswordCredentialsProvider(gitName, gitPassword);
       git =
           Git.cloneRepository()
@@ -63,10 +66,13 @@ public class JgitUtil {
    * @param gitPassword git password
    */
   public static Boolean checkoutBranch(
-      String localPath, String branchName, String gitName, String gitPassword) {
+      final String localPath,
+      final String branchName,
+      final String gitName,
+      final String gitPassword) {
     //        log.info("switch branch:{}", branchName);
-    String projectURL = localPath + "\\.git";
-    CredentialsProvider credentialsProvider =
+    final String projectURL = localPath + "\\.git";
+    final CredentialsProvider credentialsProvider =
         new UsernamePasswordCredentialsProvider(gitName, gitPassword);
     Git git = null;
     try {
@@ -94,30 +100,21 @@ public class JgitUtil {
    * @param gitName git account
    * @param gitPassword git password
    */
-  public static Boolean commitAndPush(
-      String localPath, String pushMessage, String gitName, String gitPassword) {
-    //        log.info("submit code, info：{}", pushMessage);
-    String projectURL = localPath + "\\.git";
-    Git git = null;
+  public static void commitAndPush(final Git git, final String pushMessage) {
+    // log.info("submit code, info：{}", pushMessage);
+
+    // TODO Remove deprecated Credentials Provider
+    // CredentialsProvider cred =
+    //     new UsernamePasswordCredentialsProvider(gitName, gitPassword);
+    final CredentialsProvider cred = null;
+
+    // Pull the branch before submitting the code to prevent conflicts
     try {
-      CredentialsProvider credentialsProvider =
-          new UsernamePasswordCredentialsProvider(gitName, gitPassword);
-      git = Git.open(new File(projectURL));
-      // Pull the branch before submitting the code to prevent conflicts
-      git.pull().setCredentialsProvider(credentialsProvider).call();
-      git.add().addFilepattern(".").call();
+      // git.add().addFilepattern(".").call();
       git.commit().setMessage(pushMessage).call();
-      git.pull().setCredentialsProvider(credentialsProvider).call();
-      git.push().setCredentialsProvider(credentialsProvider).call();
-      return true;
-    } catch (Exception e) {
-      //            log.error("commitAndPush;error; commit code; info：{};exception information:{}",
-      // pushMessage, e);
-      return false;
-    } finally {
-      if (git != null) {
-        git.close();
-      }
+      git.push().setCredentialsProvider(cred).call();
+    } catch (GitAPIException ex) {
+      // TODO
     }
   }
 
@@ -129,19 +126,22 @@ public class JgitUtil {
    * @param gitPassword git password
    */
   public static Boolean newBranch(
-      String localPath, String baranchName, String gitName, String gitPassword) {
+      final String localPath,
+      final String baranchName,
+      final String gitName,
+      final String gitPassword) {
     //        log.info("create new branch, name{}", baranchName);
     Git git = null;
     try {
-      String projectURL = localPath + "\\.git";
-      CredentialsProvider credentialsProvider =
+      final String projectURL = localPath + "\\.git";
+      final CredentialsProvider credentialsProvider =
           new UsernamePasswordCredentialsProvider(gitName, gitPassword);
       git = Git.open(new File(projectURL));
       // Check whether the new branch already exists, if so, delete the existing branch forcibly and
       // create a new branch
-      List<Ref> refs = git.branchList().setListMode(ListBranchCommand.ListMode.ALL).call();
+      final List<Ref> refs = git.branchList().setListMode(ListBranchCommand.ListMode.ALL).call();
       for (Ref ref : refs) {
-        String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
+        final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
         if (bName.equals(baranchName)) {
           //                    log.info("The branch already exists, delete it and create a new
           // one;{}", baranchName);
@@ -149,7 +149,8 @@ public class JgitUtil {
           git.branchDelete().setBranchNames(bName).setForce(true).call();
 
           // delete remote branch
-          RefSpec refSpec3 = new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
+          final RefSpec refSpec3 =
+              new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
           git.push()
               .setRefSpecs(refSpec3)
@@ -160,7 +161,7 @@ public class JgitUtil {
         }
       }
       // new branch
-      Ref ref = git.branchCreate().setName(baranchName).call();
+      final Ref ref = git.branchCreate().setName(baranchName).call();
       git.push().add(ref).setCredentialsProvider(credentialsProvider).call();
       return true;
     } catch (Exception ex) {
@@ -180,7 +181,7 @@ public class JgitUtil {
    * @return UsernamePasswordCredentialsProvider
    */
   public static UsernamePasswordCredentialsProvider getCredentialsProvider(
-      String gitUser, String getPassword) {
+      final String gitUser, final String getPassword) {
     log.info("get credentials provider user:{},password:{}", gitUser, getPassword);
     UsernamePasswordCredentialsProvider credentialsProvider = null;
     // check parameters is not null or not empty
@@ -195,7 +196,7 @@ public class JgitUtil {
    * @param dirFile file or directory to be deleted
    * @return Delete successfully returned true, otherwise return false
    */
-  public static boolean deleteFile(File dirFile) {
+  public static boolean deleteFile(final File dirFile) {
     // If the file corresponding to dir does not exist, exit
     if (!dirFile.exists()) {
       return false;

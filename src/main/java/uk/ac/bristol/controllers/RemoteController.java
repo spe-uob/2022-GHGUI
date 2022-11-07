@@ -18,7 +18,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -28,19 +27,21 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.util.GitInfo;
 
 public class RemoteController implements Initializable, Refreshable {
   private EventBus eventBus;
-  private Git repo;
+  private GitInfo gitInfo;
   private RemoteConfig remote;
   @FXML private TitledPane root;
   @FXML private VBox container;
   @FXML private HBox buttons;
 
-  public RemoteController(final EventBus eventBus, final Git repo, final RemoteConfig remote) {
+  public RemoteController(
+      final EventBus eventBus, final GitInfo gitInfo, final RemoteConfig remote) {
     this.eventBus = eventBus;
     eventBus.register(this);
-    this.repo = repo;
+    this.gitInfo = gitInfo;
     this.remote = remote;
   }
 
@@ -48,7 +49,7 @@ public class RemoteController implements Initializable, Refreshable {
     final Pattern pattern = Pattern.compile("refs/remotes/(.*)/(.*)");
     try {
       final ObservableList<Button> buttons =
-          this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()
+          gitInfo.getGit().branchList().setListMode(ListMode.REMOTE).call().stream()
               .map(
                   ref -> {
                     final Matcher matcher = pattern.matcher(ref.getName());
@@ -74,7 +75,7 @@ public class RemoteController implements Initializable, Refreshable {
   @FXML
   private void fetch() {
     try {
-      System.out.println(repo.fetch().setRemote(remote.getName()).call().getMessages());
+      System.out.println(gitInfo.getGit().fetch().setRemote(remote.getName()).call().getMessages());
     } catch (GitAPIException ex) {
       AlertBuilder.build(ex).showAndWait();
     }
@@ -87,7 +88,7 @@ public class RemoteController implements Initializable, Refreshable {
   @FXML
   private void prune() {
     try {
-      (new GC((FileRepository) repo.getRepository())).prune(null);
+      (new GC((FileRepository) gitInfo.getGit().getRepository())).prune(null);
     } catch (IOException | ParseException ex) {
       AlertBuilder.build(ex).showAndWait();
     }

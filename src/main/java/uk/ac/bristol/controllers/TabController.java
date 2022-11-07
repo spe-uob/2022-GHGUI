@@ -15,19 +15,20 @@ import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
+import uk.ac.bristol.util.GitInfo;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
 public class TabController implements Initializable, Refreshable {
   private EventBus eventBus;
-  private Git repo;
+  private GitInfo gitInfo;
   @FXML private GridPane root;
   @FXML private AnchorPane statusPane, informationPane;
 
   public TabController(final Git repo) {
     this.eventBus = new EventBus();
     eventBus.register(this);
-    this.repo = repo;
+    this.gitInfo = new GitInfo(repo);
   }
 
   @FXML
@@ -47,8 +48,8 @@ public class TabController implements Initializable, Refreshable {
 
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
-    statusPane.getChildren().add(StatusControllerFactory.build(eventBus, repo));
-    informationPane.getChildren().add(InformationControllerFactory.build(eventBus, repo));
+    statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
+    informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
   }
 
   @Override
