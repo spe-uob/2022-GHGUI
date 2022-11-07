@@ -18,6 +18,7 @@
     <openjfx.version>19</openjfx.version>
     <jgit.version>6.3.0.202209071007-r</jgit.version>
     <guava.version>31.1-jre</guava.version>
+    <slf4j.version>2.0.3</slf4j.version>
     <lombok.version>1.18.24</lombok.version>
   </properties>
 
@@ -59,6 +60,16 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
     </dependency>
   </dependencies>
 
@@ -107,7 +118,7 @@
           <version>1.5.2</version>
           <configuration>
             <name>ghgui</name>
-            <appVersion>${version}</appVersion>
+            <appVersion>${project.version}</appVersion>
             <vendor>uk.ac.bristol</vendor>
             <destination>target/dist</destination>
             <module>uk.ac.bristol/App</module>
