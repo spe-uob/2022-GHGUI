@@ -4,18 +4,17 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.TabController;
 
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+@UtilityClass
 public final class TabControllerFactory {
   private static final String FILE_NAME = "tab.fxml";
   private static final URL COMPONENT =
       TabControllerFactory.class.getClassLoader().getResource(FILE_NAME);
-
-  private TabControllerFactory() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-  }
 
   public static Parent build(final Git repo) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
