@@ -9,8 +9,9 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.TabController;
 
 public final class TabControllerFactory {
-  static final String FILE_NAME = "tab.fxml";
-  static final URL COMPONENT = TabControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+  private static final String FILE_NAME = "tab.fxml";
+  private static final URL COMPONENT =
+      TabControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
   private TabControllerFactory() {
     throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");

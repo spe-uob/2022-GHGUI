@@ -11,8 +11,8 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.RemoteController;
 
 public final class RemoteControllerFactory {
-  static final String FILE_NAME = "remote.fxml";
-  static final URL COMPONENT =
+  private static final String FILE_NAME = "remote.fxml";
+  private static final URL COMPONENT =
       RemoteControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
   private RemoteControllerFactory() {

@@ -10,8 +10,8 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.StatusController;
 
 public final class StatusControllerFactory {
-  static final String FILE_NAME = "status.fxml";
-  static final URL COMPONENT =
+  private static final String FILE_NAME = "status.fxml";
+  private static final URL COMPONENT =
       StatusControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
   private StatusControllerFactory() {
