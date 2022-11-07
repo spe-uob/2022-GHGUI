@@ -1,4 +1,4 @@
-package uk.ac.bristol.Controllers;
+package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -14,10 +14,10 @@ import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.AlertBuilder;
-import uk.ac.bristol.Controllers.Events.RefreshEvent;
-import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
-import uk.ac.bristol.Controllers.Events.Refreshable;
-import uk.ac.bristol.Controllers.Factories.RemoteControllerFactory;
+import uk.ac.bristol.controllers.events.RefreshEvent;
+import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
 
 public class InformationController implements Initializable, Refreshable {
   private EventBus eventBus;
@@ -25,7 +25,7 @@ public class InformationController implements Initializable, Refreshable {
   @FXML private TitledPane root;
   @FXML private VBox local, remote;
 
-  public InformationController(EventBus eventBus, Git repo) {
+  public InformationController(final EventBus eventBus, final Git repo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.repo = repo;
@@ -33,14 +33,15 @@ public class InformationController implements Initializable, Refreshable {
 
   private void generateComponents() {
     try {
-      Button[] repoButtons =
+      final Button[] repoButtons =
           this.repo.branchList().call().stream()
               .map(
-                  a -> {
-                    Button b = new Button(a.getName().substring(11));
-                    b.setPrefWidth(Double.MAX_VALUE);
-                    b.setAlignment(Pos.BASELINE_LEFT);
-                    return b;
+                  ref -> {
+                    final Button button =
+                        new Button(ref.getName().substring("refs/heads/".length()));
+                    button.setPrefWidth(Double.MAX_VALUE);
+                    button.setAlignment(Pos.BASELINE_LEFT);
+                    return button;
                   })
               .toArray(Button[]::new);
       local.getChildren().addAll(repoButtons);
@@ -49,7 +50,7 @@ public class InformationController implements Initializable, Refreshable {
     }
 
     try {
-      TitledPane[] remotes =
+      final TitledPane[] remotes =
           this.repo.remoteList().call().stream()
               .map(remoteConfig -> RemoteControllerFactory.build(eventBus, repo, remoteConfig))
               .toArray(TitledPane[]::new);
@@ -60,21 +61,22 @@ public class InformationController implements Initializable, Refreshable {
   }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public final void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
     generateComponents();
   }
 
   @Override
-  public void refresh() {
+  public final void refresh() {
     remote.getChildren().clear();
     local.getChildren().clear();
     generateComponents();
   }
 
+  @Override
   @Subscribe
-  public void onRefreshEvent(RefreshEvent event) {
+  public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshInformation)) {
       refresh();
       System.out.println("Refreshed information pane");

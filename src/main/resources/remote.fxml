@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?scenebuilder-stylesheet ./stylesheet.css?>
 
-<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="30.0" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.Controllers.RemoteController">
+<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="30.0" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.RemoteController">
    <content>
       <VBox fx:id="container">
          <children>

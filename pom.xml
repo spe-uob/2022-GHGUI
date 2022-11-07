@@ -149,8 +149,8 @@
               <item>javafx.scene.control.MenuBar</item>
               <item>javafx.scene.text.Text</item>
               <item>javafx.scene.layout.GridPane</item>
-              <item>uk.ac.bristol.Controllers.MainController</item>
-              <item>uk.ac.bristol.Controllers.TabController</item>
+              <item>uk.ac.bristol.controllers.MainController</item>
+              <item>uk.ac.bristol.controllers.TabController</item>
               <item>org.eclipse.jgit.internal.JGitText</item>
             </reflectionList>
           </configuration>
