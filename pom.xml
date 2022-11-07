@@ -14,8 +14,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+
+    <openjfx.version>19</openjfx.version>
+    <jgit.version>6.3.0.202209071007-r</jgit.version>
+    <guava.version>31.1-jre</guava.version>
     <lombok.version>1.18.24</lombok.version>
-    <log4j-slf4j-impl.version>2.11.0</log4j-slf4j-impl.version>
   </properties>
 
   <repositories>
@@ -35,28 +38,27 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>6.3.0.202209071007-r</version>
+      <version>${jgit.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>19</version>
+      <version>${openjfx.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>19</version>
+      <version>${openjfx.version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>${log4j-slf4j-impl.version}</version>
-    </dependency>
-
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
     </dependency>
   </dependencies>
 
@@ -105,7 +107,7 @@
           <version>1.5.2</version>
           <configuration>
             <name>ghgui</name>
-            <appVersion>1.0.0</appVersion>
+            <appVersion>${version}</appVersion>
             <vendor>uk.ac.bristol</vendor>
             <destination>target/dist</destination>
             <module>uk.ac.bristol/App</module>

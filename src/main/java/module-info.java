@@ -5,10 +5,14 @@ module uk.ac.bristol {
   requires javafx.base;
   requires transitive org.eclipse.jgit;
   requires lombok;
-  requires org.apache.logging.log4j;
+  requires com.google.common;
+  requires org.slf4j;
 
   exports uk.ac.bristol;
 
   opens uk.ac.bristol.Controllers to
-      javafx.fxml;
+      javafx.fxml,
+      com.google.common;
+  opens uk.ac.bristol.Controllers.Events to
+      com.google.common;
 }

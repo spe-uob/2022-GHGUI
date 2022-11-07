@@ -2,7 +2,7 @@ package uk.ac.bristol.util;
 
 import java.io.File;
 import java.util.List;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.lib.Ref;
@@ -12,7 +12,7 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /** Java-git Tools */
-@Log4j2
+@Slf4j
 public class JgitUtil {
 
   /**
@@ -28,12 +28,10 @@ public class JgitUtil {
     Git git = null;
     try {
       log.info("");
-      //            log.info("Start checking out Master codes,git path:{},checkout path：{}", url,
-      // localPath);
+      // log.info("Start checking out Master codes,git path:{},checkout path：{}", url, localPath);
       File file = new File(localPath);
       if (file.isDirectory()) {
-        //                log.info("the path:{}，Existing folder, delete the original file,
-        // overwrite", localPath);
+        // log.info("the path:{}，Existing folder, delete the original file, overwrite", localPath);
         deleteFile(file);
       }
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.VBox?>
+<?scenebuilder-stylesheet ./stylesheet.css?>
+
+<TitledPane fx:id="root" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Repo" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.Controllers.InformationController">
+   <content>
+      <VBox>
+         <children>
+            <TitledPane animated="false" text="local">
+               <content>
+                  <VBox fx:id="local" />
+               </content>
+            </TitledPane>
+            <TitledPane animated="false" text="remote">
+               <content>
+                  <VBox fx:id="remote" />
+               </content>
+            </TitledPane>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>
