@@ -10,16 +10,16 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.InformationController;
 
 public final class InformationControllerFactory {
-  private InformationControllerFactory() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-  }
-
   static final String FILE_NAME = "information.fxml";
   static final URL COMPONENT =
       InformationControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
+  private InformationControllerFactory() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   public static Parent build(final EventBus eventBus, final Git repo) {
-    FXMLLoader loader = new FXMLLoader(COMPONENT);
+    final FXMLLoader loader = new FXMLLoader(COMPONENT);
     loader.setControllerFactory(controllerClass -> new InformationController(eventBus, repo));
     Parent root = null;
     try {

@@ -12,14 +12,14 @@ public final class AlertBuilder {
   }
 
   public static Alert build(final Exception ex) {
-    Alert alert = new Alert(AlertType.ERROR);
+    final Alert alert = new Alert(AlertType.ERROR);
     alert.setResizable(true);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");
     alert.setHeaderText(null);
-    StringWriter sw = new StringWriter();
-    PrintWriter pw = new PrintWriter(sw);
+    final StringWriter sw = new StringWriter();
+    final PrintWriter pw = new PrintWriter(sw);
     ex.printStackTrace(pw);
-    String fullStack = sw.toString();
+    final String fullStack = sw.toString();
     alert.getDialogPane().setContent(new TextArea(fullStack));
     return alert;
   }

@@ -21,17 +21,18 @@ public class MainController {
 
   @FXML
   private void selectDirectory(final Event e) {
-    DirectoryChooser directoryChooser = new DirectoryChooser();
-    File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
+    final DirectoryChooser directoryChooser = new DirectoryChooser();
+    final File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
       return;
     }
 
-    RepositoryBuilder repositoryBuilder = new RepositoryBuilder().findGitDir(selectedDirectory);
-    File gitDirectory = repositoryBuilder.getGitDir();
+    final RepositoryBuilder repositoryBuilder =
+        new RepositoryBuilder().findGitDir(selectedDirectory);
+    final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory != null) {
-      Tab tab = new Tab(gitDirectory.getParentFile().getName());
+      final Tab tab = new Tab(gitDirectory.getParentFile().getName());
       try {
         tab.setContent(
             TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));

@@ -19,8 +19,8 @@ public class App extends Application {
   public final void start(final Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ghgui.fxml"));
-    Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
+    final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ghgui.fxml"));
+    final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
 
     // Apply CSS
     setUserAgentStylesheet(STYLESHEET_CASPIAN);

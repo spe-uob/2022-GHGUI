@@ -141,8 +141,10 @@
     <!-- Checks for common coding problems               -->
     <!-- See http://checkstyle.sf.net/config_coding.html -->
     <module name="AvoidInlineConditionals" />
+    <module name="DeclarationOrder" />
     <module name="EmptyStatement" />
     <module name="EqualsHashCode" />
+    <module name="FinalLocalVariable" />
     <module name="IllegalInstantiation" />
     <module name="InnerAssignment" />
     <module name="MagicNumber" />

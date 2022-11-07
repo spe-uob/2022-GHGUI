@@ -46,16 +46,16 @@ public class RemoteController implements Initializable, Refreshable {
 
   private void generateButtons() {
     try {
-      ObservableList<Button> buttons =
+      final ObservableList<Button> buttons =
           this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()
               .map(
                   a -> {
-                    Pattern p = Pattern.compile("refs/remotes/(.*)/(.*)");
-                    Matcher m = p.matcher(a.getName());
+                    final Pattern p = Pattern.compile("refs/remotes/(.*)/(.*)");
+                    final Matcher m = p.matcher(a.getName());
                     if (m.find()
                         && m.group(1).equals(remote.getName())
                         && !m.group(2).equals("HEAD")) {
-                      Button button = new Button(m.group(2));
+                      final Button button = new Button(m.group(2));
                       button.setPrefWidth(Double.MAX_VALUE);
                       button.setAlignment(Pos.BASELINE_LEFT);
                       return button;

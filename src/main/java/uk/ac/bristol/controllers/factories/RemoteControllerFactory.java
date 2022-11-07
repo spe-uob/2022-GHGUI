@@ -11,16 +11,16 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.RemoteController;
 
 public final class RemoteControllerFactory {
-  private RemoteControllerFactory() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-  }
-
   static final String FILE_NAME = "remote.fxml";
   static final URL COMPONENT =
       RemoteControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
+  private RemoteControllerFactory() {
+    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+  }
+
   public static Parent build(final EventBus eventBus, final Git repo, final RemoteConfig remote) {
-    FXMLLoader loader = new FXMLLoader(COMPONENT);
+    final FXMLLoader loader = new FXMLLoader(COMPONENT);
     loader.setControllerFactory(controllerClass -> new RemoteController(eventBus, repo, remote));
     Parent root = null;
     try {

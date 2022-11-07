@@ -33,11 +33,11 @@ public class InformationController implements Initializable, Refreshable {
 
   private void generateComponents() {
     try {
-      Button[] repoButtons =
+      final Button[] repoButtons =
           this.repo.branchList().call().stream()
               .map(
                   a -> {
-                    Button b = new Button(a.getName().substring("refs/heads/".length()));
+                    final Button b = new Button(a.getName().substring("refs/heads/".length()));
                     b.setPrefWidth(Double.MAX_VALUE);
                     b.setAlignment(Pos.BASELINE_LEFT);
                     return b;
@@ -49,7 +49,7 @@ public class InformationController implements Initializable, Refreshable {
     }
 
     try {
-      TitledPane[] remotes =
+      final TitledPane[] remotes =
           this.repo.remoteList().call().stream()
               .map(remoteConfig -> RemoteControllerFactory.build(eventBus, repo, remoteConfig))
               .toArray(TitledPane[]::new);
