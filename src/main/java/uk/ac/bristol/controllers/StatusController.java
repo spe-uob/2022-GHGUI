@@ -42,6 +42,7 @@ public class StatusController implements Initializable, Refreshable {
     // TODO Auto-generated method stub
   }
 
+  @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshStatus)) {

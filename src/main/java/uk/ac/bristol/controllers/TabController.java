@@ -56,6 +56,7 @@ public class TabController implements Initializable, Refreshable {
     // Currently unnecessary
   }
 
+  @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshTab)) {

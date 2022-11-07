@@ -18,13 +18,12 @@ public final class TabControllerFactory {
 
   public static Parent build(final Git repo) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(controllerClass -> new TabController(repo));
-    Parent root = null;
+    loader.setControllerFactory(__ -> new TabController(repo));
     try {
-      root = loader.load();
+      return loader.load();
     } catch (IOException ex) {
       AlertBuilder.build(ex).showAndWait();
+      return null;
     }
-    return root;
   }
 }

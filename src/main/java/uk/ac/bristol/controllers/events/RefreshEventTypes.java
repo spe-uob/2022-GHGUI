@@ -10,18 +10,14 @@ public enum RefreshEventTypes {
   RefreshInformation,
   RefreshRemote;
 
-  private static final Map<RefreshEventTypes, RefreshEventTypes[]> MAPPINGS =
+  private static final Map<RefreshEventTypes, Stream<RefreshEventTypes>> MAPPINGS =
       ImmutableMap.of(
-          RefreshTab, new RefreshEventTypes[] {RefreshInformation, RefreshStatus},
-          RefreshInformation, new RefreshEventTypes[] {RefreshRemote});
+          RefreshTab, Stream.of(RefreshInformation, RefreshStatus),
+          RefreshInformation, Stream.of(RefreshRemote));
 
-  static RefreshEventTypes[] resolve(final RefreshEventTypes type) {
-    if (MAPPINGS.containsKey(type)) {
-      return Stream.concat(
-              Stream.of(MAPPINGS.get(type)).flatMap(t -> Stream.of(resolve(t))), Stream.of(type))
-          .toArray(RefreshEventTypes[]::new);
-    } else {
-      return new RefreshEventTypes[] {type};
-    }
+  static Stream<RefreshEventTypes> resolve(final RefreshEventTypes type) {
+    return MAPPINGS.containsKey(type)
+        ? Stream.concat(MAPPINGS.get(type).flatMap(RefreshEventTypes::resolve), Stream.of(type))
+        : Stream.of(type);
   }
 }

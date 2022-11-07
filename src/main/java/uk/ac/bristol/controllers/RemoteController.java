@@ -45,17 +45,17 @@ public class RemoteController implements Initializable, Refreshable {
   }
 
   private void generateButtons() {
+    final Pattern pattern = Pattern.compile("refs/remotes/(.*)/(.*)");
     try {
       final ObservableList<Button> buttons =
           this.repo.branchList().setListMode(ListMode.REMOTE).call().stream()
               .map(
-                  a -> {
-                    final Pattern p = Pattern.compile("refs/remotes/(.*)/(.*)");
-                    final Matcher m = p.matcher(a.getName());
-                    if (m.find()
-                        && m.group(1).equals(remote.getName())
-                        && !m.group(2).equals("HEAD")) {
-                      final Button button = new Button(m.group(2));
+                  ref -> {
+                    final Matcher matcher = pattern.matcher(ref.getName());
+                    if (matcher.find()
+                        && matcher.group(1).equals(remote.getName())
+                        && !matcher.group(2).equals("HEAD")) {
+                      final Button button = new Button(matcher.group(2));
                       button.setPrefWidth(Double.MAX_VALUE);
                       button.setAlignment(Pos.BASELINE_LEFT);
                       return button;
@@ -63,7 +63,7 @@ public class RemoteController implements Initializable, Refreshable {
                       return null;
                     }
                   })
-              .filter(a -> a != null)
+              .filter(button -> button != null)
               .collect(Collectors.toCollection(FXCollections::observableArrayList));
       container.getChildren().addAll(buttons);
     } catch (GitAPIException ex) {
@@ -107,6 +107,7 @@ public class RemoteController implements Initializable, Refreshable {
     generateButtons();
   }
 
+  @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshRemote)) {

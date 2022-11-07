@@ -36,11 +36,12 @@ public class InformationController implements Initializable, Refreshable {
       final Button[] repoButtons =
           this.repo.branchList().call().stream()
               .map(
-                  a -> {
-                    final Button b = new Button(a.getName().substring("refs/heads/".length()));
-                    b.setPrefWidth(Double.MAX_VALUE);
-                    b.setAlignment(Pos.BASELINE_LEFT);
-                    return b;
+                  ref -> {
+                    final Button button =
+                        new Button(ref.getName().substring("refs/heads/".length()));
+                    button.setPrefWidth(Double.MAX_VALUE);
+                    button.setAlignment(Pos.BASELINE_LEFT);
+                    return button;
                   })
               .toArray(Button[]::new);
       local.getChildren().addAll(repoButtons);
@@ -73,6 +74,7 @@ public class InformationController implements Initializable, Refreshable {
     generateComponents();
   }
 
+  @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshInformation)) {

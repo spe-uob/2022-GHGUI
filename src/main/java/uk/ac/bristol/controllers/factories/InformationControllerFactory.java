@@ -20,13 +20,12 @@ public final class InformationControllerFactory {
 
   public static Parent build(final EventBus eventBus, final Git repo) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(controllerClass -> new InformationController(eventBus, repo));
-    Parent root = null;
+    loader.setControllerFactory(__ -> new InformationController(eventBus, repo));
     try {
-      root = loader.load();
+      return loader.load();
     } catch (IOException ex) {
       AlertBuilder.build(ex).showAndWait();
+      return null;
     }
-    return root;
   }
 }
