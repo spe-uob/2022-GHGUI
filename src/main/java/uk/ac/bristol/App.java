@@ -14,6 +14,10 @@ public class App extends Application {
     launch(args);
   }
 
+  public void test(String str) {
+    System.err.println(str);
+  }
+
   @Override
   public void start(Stage primaryStage) {
     primaryStage.setTitle("Hello World!");
