@@ -80,7 +80,8 @@ public final class JgitUtil {
       // Check whether the new branch already exists, if so, delete the existing branch forcibly and
       // create a new branch
 
-      // TODO: do we really want to assume that force overwrite is the desired behaviour for most users?
+      // TODO: do we really want to assume that force overwrite is the desired behaviour for most
+      // users?
       // Probably best we instead prompt the user if they want to overwrite
       final List<Ref> refs = gitInfo.getGit().branchList().call();
       for (Ref ref : refs) {
@@ -96,7 +97,9 @@ public final class JgitUtil {
           final RefSpec refSpec3 =
               new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
-          gitInfo.getGit().push()
+          gitInfo
+              .getGit()
+              .push()
               .setRefSpecs(refSpec3)
               .setRemote("origin")
               .setCredentialsProvider(gitInfo.getAuth())
