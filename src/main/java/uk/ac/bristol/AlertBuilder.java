@@ -12,7 +12,7 @@ public final class AlertBuilder {
   }
 
   public static Alert build(final Exception ex) {
-    // TODO provide more concise error messages (exclude reflection from stack trace)
+    // TODO: provide more concise error messages (exclude reflection from stack trace)
     final Alert alert = new Alert(AlertType.ERROR);
     alert.setResizable(true);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");

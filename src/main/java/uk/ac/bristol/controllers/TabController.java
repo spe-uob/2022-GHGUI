@@ -33,17 +33,17 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   private void push(final Event e) {
-    // TODO
+    // TODO:
   }
 
   @FXML
   private void commit(final Event e) {
-    // TODO
+    // TODO:
   }
 
   @FXML
   private void checkout(final Event e) {
-    // TODO
+    // TODO:
   }
 
   @Override
