@@ -56,6 +56,12 @@
 
   <module name="TreeWalker">
 
+    <module name="SuppressWithNearbyCommentFilter">
+      <property name="commentFormat" value="CHECKSTYLE:IGNORE ([^ ]+)" />
+      <property name="checkFormat" value="$1" />
+      <property name="influenceFormat" value="0" />
+    </module>
+
     <!-- Checks for Javadoc comments.                     -->
     <!-- See http://checkstyle.sf.net/config_javadoc.html -->
     <!-- <module name="JavadocMethod" /> -->

@@ -11,30 +11,30 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
+import uk.ac.bristol.util.GitInfo;
 
 public class InformationController implements Initializable, Refreshable {
   private EventBus eventBus;
-  private Git repo;
+  private GitInfo gitInfo;
   @FXML private TitledPane root;
   @FXML private VBox local, remote;
 
-  public InformationController(final EventBus eventBus, final Git repo) {
+  public InformationController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
-    this.repo = repo;
+    this.gitInfo = gitInfo;
   }
 
   private void generateComponents() {
     try {
       final Button[] repoButtons =
-          this.repo.branchList().call().stream()
+          gitInfo.getGit().branchList().call().stream()
               .map(
                   ref -> {
                     final Button button =
@@ -51,8 +51,8 @@ public class InformationController implements Initializable, Refreshable {
 
     try {
       final TitledPane[] remotes =
-          this.repo.remoteList().call().stream()
-              .map(remoteConfig -> RemoteControllerFactory.build(eventBus, repo, remoteConfig))
+          gitInfo.getGit().remoteList().call().stream()
+              .map(remoteConfig -> RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
               .toArray(TitledPane[]::new);
       remote.getChildren().addAll(remotes);
     } catch (GitAPIException ex) {

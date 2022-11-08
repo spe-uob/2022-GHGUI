@@ -9,20 +9,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.util.GitInfo;
 
 public class StatusController implements Initializable, Refreshable {
   private EventBus eventBus;
-  private Git repo;
+  private GitInfo gitInfo;
   @FXML private TitledPane root;
 
-  public StatusController(final EventBus eventBus, final Git repo) {
+  public StatusController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
-    this.repo = repo;
+    this.gitInfo = gitInfo;
   }
 
   @FXML
@@ -39,7 +39,7 @@ public class StatusController implements Initializable, Refreshable {
 
   @Override
   public void refresh() {
-    // TODO Auto-generated method stub
+    // TODO: Auto-generated method stub
   }
 
   @Override

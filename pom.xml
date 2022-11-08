@@ -14,6 +14,12 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
+
+    <openjfx.version>19</openjfx.version>
+    <jgit.version>6.3.0.202209071007-r</jgit.version>
+    <guava.version>31.1-jre</guava.version>
+    <slf4j.version>2.0.3</slf4j.version>
+    <lombok.version>1.18.24</lombok.version>
   </properties>
 
   <repositories>
@@ -33,22 +39,37 @@
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
-      <version>6.3.0.202209071007-r</version>
+      <version>${jgit.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>19</version>
+      <version>${openjfx.version}</version>
     </dependency>
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>19</version>
+      <version>${openjfx.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>31.1-jre</version>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>${slf4j.version}</version>
     </dependency>
   </dependencies>
 
@@ -67,6 +88,13 @@
               <arg>--add-exports</arg>
               <arg>javafx.graphics/com.sun.glass.ui=com.andrei</arg>
             </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+              </path>
+            </annotationProcessorPaths>
           </configuration>
         </plugin>
         <plugin>
@@ -90,7 +118,7 @@
           <version>1.5.2</version>
           <configuration>
             <name>ghgui</name>
-            <appVersion>1.0.0</appVersion>
+            <appVersion>${project.version}</appVersion>
             <vendor>uk.ac.bristol</vendor>
             <destination>target/dist</destination>
             <module>uk.ac.bristol/App</module>
