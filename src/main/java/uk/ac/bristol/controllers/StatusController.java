@@ -1,4 +1,4 @@
-package uk.ac.bristol.Controllers;
+package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -10,29 +10,29 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import org.eclipse.jgit.api.Git;
-import uk.ac.bristol.Controllers.Events.RefreshEvent;
-import uk.ac.bristol.Controllers.Events.RefreshEventTypes;
-import uk.ac.bristol.Controllers.Events.Refreshable;
+import uk.ac.bristol.controllers.events.RefreshEvent;
+import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.Refreshable;
 
 public class StatusController implements Initializable, Refreshable {
   private EventBus eventBus;
   private Git repo;
   @FXML private TitledPane root;
 
-  public StatusController(EventBus eventBus, Git repo) {
+  public StatusController(final EventBus eventBus, final Git repo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.repo = repo;
   }
 
   @FXML
-  private void mouseClicked(Event e) {
+  private void mouseClicked(final Event e) {
     System.out.println("Mouse clicked on a button. Event details below:");
     System.out.println(e);
   }
 
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public final void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
   }
@@ -42,8 +42,9 @@ public class StatusController implements Initializable, Refreshable {
     // TODO Auto-generated method stub
   }
 
+  @Override
   @Subscribe
-  public void onRefreshEvent(RefreshEvent event) {
+  public final void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshStatus)) {
       refresh();
       System.out.println("Refreshed status pane");
