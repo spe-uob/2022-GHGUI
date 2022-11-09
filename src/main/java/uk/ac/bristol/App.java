@@ -1,36 +1,35 @@
 package uk.ac.bristol;
 
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-/** Hello world! */
 public class App extends Application {
-  public static void main(String[] args) {
+
+  private static final int INITIAL_HEIGHT = 500, INITIAL_WIDTH = 800;
+
+  public static void main(final String[] args) {
     launch(args);
   }
 
   @Override
-  public void start(Stage primaryStage) {
-    primaryStage.setTitle("Hello World!");
-    Button btn = new Button();
-    btn.setText("Say 'Hello World'");
-    btn.setOnAction(
-        new EventHandler<ActionEvent>() {
+  public final void start(final Stage primaryStage) throws IOException {
 
-          @Override
-          public void handle(ActionEvent event) {
-            System.out.println("Hello World!");
-          }
-        });
+    // Load and display FXML
+    final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("ghgui.fxml"));
+    final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
 
-    StackPane root = new StackPane();
-    root.getChildren().add(btn);
-    primaryStage.setScene(new Scene(root, 300, 250));
+    // Apply CSS
+    setUserAgentStylesheet(STYLESHEET_CASPIAN);
+    scene
+        .getStylesheets()
+        .add(getClass().getClassLoader().getResource("stylesheet.css").toExternalForm());
+
+    primaryStage.setTitle("ghgui");
+    primaryStage.setScene(scene);
     primaryStage.show();
   }
 }
