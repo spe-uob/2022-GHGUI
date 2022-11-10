@@ -54,6 +54,10 @@
     <property name="message" value="Line has trailing spaces." />
   </module>
 
+  <module name="BeforeExecutionExclusionFileFilter">
+    <property name="fileNamePattern" value="src/main/java/module\-info\.java$" />
+  </module>
+
   <module name="TreeWalker">
 
     <module name="SuppressWithNearbyCommentFilter">

@@ -1,0 +1,12 @@
+name: Checkstyle
+on: [pull_request]
+
+jobs:
+  checkstyle:
+    name: Checkstyle-for-java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: dbelyaev/action-checkstyle@v0.6.1
+        with:
+          checkstyle_config: checkstyle.xml
+          level: warning
