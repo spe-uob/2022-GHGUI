@@ -5,10 +5,6 @@ import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
-
-import org.eclipse.jgit.api.Status;
-import org.eclipse.jgit.api.errors.GitAPIException;
-
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import org.eclipse.jgit.api.Status;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
@@ -33,7 +31,6 @@ public class StatusController implements Initializable, Refreshable {
   @FXML private GridPane modifiedGridPane;
   @FXML private GridPane removedGridPane;
   @FXML private GridPane untrackedGridPane;
-
 
   public StatusController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
@@ -56,7 +53,7 @@ public class StatusController implements Initializable, Refreshable {
 
   private void updateStatus() {
     try {
-      Status status =  gitInfo.getGit().status().call();
+      Status status = gitInfo.getGit().status().call();
       updateGridPane(addedGridPane, status.getAdded());
       updateGridPane(changedGridPane, status.getChanged());
       updateGridPane(conflictingGridPane, status.getConflicting());
@@ -65,7 +62,7 @@ public class StatusController implements Initializable, Refreshable {
       updateGridPane(removedGridPane, status.getRemoved());
       updateGridPane(untrackedGridPane, status.getUntracked());
 
-    } catch (GitAPIException e){
+    } catch (GitAPIException e) {
       AlertBuilder.build(e);
       return;
     }
@@ -78,8 +75,6 @@ public class StatusController implements Initializable, Refreshable {
       pane.add(new Label(filename), 0, i);
       i++;
     }
-
-
   }
 
   @Override
