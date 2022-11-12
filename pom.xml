@@ -20,6 +20,7 @@
     <guava.version>31.1-jre</guava.version>
     <slf4j.version>2.0.3</slf4j.version>
     <lombok.version>1.18.24</lombok.version>
+    <log4j-slf4j-impl.version>2.19.0</log4j-slf4j-impl.version>
   </properties>
 
   <repositories>
@@ -62,14 +63,15 @@
       <version>${guava.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>${slf4j.version}</version>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>${log4j-slf4j-impl.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
 
