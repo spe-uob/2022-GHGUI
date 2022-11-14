@@ -63,6 +63,8 @@ public class StatusController implements Initializable, Refreshable {
       updateGridPane(untrackedGridPane, status.getUntracked());
 
     } catch (GitAPIException e) {
+      // TODO: Add slf4j logging
+      // Need to wait for pull request #96 to go through before this is possible
       AlertBuilder.build(e);
       return;
     }
