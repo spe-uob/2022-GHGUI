@@ -34,7 +34,7 @@ public final class JgitUtil {
           .setCredentialsProvider(auth)
           .call();
     } catch (Exception e) {
-      // TODO: log error
+      log.error("cloneRepository error:{}", e.getMessage(), e);
       return null;
     }
   }
@@ -50,7 +50,7 @@ public final class JgitUtil {
       gitInfo.getGit().checkout().setCreateBranch(false).setName(branchName).call();
       gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
     } catch (Exception e) {
-      // TODO: log error
+      log.error("checkoutBranch error:{}", e.getMessage(), e);
     }
   }
 
@@ -65,7 +65,7 @@ public final class JgitUtil {
       gitInfo.getGit().commit().setMessage(pushMessage).call();
       gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
     } catch (GitAPIException ex) {
-      // TODO: log error
+      log.error("commitAndPush error:{}", ex.getMessage(), ex);
     }
   }
 
@@ -79,8 +79,6 @@ public final class JgitUtil {
     try {
       // Check whether the new branch already exists, if so, delete the existing branch forcibly and
       // create a new branch
-
-      // TODO: do we really want to assume that force overwrite is the desired behaviour for most
       // users?
       // Probably best we instead prompt the user if they want to overwrite
       final List<Ref> refs = gitInfo.getGit().branchList().call();
@@ -93,7 +91,7 @@ public final class JgitUtil {
           gitInfo.getGit().branchDelete().setBranchNames(bName).setForce(true).call();
 
           // delete remote branch
-          // TODO: seems like REALLY REALLY bad design to automatically delete a remote branch
+
           final RefSpec refSpec3 =
               new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
@@ -111,9 +109,10 @@ public final class JgitUtil {
       final Ref ref = gitInfo.getGit().branchCreate().setName(branchName).call();
       gitInfo.getGit().push().add(ref).setCredentialsProvider(gitInfo.getAuth()).call();
     } catch (Exception ex) {
-      // TODO: log error
+      log.error("newBranch error:{}", ex.getMessage(), ex);
     }
   }
+
   /**
    * get credentials provider
    *
@@ -139,7 +138,6 @@ public final class JgitUtil {
    * @param dirFile file or directory to be deleted
    * @return Delete successfully returned true, otherwise return false
    */
-  // TODO: Is this function actually necessary at all?
   public static boolean deleteFile(final File dirFile) {
     // If the file corresponding to dir does not exist, exit
     if (!dirFile.exists()) {
