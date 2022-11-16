@@ -12,21 +12,17 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotWalk;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -108,8 +104,8 @@ public class TabController implements Initializable, Refreshable {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
-      for( RevCommit commit : plotWalk ) {
-        var plotCommit = (PlotCommit<JavaFxLane>)commit;
+      for (RevCommit commit : plotWalk) {
+        var plotCommit = (PlotCommit<JavaFxLane>) commit;
         plotRenderer.draw(plotCommit, 500);
       }
       treePane.setContent(plotRenderer.getCurrentShape());

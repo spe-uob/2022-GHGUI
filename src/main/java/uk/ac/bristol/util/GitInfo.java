@@ -3,7 +3,6 @@ package uk.ac.bristol.util;
 import lombok.Getter;
 import lombok.Setter;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
 
 public class GitInfo {
