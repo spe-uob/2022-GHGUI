@@ -27,6 +27,10 @@
       <id>jgit-repository</id>
       <url>https://repo.eclipse.org/content/groups/releases/</url>
     </repository>
+    <repository>
+      <id>terminalfx-repo</id>
+      <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -70,6 +74,11 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
       <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.kodedu.terminalfx</groupId>
+      <artifactId>terminalfx</artifactId>
+      <version>1.2.0</version>
     </dependency>
   </dependencies>
 

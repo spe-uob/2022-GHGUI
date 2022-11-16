@@ -23,7 +23,7 @@
       <SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
          <items>
             <AnchorPane fx:id="informationPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
-            <AnchorPane styleClass="tab-pane" />
+            <AnchorPane fx:id="terminalPane" styleClass="tab-pane" />
             <AnchorPane fx:id="statusPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
          </items>
       </SplitPane>
