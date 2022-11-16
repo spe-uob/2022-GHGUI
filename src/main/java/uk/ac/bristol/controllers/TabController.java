@@ -13,12 +13,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 
@@ -29,6 +31,7 @@ public class TabController implements Initializable, Refreshable {
   private GitInfo gitInfo;
   @FXML private GridPane root;
   @FXML private AnchorPane statusPane, informationPane, terminalPane;
+  @FXML private HBox statusBarHBox;
 
   public TabController(final Git repo) {
     this.eventBus = new EventBus();
@@ -55,6 +58,7 @@ public class TabController implements Initializable, Refreshable {
   public final void initialize(final URL location, final ResourceBundle resources) {
     statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
+    statusBarHBox.getChildren().add(StatusBarControllerFactory.build(eventBus, gitInfo));
 
     final TerminalConfig darkConfig = new TerminalConfig();
     darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));

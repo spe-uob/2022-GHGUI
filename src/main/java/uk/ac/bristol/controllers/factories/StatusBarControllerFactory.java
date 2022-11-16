@@ -5,16 +5,16 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.StatusBarController;
 import uk.ac.bristol.util.GitInfo;
 
-@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
-public final class StatusBarFactory {
+@Slf4j // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+public final class StatusBarControllerFactory {
   private static final String FILE_NAME = "statusbar.fxml";
   private static final URL COMPONENT =
-      StatusBarFactory.class.getClassLoader().getResource(FILE_NAME);
+      StatusBarControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
   public static Parent build(final EventBus eventBus, final GitInfo gitInfo) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
@@ -23,7 +23,7 @@ public final class StatusBarFactory {
       return loader.load();
     } catch (IOException ex) {
       AlertBuilder.build(ex).showAndWait();
-      log.error(ex);
+      log.error("Could not load the FXML file for StatusBarController.", ex);
       return null;
     }
   }

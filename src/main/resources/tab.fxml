@@ -27,7 +27,7 @@
             <AnchorPane fx:id="statusPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
          </items>
       </SplitPane>
-      <HBox alignment="CENTER" styleClass="tab-pane">
+      <HBox fx:id="statusBarHBox" alignment="CENTER" styleClass="tab-pane">
          <children>
             <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Status, info, etc.">
                <HBox.margin>

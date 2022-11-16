@@ -7,16 +7,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 
-@UtilityClass
 @Slf4j
 public final class StatusBarController implements Initializable, Refreshable {
   private EventBus eventBus;
@@ -39,12 +39,18 @@ public final class StatusBarController implements Initializable, Refreshable {
 
   @Override
   public void refresh() {
+    final String branchName;
     try {
-      final String branchName = gitInfo.getGit().getRepository().getBranch();
+      branchName = gitInfo.getGit().getRepository().getBranch();
 
     } catch (IOException ex) {
       log.error("Could not retrieve branch name.", ex);
+      AlertBuilder.build(ex).showAndWait();
+      return;
     }
+    System.out.print("HOLY SHIT");
+    root.getChildren().clear();
+    root.getChildren().add(new Label(branchName));
   }
 
   @Override
