@@ -15,9 +15,9 @@ When the project is finished, we aim to provide
 - Integration for GitHub features, such as pull requests
 - Support for customization of window sizes and proportions, as well as themes.
 - Support for easily resolving conflicts
-## End Users and Stakeholders 
+## End Users and Stakeholders
 This project is for everyone - at the end of it all, we would like to provide a release on GitHub for all to enjoy and modify to their liking, as well as some documentation to help them get started. 
-As such, our stakeholders and end users are the developers that want a easier way to work with git. 
+As such, our stakeholders and end users are the developers that want a easier way to work with git.
 
 The Novice Collaborator will be able to use intuitive context menus that guide them through every common git operation without any unnecessary jargon. Contextual messages will tell them precisely what it is that they are doing and what the consequences would be, helping them to get used to the safe git workflow. This project is ideal for people looking to get into collaborative programming.
 
