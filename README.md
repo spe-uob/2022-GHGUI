@@ -16,10 +16,15 @@ When the project is finished, we aim to provide
 - Support for customization of window sizes and proportions, as well as themes.
 - Support for easily resolving conflicts
 ## End Users and Stakeholders 
-This project is for the people - at the end of it all, we would like to provide a release on GitHub for all to enjoy and modify to their liking, as well as some documentation to help them get started. 
-As such, our stakeholders and end users are the developers that want a simpler way to work with Git. 
-We want to help developers like ourselves that are tired of the paranoia of working with the command line, or with 
-GUI systems that don't offer simplicity and ease of use as a part of their feature-set.
+This project is for everyone - at the end of it all, we would like to provide a release on GitHub for all to enjoy and modify to their liking, as well as some documentation to help them get started. 
+As such, our stakeholders and end users are the developers that want a easier way to work with git. 
+
+The Novice Collaborator will be able to use intuitive context menus that guide them through every common git operation without any unnecessary jargon. Contextual messages will tell them precisely what it is that they are doing and what the consequences would be, helping them to get used to the safe git workflow. This project is ideal for people looking to get into collaborative programming.
+
+The Community Contributor will be able to manage multiple separate git repositories at once, with at-a-glance information clearly presented to them on every individual tab for the repositories. They could even sign in with separate GitHub accounts on separate tabs, and easily push to remotes and make pull requests with a simple and efficient interface.
+
+The FOSS Fanatics will be able to modify the program to their liking - many aspects of the software will ideally be customizable, be it shortcuts or themes or default functionality, but anyone can just make a fork of GHGUI and change anything as they see fit, for any tweak that they would like.
+
 
 ## Ethics 
 Our project will not be collecting or sending any user data aside from the data needed to interact with the 
