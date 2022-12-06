@@ -16,9 +16,6 @@ public abstract class JavaFxPlotRendererImpl<TLane extends PlotLane>
 
   @Override
   protected final Color laneColor(final TLane myLane) {
-    if (myLane instanceof JavaFxLane) {
-      return getColor(myLane);
-    }
-    return getColor(null);
+    return JavaFxLane.colors[myLane.getPosition() % JavaFxLane.colors.length];
   }
 }

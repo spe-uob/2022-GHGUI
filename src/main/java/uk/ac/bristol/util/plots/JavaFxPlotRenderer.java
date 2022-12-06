@@ -38,10 +38,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
 
   @Override
   protected final Color getColor(final JavaFxLane myLane) {
-    if (myLane != null) {
-      return myLane.color;
-    }
-    return Color.GRAY;
+    return JavaFxLane.colors[myLane.getPosition()];
   }
 
   @Override
@@ -69,7 +66,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   @Override
   protected final void drawLine(
       final Color color, final int x1, final int y1, final int x2, final int y2, final int width) {
-    final Line path = new Line(x1, y1 * 2, x2, y2);
+    final Line path = new Line(x1, y1, x2, y2);
     path.setStrokeWidth(width);
     path.setStroke(color);
     // XXX: Without this circle, all the lines will be off.
