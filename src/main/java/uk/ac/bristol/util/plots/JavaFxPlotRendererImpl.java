@@ -12,8 +12,6 @@ import org.eclipse.jgit.revplot.PlotLane;
 public abstract class JavaFxPlotRendererImpl<TLane extends PlotLane>
     extends AbstractPlotRenderer<TLane, Color> {
 
-  protected abstract Color getColor(TLane myLane);
-
   @Override
   protected final Color laneColor(final TLane myLane) {
     return JavaFxLane.colors[myLane.getPosition() % JavaFxLane.colors.length];

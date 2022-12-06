@@ -37,11 +37,6 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   }
 
   @Override
-  protected final Color getColor(final JavaFxLane myLane) {
-    return JavaFxLane.colors[myLane.getPosition()];
-  }
-
-  @Override
   protected final int drawLabel(final int x, final int y, final Ref ref) {
     String refName = ref.getName();
     if (refName.contains(Constants.R_HEADS)) {
