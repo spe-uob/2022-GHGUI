@@ -53,7 +53,7 @@ public class StatusController implements Initializable, Refreshable {
 
   private void updateStatus() {
     try {
-      Status status = gitInfo.getGit().status().call();
+      final Status status = gitInfo.getGit().status().call();
       updateGridPane(addedGridPane, status.getAdded());
       updateGridPane(changedGridPane, status.getChanged());
       updateGridPane(conflictingGridPane, status.getConflicting());
@@ -70,7 +70,7 @@ public class StatusController implements Initializable, Refreshable {
     }
   }
 
-  private void updateGridPane(GridPane pane, Set<String> contents) {
+  private void updateGridPane(final GridPane pane, final Set<String> contents) {
     pane.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
@@ -80,7 +80,7 @@ public class StatusController implements Initializable, Refreshable {
   }
 
   @Override
-  public void refresh() {
+  public final void refresh() {
     updateStatus();
   }
 

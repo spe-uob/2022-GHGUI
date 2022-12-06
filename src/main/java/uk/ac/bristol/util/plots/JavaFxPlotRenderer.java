@@ -1,30 +1,51 @@
 package uk.ac.bristol.util.plots;
 
+import java.io.IOException;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.revplot.AbstractPlotRenderer;
-import org.eclipse.jgit.revplot.PlotCommit;
+import org.eclipse.jgit.revplot.PlotCommitList;
+import org.eclipse.jgit.revplot.PlotWalk;
 
-public class JavaFxPlotRenderer extends AbstractPlotRenderer<JavaFxLane, Color> {
+@Slf4j
+public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
+  private Group currentNode;
 
-  private Group currentShape;
-  private VBox totalShape = new VBox();
-
-  public void draw(PlotCommit<JavaFxLane> commit, double height) {
-    currentShape = new Group();
-    paintCommit(commit, (int) height);
-    //   currentShape.layout();
-    totalShape.getChildren().add(currentShape);
+  public final VBox draw(final PlotWalk plotWalk) {
+    final VBox treeView = new VBox();
+    final var pcl = new PlotCommitList<JavaFxLane>();
+    pcl.source(plotWalk);
+    try {
+      pcl.fillTo(Integer.MAX_VALUE);
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    for (var commit : pcl) {
+      currentNode = new Group();
+      paintCommit(commit, 50);
+      treeView.getChildren().add(currentNode);
+    }
+    treeView.layout();
+    return treeView;
   }
 
   @Override
-  protected int drawLabel(int x, int y, Ref ref) {
+  protected final Color getColor(final JavaFxLane myLane) {
+    if (myLane != null) {
+      return myLane.color;
+    }
+    return Color.GRAY;
+  }
+
+  @Override
+  protected final int drawLabel(final int x, final int y, final Ref ref) {
     String refName = ref.getName();
     if (refName.contains(Constants.R_HEADS)) {
       refName = refName.substring(Constants.R_HEADS.length(), refName.length());
@@ -37,41 +58,29 @@ public class JavaFxPlotRenderer extends AbstractPlotRenderer<JavaFxLane, Color> 
     }
     final Text text = new Text(refName);
     text.setX(x);
-    //   text.setY(y * 1.5);
     text.setY(y);
     text.setFill(Color.RED);
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
-    // final Rectangle rectangle = RectangleBuilder.create().x(x).y(y /
-    // 2).width(width).height(fontSize + 3).fill(Color.RED).build();
-    // currentShape.getChildren().add(rectangle);
-    currentShape.getChildren().add(text);
+    currentNode.getChildren().add(text);
     return (int) Math.floor(10 + width);
   }
 
   @Override
-  protected Color laneColor(JavaFxLane myLane) {
-    if (myLane != null) {
-      return myLane.color;
-    }
-    return Color.GRAY;
-  }
-
-  @Override
-  protected void drawLine(Color color, int x1, int y1, int x2, int y2, int width) {
-    final Line path = new Line(x1, y1, x2, y2);
-    System.out.printf(
-        "Drawing line from (%d,%d) to (%d,%d) with width %d\n", x1, y1, x2, y2, width);
+  protected final void drawLine(
+      final Color color, final int x1, final int y1, final int x2, final int y2, final int width) {
+    final Line path = new Line(x1, y1 * 2, x2, y2);
     path.setStrokeWidth(width);
     path.setStroke(color);
     // XXX: Without this circle, all the lines will be off.
     final Circle placeHolder = new Circle();
-    currentShape.getChildren().add(placeHolder);
-    currentShape.getChildren().add(path);
+    currentNode.getChildren().add(placeHolder);
+    currentNode.getChildren().add(path);
+    log.info("Drawing line from ({},{}) to ({},{})", x1, y1, x2, y2);
   }
 
   @Override
-  protected void drawCommitDot(int x, int y, int w, int h) {
+  protected final void drawCommitDot(final int x, final int y, final int w, final int h) {
     final Circle circle = new Circle();
     circle.setCenterX(Math.floor(x + w / 2) + 1);
     circle.setCenterY(Math.floor(y + h / 2));
@@ -82,12 +91,12 @@ public class JavaFxPlotRenderer extends AbstractPlotRenderer<JavaFxLane, Color> 
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.WHITE);
-    currentShape.getChildren().add(circle);
-    currentShape.getChildren().add(innerCircle);
+    currentNode.getChildren().add(circle);
+    currentNode.getChildren().add(innerCircle);
   }
 
   @Override
-  protected void drawBoundaryDot(int x, int y, int w, int h) {
+  protected final void drawBoundaryDot(final int x, final int y, final int w, final int h) {
     final Circle circle = new Circle();
     circle.setCenterX(x + w / 2);
     circle.setCenterY(y + h / 2);
@@ -98,20 +107,16 @@ public class JavaFxPlotRenderer extends AbstractPlotRenderer<JavaFxLane, Color> 
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.LIGHTGRAY);
-    currentShape.getChildren().add(circle);
-    currentShape.getChildren().add(innerCircle);
+    currentNode.getChildren().add(circle);
+    currentNode.getChildren().add(innerCircle);
   }
 
   @Override
-  protected void drawText(String msg, int x, int y) {
+  protected final void drawText(final String msg, final int x, final int y) {
     final Text text = new Text(msg);
     text.setX(x);
     text.setY(y);
-    currentShape.getChildren().add(text);
-  }
-
-  public VBox getCurrentShape() {
-    //   return currentShape;
-    return totalShape;
+    currentNode.getChildren().add(text);
+    log.info("Placing text with message \"{}\" at ({},{})", msg, x, y);
   }
 }
