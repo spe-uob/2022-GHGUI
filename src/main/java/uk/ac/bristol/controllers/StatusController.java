@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Status;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.AlertBuilder;
@@ -20,7 +21,8 @@ import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 
-public class StatusController implements Initializable, Refreshable {
+@Slf4j
+public final class StatusController implements Initializable, Refreshable {
   private EventBus eventBus;
   private GitInfo gitInfo;
   @FXML private TitledPane root;
@@ -45,7 +47,7 @@ public class StatusController implements Initializable, Refreshable {
   }
 
   @Override
-  public final void initialize(final URL location, final ResourceBundle resources) {
+  public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
     updateStatus();
@@ -53,7 +55,7 @@ public class StatusController implements Initializable, Refreshable {
 
   private void updateStatus() {
     try {
-      Status status = gitInfo.getGit().status().call();
+      final Status status = gitInfo.getGit().status().call();
       updateGridPane(addedGridPane, status.getAdded());
       updateGridPane(changedGridPane, status.getChanged());
       updateGridPane(conflictingGridPane, status.getConflicting());
@@ -63,14 +65,13 @@ public class StatusController implements Initializable, Refreshable {
       updateGridPane(untrackedGridPane, status.getUntracked());
 
     } catch (GitAPIException e) {
-      // TODO: Add slf4j logging
-      // Need to wait for pull request #96 to go through before this is possible
+      log.error("Could not get git status.", e);
       AlertBuilder.build(e);
       return;
     }
   }
 
-  private void updateGridPane(GridPane pane, Set<String> contents) {
+  private void updateGridPane(final GridPane pane, final Set<String> contents) {
     pane.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
@@ -86,7 +87,7 @@ public class StatusController implements Initializable, Refreshable {
 
   @Override
   @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
+  public void onRefreshEvent(final RefreshEvent event) {
     if (event.contains(RefreshEventTypes.RefreshStatus)) {
       refresh();
       System.out.println("Refreshed status pane");
