@@ -24,7 +24,7 @@ public final class StatusBarController implements Initializable, Refreshable {
   @FXML private HBox root;
 
   public StatusBarController(final EventBus eventbus, final GitInfo gitInfo) {
-    this.eventBus = eventBus;
+    this.eventBus = eventbus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
