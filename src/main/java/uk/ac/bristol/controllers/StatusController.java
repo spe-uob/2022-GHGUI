@@ -81,7 +81,7 @@ public final class StatusController implements Initializable, Refreshable {
   }
 
   @Override
-  public void refresh() {
+  public final void refresh() {
     updateStatus();
   }
 
