@@ -11,12 +11,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import lombok.extern.slf4j.Slf4j;
-import uk.ac.bristol.AlertBuilder;
+import org.eclipse.jgit.lib.BranchTrackingStatus;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
-import org.eclipse.jgit.lib.BranchTrackingStatus;
 
 @Slf4j
 public final class StatusBarController implements Initializable, Refreshable {
@@ -51,13 +50,17 @@ public final class StatusBarController implements Initializable, Refreshable {
       return;
     }
 
-
     try {
-      BranchTrackingStatus statusComparison = BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
-      final Label statusLabel = new Label(Integer.toString(statusComparison.getAheadCount()) + " ⇅ " + statusComparison.getBehindCount());
+      BranchTrackingStatus statusComparison =
+          BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
+      final Label statusLabel =
+          new Label(
+              Integer.toString(statusComparison.getAheadCount())
+                  + " ⇅ "
+                  + statusComparison.getBehindCount());
       statusLabel.setId("genericlabel");
       root.getChildren().add(statusLabel);
-    } catch (IOException ex){
+    } catch (IOException ex) {
       log.error("Could not get BranchTrackingStatus", ex);
     }
   }
