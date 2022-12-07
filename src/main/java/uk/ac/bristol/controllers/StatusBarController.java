@@ -16,6 +16,7 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import org.eclipse.jgit.lib.BranchTrackingStatus;
 
 @Slf4j
 public final class StatusBarController implements Initializable, Refreshable {
@@ -31,7 +32,6 @@ public final class StatusBarController implements Initializable, Refreshable {
 
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
-
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
     refresh();
@@ -39,18 +39,27 @@ public final class StatusBarController implements Initializable, Refreshable {
 
   @Override
   public void refresh() {
+    root.getChildren().clear();
     final String branchName;
     try {
       branchName = gitInfo.getGit().getRepository().getBranch();
-
+      final Label nameLabel = new Label(branchName);
+      nameLabel.setId("genericlabel");
+      root.getChildren().add(nameLabel);
     } catch (IOException ex) {
       log.error("Could not retrieve branch name.", ex);
-      AlertBuilder.build(ex).showAndWait();
       return;
     }
-    System.out.print("HOLY SHIT");
-    root.getChildren().clear();
-    root.getChildren().add(new Label(branchName));
+
+
+    try {
+      BranchTrackingStatus statusComparison = BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
+      final Label statusLabel = new Label(Integer.toString(statusComparison.getAheadCount()) + " ⇅ " + statusComparison.getBehindCount());
+      statusLabel.setId("genericlabel");
+      root.getChildren().add(statusLabel);
+    } catch (IOException ex){
+      log.error("Could not get BranchTrackingStatus", ex);
+    }
   }
 
   @Override

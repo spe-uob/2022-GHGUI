@@ -20,7 +20,6 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
-
 @Slf4j
 public final class StatusController implements Initializable, Refreshable {
   private EventBus eventBus;
@@ -81,7 +80,7 @@ public final class StatusController implements Initializable, Refreshable {
   }
 
   @Override
-  public final void refresh() {
+  public void refresh() {
     updateStatus();
   }
 

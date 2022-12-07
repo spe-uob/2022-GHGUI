@@ -31,3 +31,8 @@ rather than defining size, colour, style etc. all on one single line.*/
   background-color: #5663F7;
 
 }
+
+#genericlabel {
+  -fx-text-fill: #FFFFFF;
+  -fx-padding: 5px;
+}
