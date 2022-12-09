@@ -12,6 +12,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.AlertBuilder;
 
 @Slf4j
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
@@ -25,9 +26,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     pcl.source(plotWalk);
     try {
       pcl.fillTo(Integer.MAX_VALUE);
-    } catch (IOException e) {
-      // TODO: Auto-generated catch block
-      e.printStackTrace();
+    } catch (IOException ex) {
+      AlertBuilder.build(ex);
     }
     for (var commit : pcl) {
       currentNode = new Group();

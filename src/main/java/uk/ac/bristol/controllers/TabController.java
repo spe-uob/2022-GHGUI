@@ -19,6 +19,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -92,9 +93,8 @@ public class TabController implements Initializable, Refreshable {
         for (Ref ref : allRefs) {
           plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId()));
         }
-      } catch (IOException e) {
-        // TODO: Auto-generated catch block
-        e.printStackTrace();
+      } catch (IOException ex) {
+        AlertBuilder.build(ex);
       }
       treePane.setContent(plotRenderer.draw(plotWalk));
     }
