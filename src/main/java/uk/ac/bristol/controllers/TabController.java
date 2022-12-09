@@ -29,6 +29,14 @@ import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
+class TerminalConfigThemes {
+  static int genConfig() {
+    return 1;
+  }
+
+  static int a = ret1();
+}
+
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
 public class TabController implements Initializable, Refreshable {
@@ -46,17 +54,17 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   private void push(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @FXML
   private void commit(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @FXML
   private void checkout(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @Override
@@ -65,6 +73,7 @@ public class TabController implements Initializable, Refreshable {
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
 
     final TerminalConfig darkConfig = new TerminalConfig();
+    // TODO: Themeable terminal
     darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));
     darkConfig.setForegroundColor(Color.rgb(240, 240, 240));
     darkConfig.setCursorColor(Color.rgb(255, 0, 0, 0.5));
@@ -91,15 +100,15 @@ public class TabController implements Initializable, Refreshable {
 
     final Repository repo = gitInfo.getGit().getRepository();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
-      final Collection<Ref> allRefs = repo.getAllRefs().values();
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
       try {
+        final Collection<Ref> allRefs = repo.getRefDatabase().getRefs();
         // plotWalk.markStart(plotWalk.parseCommit(repo.findRef("dev").getObjectId()));
         for (Ref ref : allRefs) {
           plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId()));
         }
       } catch (IOException e) {
-        // TODO Auto-generated catch block
+        // TODO: Auto-generated catch block
         e.printStackTrace();
       }
       treePane.setContent(plotRenderer.draw(plotWalk));
