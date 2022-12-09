@@ -13,7 +13,8 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 
 /** Java-git Tools */
-@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 @Slf4j
 public final class JgitUtil {
 

@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
-import com.kodedu.terminalfx.config.TerminalConfig;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
@@ -16,7 +15,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -27,15 +25,8 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
-
-class TerminalConfigThemes {
-  static int genConfig() {
-    return 1;
-  }
-
-  static int a = ret1();
-}
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
@@ -72,13 +63,7 @@ public class TabController implements Initializable, Refreshable {
     statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
 
-    final TerminalConfig darkConfig = new TerminalConfig();
-    // TODO: Themeable terminal
-    darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));
-    darkConfig.setForegroundColor(Color.rgb(240, 240, 240));
-    darkConfig.setCursorColor(Color.rgb(255, 0, 0, 0.5));
-    darkConfig.setUnixTerminalStarter(System.getenv("SHELL"));
-    final TerminalBuilder terminalBuilder = new TerminalBuilder(darkConfig);
+    final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
     terminal.onTerminalFxReady(
         () -> {

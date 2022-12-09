@@ -60,10 +60,15 @@
 
   <module name="TreeWalker">
 
-    <module name="SuppressWithNearbyCommentFilter">
-      <property name="commentFormat" value="CHECKSTYLE:IGNORE ([^ ]+)" />
+    <module name="SuppressionCommentFilter">
+      <property name="messageFormat" value="CHECKSTYLE:IGNORE ([^ ]+)" />
       <property name="checkFormat" value="$1" />
-      <property name="influenceFormat" value="0" />
+    </module>
+
+    <module name="SuppressWithNearbyCommentFilter">
+      <property name="commentFormat" value="CHECKSTYLE:IGNORE ([^ ]+) (\d+)" />
+      <property name="checkFormat" value="$1" />
+      <property name="influenceFormat" value="$2" />
     </module>
 
     <!-- Checks for Javadoc comments.                     -->
