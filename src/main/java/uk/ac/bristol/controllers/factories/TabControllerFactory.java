@@ -9,7 +9,8 @@ import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.TabController;
 
-@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 public final class TabControllerFactory {
   private static final String FILE_NAME = "tab.fxml";
   private static final URL COMPONENT =

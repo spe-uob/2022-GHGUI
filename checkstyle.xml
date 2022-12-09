@@ -55,7 +55,7 @@
   </module>
 
   <module name="BeforeExecutionExclusionFileFilter">
-    <property name="fileNamePattern" value="src/main/java/module\-info\.java$" />
+    <property name="fileNamePattern" value="src/main/((java/module\-info\.java)|(resources/.*))$" />
   </module>
 
   <module name="TreeWalker">

@@ -20,7 +20,7 @@ public class TerminalConfigThemes {
           });
 
   static TerminalConfig build(final Supplier<TerminalConfig> f) {
-    var conf = f.get();
+    final var conf = f.get();
     conf.setUnixTerminalStarter(System.getenv("SHELL"));
     return conf;
   }
