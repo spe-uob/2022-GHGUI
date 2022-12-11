@@ -11,13 +11,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 public class InformationController implements Initializable, Refreshable {
   private EventBus eventBus;
@@ -32,32 +31,30 @@ public class InformationController implements Initializable, Refreshable {
   }
 
   private void generateComponents() {
-    try {
-      final Button[] repoButtons =
-          gitInfo.getGit().branchList().call().stream()
-              .map(
-                  ref -> {
-                    final Button button =
-                        new Button(ref.getName().substring("refs/heads/".length()));
-                    button.setPrefWidth(Double.MAX_VALUE);
-                    button.setAlignment(Pos.BASELINE_LEFT);
-                    return button;
-                  })
-              .toArray(Button[]::new);
-      local.getChildren().addAll(repoButtons);
-    } catch (GitAPIException ex) {
-      AlertBuilder.build(ex).showAndWait();
-    }
+    final Button[] repoButtons =
+        ErrorHandler.deferredCatch(
+            () ->
+                gitInfo.getGit().branchList().call().stream()
+                    .map(
+                        ref -> {
+                          final Button button =
+                              new Button(ref.getName().substring("refs/heads/".length()));
+                          button.setPrefWidth(Double.MAX_VALUE);
+                          button.setAlignment(Pos.BASELINE_LEFT);
+                          return button;
+                        })
+                    .toArray(Button[]::new));
+    local.getChildren().addAll(repoButtons);
 
-    try {
-      final TitledPane[] remotes =
-          gitInfo.getGit().remoteList().call().stream()
-              .map(remoteConfig -> RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
-              .toArray(TitledPane[]::new);
-      remote.getChildren().addAll(remotes);
-    } catch (GitAPIException ex) {
-      AlertBuilder.build(ex).showAndWait();
-    }
+    final TitledPane[] remotes =
+        ErrorHandler.deferredCatch(
+            () ->
+                gitInfo.getGit().remoteList().call().stream()
+                    .map(
+                        remoteConfig ->
+                            RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
+                    .toArray(TitledPane[]::new));
+    remote.getChildren().addAll(remotes);
   }
 
   @Override

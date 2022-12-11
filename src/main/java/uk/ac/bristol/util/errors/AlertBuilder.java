@@ -1,4 +1,4 @@
-package uk.ac.bristol;
+package uk.ac.bristol.util.errors;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -15,14 +15,14 @@ public final class AlertBuilder {
     }
     String msg = "Caused by: ";
     msg += ex.toString() + '\n';
-    boolean useful = false;
+    // boolean useful = false;
     for (var st : ex.getStackTrace()) {
       final var str = st.toString();
-      if (str.contains(AlertBuilder.class.getModule().getName())) {
-        useful = true;
-      } else if (!useful) {
-        continue;
-      }
+      // if (str.contains(AlertBuilder.class.getModule().getName())) {
+      //   useful = true;
+      // } else if (!useful) {
+      //   continue;
+      // }
       if (str.contains("reflect")) {
         msg += "\t...\n";
         break;
@@ -33,7 +33,6 @@ public final class AlertBuilder {
   }
 
   public static Alert build(final Exception ex) {
-    // TODO: provide more concise error messages (exclude reflection from stack trace)
     final Alert alert = new Alert(AlertType.ERROR);
     alert.setResizable(true);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");

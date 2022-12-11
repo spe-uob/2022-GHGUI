@@ -12,16 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Status;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
-@Slf4j
 public final class StatusController implements Initializable, Refreshable {
   // private EventBus eventBus;
   private GitInfo gitInfo;
@@ -54,21 +51,16 @@ public final class StatusController implements Initializable, Refreshable {
   }
 
   private void updateStatus() {
-    try {
-      final Status status = gitInfo.getGit().status().call();
-      updateGridPane(addedGridPane, status.getAdded());
-      updateGridPane(changedGridPane, status.getChanged());
-      updateGridPane(conflictingGridPane, status.getConflicting());
-      updateGridPane(missingGridPane, status.getMissing());
-      updateGridPane(modifiedGridPane, status.getModified());
-      updateGridPane(removedGridPane, status.getRemoved());
-      updateGridPane(untrackedGridPane, status.getUntracked());
+    final var git = gitInfo.getGit();
 
-    } catch (GitAPIException e) {
-      log.error("Could not get git status.", e);
-      AlertBuilder.build(e);
-      return;
-    }
+    final Status status = ErrorHandler.deferredCatch(git.status()::call);
+    updateGridPane(addedGridPane, status.getAdded());
+    updateGridPane(changedGridPane, status.getChanged());
+    updateGridPane(conflictingGridPane, status.getConflicting());
+    updateGridPane(missingGridPane, status.getMissing());
+    updateGridPane(modifiedGridPane, status.getModified());
+    updateGridPane(removedGridPane, status.getRemoved());
+    updateGridPane(untrackedGridPane, status.getUntracked());
   }
 
   private void updateGridPane(final GridPane pane, final Set<String> contents) {
