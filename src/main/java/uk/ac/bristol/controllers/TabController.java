@@ -193,7 +193,7 @@ public class TabController implements Initializable, Refreshable {
                   () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
             }
           });
-      treePane.setContent(plotRenderer.draw(plotWalk));
+      ErrorHandler.tryWith(() -> plotRenderer.draw(plotWalk), treePane::setContent);
     }
   }
 
