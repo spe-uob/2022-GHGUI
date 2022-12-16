@@ -1,9 +1,11 @@
 package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
+import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -50,6 +52,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
 
       paintCommit(commit, ROW_HEIGHT);
       treeView.getChildren().add(currentNode);
+      treeView.getChildren().add(new Separator(Orientation.HORIZONTAL));
     }
     treeView.layout();
     return treeView;
@@ -98,18 +101,19 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     circle.setCenterX(Math.floor(x + w / 2) + 1);
     circle.setCenterY(Math.floor(y + h / 2));
     circle.setRadius(Math.floor(w / 2));
-
     circle.setFill(Color.DARKGRAY);
+
     final Circle innerCircle = new Circle();
     innerCircle.setCenterX(Math.floor(x + w / 2 + 1));
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.WHITE);
+
     currentNode.getChildren().add(circle);
     currentNode.getChildren().add(innerCircle);
 
-    final Circle hoverbox = new Circle();
     final int radiusOverdraw = 5;
+    final Circle hoverbox = new Circle();
     hoverbox.setCenterX(Math.floor(x + w / 2) + 1);
     hoverbox.setCenterY(Math.floor(y + h / 2));
     hoverbox.setRadius(Math.floor(w / 2 + radiusOverdraw));
@@ -119,8 +123,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final String desc = currentCommit.getId().getName() + "\n\n" + currentCommit.getFullMessage();
 
     final Pane pane = new Pane(new Label(desc));
-
-    pane.setPrefSize(-1, -1);
+    pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
     pane.setStyle("-fx-background-color: white;");
     final Popup p = new Popup();
     p.getContent().add(pane);
@@ -131,10 +134,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
             (observable, oldValue, newValue) -> {
               if (newValue) {
                 final Point2D bnds = circle.localToScreen(x + w, y + w);
-                System.out.println("Screen space:" + bnds.getX() + " " + bnds.getY());
                 p.show(currentNode, bnds.getX(), bnds.getY());
               } else {
-                System.out.println("hiding popup");
                 p.hide();
               }
             });
