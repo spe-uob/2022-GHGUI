@@ -5,9 +5,11 @@ import java.util.function.Supplier;
 import javafx.scene.paint.Color;
 import lombok.experimental.UtilityClass;
 
+/** Class for default terminal themes. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public class TerminalConfigThemes {
+  /** Dark theme. */
   public static final TerminalConfig DARK_CONFIG =
       build(
           () -> {
@@ -19,6 +21,12 @@ public class TerminalConfigThemes {
             return conf;
           });
 
+  /**
+   * Function for constructing configs.
+   *
+   * @param f Lambda to generate a TerminalConfig
+   * @return The TerminalConfig
+   */
   static TerminalConfig build(final Supplier<TerminalConfig> f) {
     final var conf = f.get();
     conf.setUnixTerminalStarter(System.getenv("SHELL"));

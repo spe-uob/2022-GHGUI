@@ -12,18 +12,19 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
-/** Java-git Tools */
+/** Utility class containing static methods for interfacing with JGit. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 @Slf4j
 public final class JgitUtil {
 
   /**
-   * Clone a remote repository
+   * Clone a remote repository.
    *
-   * @param url url for the remote git repository
-   * @param destination directory for the repo to be cloned into
-   * @param auth git credentials
+   * @param url Url for the remote git repository
+   * @param destination Directory for the repo to be cloned into
+   * @param auth Git credentials
+   * @return The cloned git object
    */
   public static Git cloneRepository(
       final String url, final File destination, final CredentialsProvider auth) {
@@ -37,10 +38,10 @@ public final class JgitUtil {
   }
 
   /**
-   * checkout branch
+   * Checkout branch.
    *
-   * @param gitInfo shared git information
-   * @param branchName branch to checkout
+   * @param gitInfo Shared git information
+   * @param branchName Branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
     final var git = gitInfo.getGit();
@@ -49,10 +50,10 @@ public final class JgitUtil {
   }
 
   /**
-   * Submit code
+   * Commit and push on the current branch.
    *
-   * @param gitInfo shared git information
-   * @param pushMessage Submit Information
+   * @param gitInfo Shared git information
+   * @param pushMessage Message for commit
    */
   public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
     final var git = gitInfo.getGit();
@@ -62,7 +63,7 @@ public final class JgitUtil {
   }
 
   /**
-   * Create new branch
+   * Create new branch.
    *
    * @param gitInfo shared git information
    * @param branchName name of new branch to make
@@ -102,13 +103,12 @@ public final class JgitUtil {
   }
 
   /**
-   * get credentials provider
+   * Get credentials provider. TODO: Add support for ssh login and passwords
    *
    * @param gitUser git account
    * @param getPassword git password
    * @return UsernamePasswordCredentialsProvider
    */
-  // TODO: Switch to ssh credentials provider, as simple username+password login is deprecated
   public static UsernamePasswordCredentialsProvider getCredentialsProvider(
       final String gitUser, final String getPassword) {
     log.info("get credentials provider user:{},password:{}", gitUser, getPassword);
@@ -121,7 +121,7 @@ public final class JgitUtil {
   }
 
   /**
-   * Traverse recursively delete folders
+   * Traverse recursively delete folders.
    *
    * @param dirFile file or directory to be deleted
    * @return Delete successfully returned true, otherwise return false

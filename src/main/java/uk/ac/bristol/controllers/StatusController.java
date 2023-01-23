@@ -19,30 +19,48 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
+/** The FXML controller for the right-side status bar. */
 public final class StatusController implements Initializable, Refreshable {
-  // private EventBus eventBus;
-  private GitInfo gitInfo;
-  @FXML private TitledPane root;
-  @FXML private GridPane addedGridPane;
-  @FXML private GridPane changedGridPane;
-  @FXML private GridPane conflictingGridPane;
-  @FXML private GridPane missingGridPane;
-  @FXML private GridPane modifiedGridPane;
-  @FXML private GridPane removedGridPane;
-  @FXML private GridPane untrackedGridPane;
 
+  // /** The event bus used for refresh events for this tab. */
+  // private EventBus eventBus;
+
+  /** Information about the git object assigned to this tab. */
+  private GitInfo gitInfo;
+
+  /** The root pane for this controller. */
+  @FXML private TitledPane root;
+
+  /** Panes for displaying status information. */
+  @FXML
+  private GridPane addedGridPane,
+      changedGridPane,
+      conflictingGridPane,
+      missingGridPane,
+      modifiedGridPane,
+      removedGridPane,
+      untrackedGridPane;
+
+  /**
+   * Construct a new StatusController and register it on the EventBus.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
   public StatusController(final EventBus eventBus, final GitInfo gitInfo) {
     // this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
+  /** TODO: Remove. */
   @FXML
   private void mouseClicked(final Event e) {
     System.out.println("Mouse clicked on a button. Event details below:");
     System.out.println(e);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
@@ -50,6 +68,7 @@ public final class StatusController implements Initializable, Refreshable {
     updateStatus();
   }
 
+  /** Refresh the contents of all status information grid panes. */
   private void updateStatus() {
     final var git = gitInfo.getGit();
 
@@ -63,6 +82,12 @@ public final class StatusController implements Initializable, Refreshable {
     updateGridPane(untrackedGridPane, status.getUntracked());
   }
 
+  /**
+   * Clear labels from the grid pane and replace them with updated labels.
+   *
+   * @param pane The pane to update
+   * @param contents A set of strings to add to the pane as Labels
+   */
   private void updateGridPane(final GridPane pane, final Set<String> contents) {
     pane.getChildren().clear();
     int i = 0;
@@ -72,11 +97,13 @@ public final class StatusController implements Initializable, Refreshable {
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   public void refresh() {
     updateStatus();
   }
 
+  /** {@inheritDoc} */
   @Override
   @Subscribe
   public void onRefreshEvent(final RefreshEvent event) {
