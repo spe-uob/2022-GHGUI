@@ -26,14 +26,34 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
+/** The FXML controller for each remote repo inside the information bar. */
 public class RemoteController implements Initializable, Refreshable {
+
+  /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
+
+  /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
+
+  /** The remote repo corresponding to this controller. */
   private RemoteConfig remote;
+
+  /** The root pane for this controller. */
   @FXML private TitledPane root;
+
+  /** Container for buttons corresponding to branches. */
   @FXML private VBox container;
+
+  /** HBox containing buttons for fetching and pruning a repo. */
   @FXML private HBox buttons;
 
+  /**
+   * Construct a new RemoteController and register it on the EventBus.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   * @param remote The remote repo corresponding to this controller
+   */
   public RemoteController(
       final EventBus eventBus, final GitInfo gitInfo, final RemoteConfig remote) {
     this.eventBus = eventBus;
@@ -42,6 +62,7 @@ public class RemoteController implements Initializable, Refreshable {
     this.remote = remote;
   }
 
+  /** Generate all the buttons for every branch of every repo. */
   private void generateButtons() {
     final Pattern pattern = Pattern.compile("refs/remotes/(.*)/(.*)");
     final ObservableList<Button> buttons =
@@ -67,6 +88,7 @@ public class RemoteController implements Initializable, Refreshable {
     container.getChildren().addAll(buttons);
   }
 
+  /** Function to fetch from the remote repo. */
   @FXML
   private void fetch() {
     System.out.println(
@@ -78,6 +100,7 @@ public class RemoteController implements Initializable, Refreshable {
     refresh();
   }
 
+  /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
     final GC gc = new GC((FileRepository) gitInfo.getGit().getRepository());
@@ -85,6 +108,7 @@ public class RemoteController implements Initializable, Refreshable {
     refresh();
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
     root.setText(remote.getName());
@@ -92,12 +116,14 @@ public class RemoteController implements Initializable, Refreshable {
     generateButtons();
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void refresh() {
     container.getChildren().removeIf(child -> child != buttons);
     generateButtons();
   }
 
+  /** {@inheritDoc} */
   @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
