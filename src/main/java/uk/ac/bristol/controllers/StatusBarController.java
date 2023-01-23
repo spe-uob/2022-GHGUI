@@ -10,25 +10,38 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
-@Slf4j
+/** The FXML controller for the bottom status bar */
 public final class StatusBarController implements Initializable, Refreshable {
+  
+  /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
+
+  /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
+
+  /** The root pane for this controller. */
   @FXML private HBox root;
 
+  /** 
+   * Construct a new StatusBarController and register it on the EventBus.
+   * 
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
   public StatusBarController(final EventBus eventbus, final GitInfo gitInfo) {
     this.eventBus = eventbus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
@@ -36,6 +49,7 @@ public final class StatusBarController implements Initializable, Refreshable {
     refresh();
   }
 
+  /** {@inheritDoc} */
   @Override
   public void refresh() {
     root.getChildren().clear();
@@ -46,7 +60,7 @@ public final class StatusBarController implements Initializable, Refreshable {
       nameLabel.setId("genericlabel");
       root.getChildren().add(nameLabel);
     } catch (IOException ex) {
-      log.error("Could not retrieve branch name.", ex);
+      ErrorHandler.handle(ex);
       return;
     }
 
@@ -65,10 +79,11 @@ public final class StatusBarController implements Initializable, Refreshable {
       statusLabel.setId("genericlabel");
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {
-      log.error("Could not get BranchTrackingStatus", ex);
+      ErrorHandler.handle(ex);
     }
   }
 
+  /** {@inheritDoc} */
   @Override
   @Subscribe
   public void onRefreshEvent(final RefreshEvent event) {
