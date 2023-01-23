@@ -14,7 +14,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -46,8 +45,8 @@ public class TabController implements Initializable, Refreshable {
   @FXML private AnchorPane statusPane, informationPane, terminalPane;
   /** The pane used for the bottom status brief. */
   @FXML private HBox statusBarHBox;
-  
-    /** The pane used for the central tree view. */
+
+  /** The pane used for the central tree view. */
   @FXML private ScrollPane treePane;
 
   /**

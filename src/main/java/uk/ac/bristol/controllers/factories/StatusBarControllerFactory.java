@@ -6,9 +6,9 @@ import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.extern.slf4j.Slf4j;
-import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.controllers.StatusBarController;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.AlertBuilder;
 
 @Slf4j // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
 public final class StatusBarControllerFactory {
