@@ -3,12 +3,18 @@ package uk.ac.bristol.util.errors;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
+import lombok.experimental.UtilityClass;
 
+/** Provides methods for constructing JavaFX alerts from Exceptions. */
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 public final class AlertBuilder {
-  private AlertBuilder() {
-    throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
-  }
-
+  /**
+   * Create a concise error message from an Exception.
+   *
+   * @param ex The exception to build the message from
+   * @return A string containing the message
+   */
   private static String conciseMessage(final Throwable ex) {
     if (ex == null) {
       return "";
@@ -32,6 +38,12 @@ public final class AlertBuilder {
     return msg + '\n' + conciseMessage(ex.getCause());
   }
 
+  /**
+   * Create an alert from an Exception.
+   *
+   * @param ex The exception to build the message from
+   * @return A string containing the message
+   */
   public static Alert build(final Exception ex) {
     final Alert alert = new Alert(AlertType.ERROR);
     alert.setResizable(true);

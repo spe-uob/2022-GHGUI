@@ -7,14 +7,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/** Base class to start JavaFX application. */
 public class App extends Application {
 
+  /** Initial dimensions of the window. */
   private static final int INITIAL_HEIGHT = 500, INITIAL_WIDTH = 800;
 
+  /**
+   * Entry point for java, only servers to launch the gui.
+   *
+   * @param args command-line arguments to the application
+   */
   public static void main(final String[] args) {
     launch(args);
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void start(final Stage primaryStage) throws IOException {
 

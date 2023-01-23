@@ -8,16 +8,26 @@ import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.TabController;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
+/** A class for building TabController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class TabControllerFactory {
+  /** The filename of the fxml file for building the TabController. */
   private static final String FILE_NAME = "tab.fxml";
+
+  /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
       TabControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
-  public static Parent build(final Git repo) {
+  /**
+   * Construct a new TabController.
+   *
+   * @param git The git object associated to this tab
+   * @return The loaded FXML object for TabController
+   */
+  public static Parent build(final Git git) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(__ -> new TabController(repo));
+    loader.setControllerFactory(__ -> new TabController(git));
     return ErrorHandler.deferredCatch(() -> loader.load());
   }
 }

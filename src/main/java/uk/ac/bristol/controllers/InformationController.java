@@ -18,18 +18,34 @@ import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
+/** The FXML controller for the left-side repo and branch information component. */
 public class InformationController implements Initializable, Refreshable {
+
+  /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
+
+  /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
+
+  /** The root pane for this controller. */
   @FXML private TitledPane root;
+
+  /** Used for displaying information. */
   @FXML private VBox local, remote;
 
+  /**
+   * Construct a new InformationController and register it on the EventBus.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
   public InformationController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
+  /** Load all the components to display information about the local and remote branches. */
   private void generateComponents() {
     final Button[] repoButtons =
         ErrorHandler.deferredCatch(
@@ -57,6 +73,7 @@ public class InformationController implements Initializable, Refreshable {
     remote.getChildren().addAll(remotes);
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
@@ -64,6 +81,7 @@ public class InformationController implements Initializable, Refreshable {
     generateComponents();
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void refresh() {
     remote.getChildren().clear();
@@ -71,6 +89,7 @@ public class InformationController implements Initializable, Refreshable {
     generateComponents();
   }
 
+  /** {@inheritDoc} */
   @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {
