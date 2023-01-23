@@ -53,11 +53,17 @@ public final class StatusBarController implements Initializable, Refreshable {
     try {
       BranchTrackingStatus statusComparison =
           BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
-      final Label statusLabel =
-          new Label(
-              Integer.toString(statusComparison.getAheadCount())
-                  + " ⇅ "
-                  + statusComparison.getBehindCount());
+
+      final Label statusLabel;
+      if (statusComparison != null) {
+        statusLabel =
+        new Label(
+            Integer.toString(statusComparison.getAheadCount())
+                + " ⇅ "
+                + statusComparison.getBehindCount());
+      } else {
+        statusLabel = new Label("...no remote detected.");
+      }
       statusLabel.setId("genericlabel");
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {
