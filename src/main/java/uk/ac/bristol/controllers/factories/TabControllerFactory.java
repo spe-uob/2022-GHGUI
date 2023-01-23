@@ -13,11 +13,11 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 @UtilityClass
 public final class TabControllerFactory {
   /** The filename of the fxml file for building the TabController. */
-  private static final String FILE_NAME = "tab.fxml";
+  private static final String FILE_PATH = "fxml-resources/tab.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
-      TabControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+      TabControllerFactory.class.getClassLoader().getResource(FILE_PATH);
 
   /**
    * Construct a new TabController.
