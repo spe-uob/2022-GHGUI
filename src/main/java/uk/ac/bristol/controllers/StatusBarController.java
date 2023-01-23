@@ -42,7 +42,7 @@ public final class StatusBarController implements Initializable, Refreshable {
     final String branchName;
     try {
       branchName = gitInfo.getGit().getRepository().getBranch();
-      final Label nameLabel = new Label(branchName);
+      final Label nameLabel = new Label("Checked-out: " + branchName);
       nameLabel.setId("genericlabel");
       root.getChildren().add(nameLabel);
     } catch (IOException ex) {
@@ -58,9 +58,10 @@ public final class StatusBarController implements Initializable, Refreshable {
       if (statusComparison != null) {
         statusLabel =
         new Label(
-            Integer.toString(statusComparison.getAheadCount())
-                + " ⇅ "
-                + statusComparison.getBehindCount());
+            "↑"
+            + statusComparison.getAheadCount()
+            + " ↓"
+            + statusComparison.getBehindCount());
       } else {
         statusLabel = new Label("...no remote detected.");
       }
