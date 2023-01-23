@@ -1,6 +1,5 @@
 package uk.ac.bristol.util.plots;
 
-import java.io.IOException;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -12,7 +11,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
-import uk.ac.bristol.AlertBuilder;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 @Slf4j
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
@@ -24,11 +23,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final VBox treeView = new VBox();
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
-    try {
-      pcl.fillTo(Integer.MAX_VALUE);
-    } catch (IOException ex) {
-      AlertBuilder.build(ex);
-    }
+    ErrorHandler.deferredCatch(
+        () -> {
+          pcl.fillTo(Integer.MAX_VALUE);
+        });
     for (var commit : pcl) {
       currentNode = new Group();
       paintCommit(commit, ROW_HEIGHT);

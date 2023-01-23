@@ -10,8 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 // This class contains functions that can be
 // assigned to Events on objects in javafx-scenebuilder
@@ -31,17 +31,16 @@ public class MainController {
         new RepositoryBuilder().findGitDir(selectedDirectory);
     final File gitDirectory = repositoryBuilder.getGitDir();
 
-    if (gitDirectory != null) {
-      final Tab tab = new Tab(gitDirectory.getParentFile().getName());
-      try {
-        tab.setContent(
-            TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
-      } catch (IOException ex) {
-        AlertBuilder.build(ex).showAndWait();
-      }
-      tabs.getTabs().add(tab);
-    } else {
-      AlertBuilder.build(new IOException()).showAndWait();
+    if (gitDirectory == null) {
+      ErrorHandler.handle(new IOException());
+      return;
     }
+
+    final Tab tab = new Tab(gitDirectory.getParentFile().getName());
+    ErrorHandler.deferredCatch(
+        () ->
+            tab.setContent(
+                TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build()))));
+    tabs.getTabs().add(tab);
   }
 }

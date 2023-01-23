@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -19,7 +18,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -27,6 +25,7 @@ import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
+import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 // This class contains functions that can be
@@ -87,14 +86,11 @@ public class TabController implements Initializable, Refreshable {
     final Repository repo = gitInfo.getGit().getRepository();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
-      try {
-        final Collection<Ref> allRefs = repo.getRefDatabase().getRefs();
-        // plotWalk.markStart(plotWalk.parseCommit(repo.findRef("dev").getObjectId()));
-        for (Ref ref : allRefs) {
-          plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId()));
-        }
-      } catch (IOException ex) {
-        AlertBuilder.build(ex);
+      final Collection<Ref> allRefs =
+          ErrorHandler.deferredCatch(() -> repo.getRefDatabase().getRefs());
+      for (Ref ref : allRefs) {
+        ErrorHandler.deferredCatch(
+            () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
       }
       treePane.setContent(plotRenderer.draw(plotWalk));
     }
