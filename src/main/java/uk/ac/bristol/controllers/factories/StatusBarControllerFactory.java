@@ -1,14 +1,12 @@
 package uk.ac.bristol.controllers.factories;
 
 import com.google.common.eventbus.EventBus;
-import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.controllers.StatusBarController;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.errors.AlertBuilder;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building StatusBarController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -21,7 +19,7 @@ public final class StatusBarControllerFactory {
   private static final URL COMPONENT =
       StatusBarControllerFactory.class.getClassLoader().getResource(FILE_NAME);
 
-    /**
+  /**
    * Construct a new StatusBarController.
    *
    * @param eventBus The EventBus shared by this tab

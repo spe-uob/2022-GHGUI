@@ -19,7 +19,7 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the bottom status bar */
 public final class StatusBarController implements Initializable, Refreshable {
-  
+
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
 
@@ -29,9 +29,9 @@ public final class StatusBarController implements Initializable, Refreshable {
   /** The root pane for this controller. */
   @FXML private HBox root;
 
-  /** 
+  /**
    * Construct a new StatusBarController and register it on the EventBus.
-   * 
+   *
    * @param eventBus The event bus used for refresh events for this tab
    * @param gitInfo Information about the git object assigned to this tab
    */
