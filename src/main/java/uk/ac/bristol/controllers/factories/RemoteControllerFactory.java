@@ -15,11 +15,11 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 @UtilityClass
 public final class RemoteControllerFactory {
   /** The filename of the fxml file for building the RemoteController. */
-  private static final String FILE_NAME = "remote.fxml";
+  private static final String FILE_PATH = "fxml-resources/remote.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
-      RemoteControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+      RemoteControllerFactory.class.getClassLoader().getResource(FILE_PATH);
 
   /**
    * Construct a new RemoteController.

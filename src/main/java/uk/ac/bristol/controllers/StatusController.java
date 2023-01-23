@@ -5,7 +5,6 @@ import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -51,13 +50,6 @@ public final class StatusController implements Initializable, Refreshable {
     // this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
-  }
-
-  /** TODO: Remove. */
-  @FXML
-  private void mouseClicked(final Event e) {
-    System.out.println("Mouse clicked on a button. Event details below:");
-    System.out.println(e);
   }
 
   /** {@inheritDoc} */

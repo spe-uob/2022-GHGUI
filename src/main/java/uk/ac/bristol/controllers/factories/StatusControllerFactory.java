@@ -14,11 +14,11 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 @UtilityClass
 public final class StatusControllerFactory {
   /** The filename of the fxml file for building the StatusController. */
-  private static final String FILE_NAME = "status.fxml";
+  private static final String FILE_PATH = "fxml-resources/status.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
-      StatusControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+      StatusControllerFactory.class.getClassLoader().getResource(FILE_PATH);
 
   /**
    * Construct a new StatusController.

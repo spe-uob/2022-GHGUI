@@ -13,12 +13,12 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class InformationControllerFactory {
-  /** The filename of the FXML file for building the InformationController. */
-  private static final String FILE_NAME = "information.fxml";
+  /** The filename of the fxml file for building the InformationController. */
+  private static final String FILE_PATH = "fxml-resources/information.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
-      InformationControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+      InformationControllerFactory.class.getClassLoader().getResource(FILE_PATH);
 
   /**
    * Construct a new InformationController.

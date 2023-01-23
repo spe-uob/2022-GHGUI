@@ -13,11 +13,11 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 public final class StatusBarControllerFactory {
 
   /** The filename of the fxml file for building the StatusController. */
-  private static final String FILE_NAME = "statusbar.fxml";
+  private static final String FILE_PATH = "fxml-resources/statusbar.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
   private static final URL COMPONENT =
-      StatusBarControllerFactory.class.getClassLoader().getResource(FILE_NAME);
+      StatusBarControllerFactory.class.getClassLoader().getResource(FILE_PATH);
 
   /**
    * Construct a new StatusBarController.
