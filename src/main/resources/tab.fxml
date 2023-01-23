@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <VBox prefHeight="504.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <children>
@@ -33,14 +32,6 @@
             <AnchorPane fx:id="statusPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
          </items>
       </SplitPane>
-      <HBox alignment="CENTER" styleClass="tab-pane">
-         <children>
-            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Status, info, etc.">
-               <HBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
-               </HBox.margin>
-            </Text>
-         </children>
-      </HBox>
+      <HBox alignment="CENTER" minHeight="30.0" styleClass="tab-pane" />
    </children>
 </VBox>

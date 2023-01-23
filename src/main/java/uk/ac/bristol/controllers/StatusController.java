@@ -53,13 +53,6 @@ public final class StatusController implements Initializable, Refreshable {
     this.gitInfo = gitInfo;
   }
 
-  /** TODO: Remove. */
-  @FXML
-  private void mouseClicked(final Event e) {
-    System.out.println("Mouse clicked on a button. Event details below:");
-    System.out.println(e);
-  }
-
   /** {@inheritDoc} */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {

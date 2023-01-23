@@ -31,3 +31,13 @@ rather than defining size, colour, style etc. all on one single line.*/
   background-color: #5663F7;
 
 }
+
+.titledPane {
+  -fx-color: #5663F7;
+
+}
+
+.titledPaneContents {
+  -fx-background-color: #23272A;
+
+}
