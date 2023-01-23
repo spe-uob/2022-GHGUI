@@ -5,15 +5,16 @@ import java.util.List;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.util.StringUtils;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** Java-git Tools */
-@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 @Slf4j
 public final class JgitUtil {
 
@@ -26,17 +27,13 @@ public final class JgitUtil {
    */
   public static Git cloneRepository(
       final String url, final File destination, final CredentialsProvider auth) {
-    try {
-      return Git.cloneRepository()
-          .setURI(url)
-          .setDirectory(destination)
-          .setCloneAllBranches(true)
-          .setCredentialsProvider(auth)
-          .call();
-    } catch (Exception e) {
-      log.error("cloneRepository error:{}", e.getMessage(), e);
-      return null;
-    }
+    return ErrorHandler.deferredCatch(
+        Git.cloneRepository()
+                .setURI(url)
+                .setDirectory(destination)
+                .setCloneAllBranches(true)
+                .setCredentialsProvider(auth)
+            ::call);
   }
 
   /**
@@ -46,12 +43,9 @@ public final class JgitUtil {
    * @param branchName branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    try {
-      gitInfo.getGit().checkout().setCreateBranch(false).setName(branchName).call();
-      gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
-    } catch (Exception e) {
-      log.error("checkoutBranch error:{}", e.getMessage(), e);
-    }
+    final var git = gitInfo.getGit();
+    ErrorHandler.deferredCatch(git.checkout().setCreateBranch(false).setName(branchName)::call);
+    // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
   /**
@@ -61,12 +55,10 @@ public final class JgitUtil {
    * @param pushMessage Submit Information
    */
   public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
-    try {
-      gitInfo.getGit().commit().setMessage(pushMessage).call();
-      gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
-    } catch (GitAPIException ex) {
-      log.error("commitAndPush error:{}", ex.getMessage(), ex);
-    }
+    final var git = gitInfo.getGit();
+    ErrorHandler.deferredCatch(git.commit().setMessage(pushMessage)::call);
+
+    // gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
   /**
@@ -76,41 +68,37 @@ public final class JgitUtil {
    * @param branchName name of new branch to make
    */
   public static void newBranch(final GitInfo gitInfo, final String branchName) {
-    try {
-      // Check whether the new branch already exists, if so, delete the existing branch forcibly and
-      // create a new branch
-      // users?
-      // Probably best we instead prompt the user if they want to overwrite
-      final List<Ref> refs = gitInfo.getGit().branchList().call();
-      for (Ref ref : refs) {
-        final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
-        if (bName.equals(branchName)) {
-          //                    log.info("The branch already exists, delete it and create a new
-          // one;{}", baranchName);
-          // delete local branch
-          gitInfo.getGit().branchDelete().setBranchNames(bName).setForce(true).call();
+    // Check whether the new branch already exists, if so, delete the existing branch forcibly and
+    // create a new branch
+    // users?
+    // Probably best we instead prompt the user if they want to overwrite
+    final var git = gitInfo.getGit();
+    final List<Ref> refs = ErrorHandler.deferredCatch(git.branchList()::call);
+    for (Ref ref : refs) {
+      final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
+      if (bName.equals(branchName)) {
+        // log.info("The branch already exists, delete it and create a new
+        // one;{}", baranchName);
+        // delete local branch
+        ErrorHandler.deferredCatch(git.branchDelete().setBranchNames(bName).setForce(true)::call);
 
-          // delete remote branch
+        // delete remote branch
 
-          final RefSpec refSpec3 =
-              new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
+        final RefSpec refSpec3 =
+            new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
-          gitInfo
-              .getGit()
-              .push()
-              .setRefSpecs(refSpec3)
-              .setRemote("origin")
-              .setCredentialsProvider(gitInfo.getAuth())
-              .call();
-          break;
-        }
+        ErrorHandler.deferredCatch(
+            git.push()
+                    .setRefSpecs(refSpec3)
+                    .setRemote("origin")
+                    .setCredentialsProvider(gitInfo.getAuth())
+                ::call);
+        break;
       }
-      // new branch
-      final Ref ref = gitInfo.getGit().branchCreate().setName(branchName).call();
-      gitInfo.getGit().push().add(ref).setCredentialsProvider(gitInfo.getAuth()).call();
-    } catch (Exception ex) {
-      log.error("newBranch error:{}", ex.getMessage(), ex);
     }
+    // new branch
+    final Ref ref = ErrorHandler.deferredCatch(git.branchCreate().setName(branchName)::call);
+    ErrorHandler.deferredCatch(git.push().add(ref).setCredentialsProvider(gitInfo.getAuth())::call);
   }
 
   /**

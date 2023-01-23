@@ -1,6 +1,5 @@
 package uk.ac.bristol.util.plots;
 
-import java.io.IOException;
 import javafx.scene.Group;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -12,24 +11,25 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 @Slf4j
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
+  private static final int ROW_HEIGHT = 50;
+
   private Group currentNode;
 
   public final VBox draw(final PlotWalk plotWalk) {
     final VBox treeView = new VBox();
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
-    try {
-      pcl.fillTo(Integer.MAX_VALUE);
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    ErrorHandler.deferredCatch(
+        () -> {
+          pcl.fillTo(Integer.MAX_VALUE);
+        });
     for (var commit : pcl) {
       currentNode = new Group();
-      paintCommit(commit, 50);
+      paintCommit(commit, ROW_HEIGHT);
       treeView.getChildren().add(currentNode);
     }
     treeView.layout();
@@ -55,7 +55,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
     currentNode.getChildren().add(text);
-    return (int) Math.floor(10 + width);
+    final int offset = 10;
+    return (int) Math.floor(offset + width);
   }
 
   @Override
@@ -64,11 +65,9 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final Line path = new Line(x1, y1, x2, y2);
     path.setStrokeWidth(width);
     path.setStroke(color);
-    // XXX: Without this circle, all the lines will be off.
     final Circle placeHolder = new Circle();
     currentNode.getChildren().add(placeHolder);
     currentNode.getChildren().add(path);
-    log.info("Drawing line from ({},{}) to ({},{})", x1, y1, x2, y2);
   }
 
   @Override

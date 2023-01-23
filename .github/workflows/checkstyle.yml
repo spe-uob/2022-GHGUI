@@ -10,4 +10,5 @@ jobs:
       - uses: dbelyaev/action-checkstyle@v0.6.1
         with:
           checkstyle_config: checkstyle.xml
+          workdir: src
           level: warning
