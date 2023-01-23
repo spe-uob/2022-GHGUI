@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.controllers.StatusBarController;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.AlertBuilder;
 
 /** A class for building StatusBarController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
