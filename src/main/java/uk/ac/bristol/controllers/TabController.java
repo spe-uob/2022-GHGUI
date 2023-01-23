@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -21,6 +22,7 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
@@ -41,6 +43,8 @@ public class TabController implements Initializable, Refreshable {
 
   /** The panes used for child FXML controllers. */
   @FXML private AnchorPane statusPane, informationPane, terminalPane;
+  /** The pane used for the bottom status brief. */
+  @FXML private HBox statusBarHBox;
 
   /** The pane used for the central tree view. */
   @FXML private ScrollPane treePane;
@@ -79,6 +83,7 @@ public class TabController implements Initializable, Refreshable {
   public final void initialize(final URL location, final ResourceBundle resources) {
     statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
+    statusBarHBox.getChildren().add(StatusBarControllerFactory.build(eventBus, gitInfo));
 
     final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
