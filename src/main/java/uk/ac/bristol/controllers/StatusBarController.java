@@ -17,7 +17,7 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
-/** The FXML controller for the bottom status bar */
+/** The FXML controller for the bottom status bar. */
 public final class StatusBarController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -32,7 +32,7 @@ public final class StatusBarController implements Initializable, Refreshable {
   /**
    * Construct a new StatusBarController and register it on the EventBus.
    *
-   * @param eventBus The event bus used for refresh events for this tab
+   * @param eventbus The event bus used for refresh events for this tab
    * @param gitInfo Information about the git object assigned to this tab
    */
   public StatusBarController(final EventBus eventbus, final GitInfo gitInfo) {
@@ -65,7 +65,7 @@ public final class StatusBarController implements Initializable, Refreshable {
     }
 
     try {
-      BranchTrackingStatus statusComparison =
+      final BranchTrackingStatus statusComparison =
           BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
 
       final Label statusLabel;
