@@ -23,7 +23,7 @@ import uk.ac.bristol.util.GitInfo;
 
 @Slf4j
 public final class StatusController implements Initializable, Refreshable {
-  private EventBus eventBus;
+  // private EventBus eventBus;
   private GitInfo gitInfo;
   @FXML private TitledPane root;
   @FXML private GridPane addedGridPane;
@@ -35,7 +35,7 @@ public final class StatusController implements Initializable, Refreshable {
   @FXML private GridPane untrackedGridPane;
 
   public StatusController(final EventBus eventBus, final GitInfo gitInfo) {
-    this.eventBus = eventBus;
+    // this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
@@ -81,7 +81,7 @@ public final class StatusController implements Initializable, Refreshable {
   }
 
   @Override
-  public final void refresh() {
+  public void refresh() {
     updateStatus();
   }
 

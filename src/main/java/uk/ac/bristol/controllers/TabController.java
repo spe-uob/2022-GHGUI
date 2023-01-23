@@ -4,7 +4,6 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
-import com.kodedu.terminalfx.config.TerminalConfig;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
@@ -16,17 +15,18 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 // This class contains functions that can be
@@ -46,17 +46,17 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   private void push(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @FXML
   private void commit(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @FXML
   private void checkout(final Event e) {
-    // TODO:
+    // TODO: Needs linking with JgitUtil
   }
 
   @Override
@@ -64,12 +64,7 @@ public class TabController implements Initializable, Refreshable {
     statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
     informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
 
-    final TerminalConfig darkConfig = new TerminalConfig();
-    darkConfig.setBackgroundColor(Color.rgb(16, 16, 16));
-    darkConfig.setForegroundColor(Color.rgb(240, 240, 240));
-    darkConfig.setCursorColor(Color.rgb(255, 0, 0, 0.5));
-    darkConfig.setUnixTerminalStarter(System.getenv("SHELL"));
-    final TerminalBuilder terminalBuilder = new TerminalBuilder(darkConfig);
+    final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
     terminal.onTerminalFxReady(
         () -> {
@@ -91,16 +86,15 @@ public class TabController implements Initializable, Refreshable {
 
     final Repository repo = gitInfo.getGit().getRepository();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
-      final Collection<Ref> allRefs = repo.getAllRefs().values();
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
       try {
+        final Collection<Ref> allRefs = repo.getRefDatabase().getRefs();
         // plotWalk.markStart(plotWalk.parseCommit(repo.findRef("dev").getObjectId()));
         for (Ref ref : allRefs) {
           plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId()));
         }
-      } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
+      } catch (IOException ex) {
+        AlertBuilder.build(ex);
       }
       treePane.setContent(plotRenderer.draw(plotWalk));
     }

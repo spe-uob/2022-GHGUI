@@ -10,7 +10,8 @@ import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.StatusController;
 import uk.ac.bristol.util.GitInfo;
 
-@UtilityClass // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck
+// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 public final class StatusControllerFactory {
   private static final String FILE_NAME = "status.fxml";
   private static final URL COMPONENT =
