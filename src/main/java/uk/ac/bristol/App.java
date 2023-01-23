@@ -11,10 +11,10 @@ import javafx.stage.Stage;
 public class App extends Application {
 
   /** Initial dimensions of the window. */
-  private static final int INITIAL_HEIGHT = 500, INITIAL_WIDTH = 800;
+  private static final int INITIAL_HEIGHT = 1000, INITIAL_WIDTH = 800;
 
   /**
-   * Entry point for java, only servers to launch the gui.
+   * Entry point for java, only serves to launch the gui.
    *
    * @param args command-line arguments to the application
    */

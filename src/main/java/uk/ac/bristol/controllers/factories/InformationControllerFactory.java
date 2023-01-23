@@ -13,7 +13,7 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class InformationControllerFactory {
-  /** The filename of the fxml file for building the InformationController. */
+  /** The filename of the FXML file for building the InformationController. */
   private static final String FILE_NAME = "information.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */
