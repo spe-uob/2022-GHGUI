@@ -57,11 +57,8 @@ public final class StatusBarController implements Initializable, Refreshable {
       final Label statusLabel;
       if (statusComparison != null) {
         statusLabel =
-        new Label(
-            "↑"
-            + statusComparison.getAheadCount()
-            + " ↓"
-            + statusComparison.getBehindCount());
+            new Label(
+                "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
       } else {
         statusLabel = new Label("...no remote detected.");
       }
