@@ -47,8 +47,7 @@ public class App extends Application {
   }
 
   /** {@inheritDoc} */
-
-  public  void loadMain( Stage primaryStage) throws IOException {
+  public void loadMain(Stage primaryStage) throws IOException {
 
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
