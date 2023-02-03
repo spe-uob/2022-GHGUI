@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
@@ -55,11 +54,11 @@ public final class JgitUtil {
     CommitCommand commitCommand = gitInfo.getGit().commit();
     commitCommand.setMessage(message);
     commitCommand.setAllowEmpty(false);
-    // It may be a better idea to throw this exception further up in the chain, or at least 
+    // It may be a better idea to throw this exception further up in the chain, or at least
     // handle it slightly better down here. A problem for anyone but present me.
     try {
       commitCommand.call();
-    }  catch (Exception e) {
+    } catch (Exception e) {
       ErrorHandler.handle(e);
     }
   }

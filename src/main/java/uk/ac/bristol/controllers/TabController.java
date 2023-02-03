@@ -7,8 +7,6 @@ import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
-
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -71,7 +69,6 @@ public class TabController implements Initializable, Refreshable {
   private void push(Event event) {
     log.info(event.getEventType().getName());
     log.info("Push was requested - feature not implemented.");
-
   }
 
   /** TODO: Link with JGitUtil. */
@@ -86,7 +83,6 @@ public class TabController implements Initializable, Refreshable {
     log.info(event.getEventType().getName());
     JgitUtil.commit(gitInfo, "Commit made with GHGUI™");
     log.info("Commit button pressed. Commit made.");
-
   }
 
   /** TODO: Link with JGitUtil. */
