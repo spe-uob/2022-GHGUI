@@ -11,55 +11,69 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import org.eclipse.jgit.api.errors.GitAPIException;
-import uk.ac.bristol.AlertBuilder;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
+/** The FXML controller for the left-side repo and branch information component. */
 public class InformationController implements Initializable, Refreshable {
+
+  /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
+
+  /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
+
+  /** The root pane for this controller. */
   @FXML private TitledPane root;
+
+  /** Used for displaying information. */
   @FXML private VBox local, remote;
 
+  /**
+   * Construct a new InformationController and register it on the EventBus.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
   public InformationController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
+  /** Load all the components to display information about the local and remote branches. */
   private void generateComponents() {
-    try {
-      final Button[] repoButtons =
-          gitInfo.getGit().branchList().call().stream()
-              .map(
-                  ref -> {
-                    final Button button =
-                        new Button(ref.getName().substring("refs/heads/".length()));
-                    button.setPrefWidth(Double.MAX_VALUE);
-                    button.setAlignment(Pos.BASELINE_LEFT);
-                    return button;
-                  })
-              .toArray(Button[]::new);
-      local.getChildren().addAll(repoButtons);
-    } catch (GitAPIException ex) {
-      AlertBuilder.build(ex).showAndWait();
-    }
+    final Button[] repoButtons =
+        ErrorHandler.deferredCatch(
+            () ->
+                gitInfo.getGit().branchList().call().stream()
+                    .map(
+                        ref -> {
+                          final Button button =
+                              new Button(ref.getName().substring("refs/heads/".length()));
+                          button.setPrefWidth(Double.MAX_VALUE);
+                          button.setAlignment(Pos.BASELINE_LEFT);
+                          return button;
+                        })
+                    .toArray(Button[]::new));
+    local.getChildren().addAll(repoButtons);
 
-    try {
-      final TitledPane[] remotes =
-          gitInfo.getGit().remoteList().call().stream()
-              .map(remoteConfig -> RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
-              .toArray(TitledPane[]::new);
-      remote.getChildren().addAll(remotes);
-    } catch (GitAPIException ex) {
-      AlertBuilder.build(ex).showAndWait();
-    }
+    final TitledPane[] remotes =
+        ErrorHandler.deferredCatch(
+            () ->
+                gitInfo.getGit().remoteList().call().stream()
+                    .map(
+                        remoteConfig ->
+                            RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
+                    .toArray(TitledPane[]::new));
+    remote.getChildren().addAll(remotes);
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
@@ -67,6 +81,7 @@ public class InformationController implements Initializable, Refreshable {
     generateComponents();
   }
 
+  /** {@inheritDoc} */
   @Override
   public final void refresh() {
     remote.getChildren().clear();
@@ -74,6 +89,7 @@ public class InformationController implements Initializable, Refreshable {
     generateComponents();
   }
 
+  /** {@inheritDoc} */
   @Override
   @Subscribe
   public final void onRefreshEvent(final RefreshEvent event) {

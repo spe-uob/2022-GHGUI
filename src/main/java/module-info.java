@@ -7,6 +7,7 @@ module uk.ac.bristol {
   requires lombok;
   requires com.google.common;
   requires org.slf4j;
+  requires com.kodedu.terminalfx;
 
   exports uk.ac.bristol;
 
