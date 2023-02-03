@@ -7,6 +7,9 @@ import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
@@ -14,6 +17,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -25,11 +29,13 @@ import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
+@Slf4j
 public class TabController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -62,14 +68,25 @@ public class TabController implements Initializable, Refreshable {
 
   /** TODO: Link with JGitUtil. */
   @FXML
-  private void push() {
-    return;
+  private void push(Event event) {
+    log.info(event.getEventType().getName());
+    log.info("Push was requested - feature not implemented.");
+
   }
 
   /** TODO: Link with JGitUtil. */
   @FXML
-  private void commit() {
-    return;
+  private void pull(Event event) {
+    log.info(event.getEventType().getName());
+    log.info("Pull was requested - feature not implemented.");
+  }
+
+  @FXML
+  private void commit(Event event) {
+    log.info(event.getEventType().getName());
+    JgitUtil.commit(gitInfo, "Commit made with GHGUI™");
+    log.info("Commit button pressed. Commit made.");
+
   }
 
   /** TODO: Link with JGitUtil. */

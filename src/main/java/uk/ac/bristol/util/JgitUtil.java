@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.List;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -47,6 +49,19 @@ public final class JgitUtil {
     final var git = gitInfo.getGit();
     ErrorHandler.deferredCatch(git.checkout().setCreateBranch(false).setName(branchName)::call);
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
+  }
+
+  public static void commit(final GitInfo gitInfo, final String message) {
+    CommitCommand commitCommand = gitInfo.getGit().commit();
+    commitCommand.setMessage(message);
+    commitCommand.setAllowEmpty(false);
+    // It may be a better idea to throw this exception further up in the chain, or at least 
+    // handle it slightly better down here. A problem for anyone but present me.
+    try {
+      commitCommand.call();
+    }  catch (Exception e) {
+      ErrorHandler.handle(e);
+    }
   }
 
   /**
