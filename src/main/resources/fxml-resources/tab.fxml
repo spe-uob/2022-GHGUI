@@ -12,9 +12,9 @@
    <children>
       <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="menuButton" text="Push" />
-            <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
-            <Button mnemonicParsing="false" onMouseClicked="#checkout" styleClass="menuButton" text="Checkout" />
+            <Button mnemonicParsing="false" onAction="#push" onMouseClicked="#push" styleClass="menuButton" text="Push" />
+            <Button mnemonicParsing="false" onAction="#commit" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
+            <Button mnemonicParsing="false" onAction="#checkout" onMouseClicked="#checkout" styleClass="menuButton" text="Checkout" />
          </children>
          <padding>
             <Insets bottom="10.0" top="10.0" />
