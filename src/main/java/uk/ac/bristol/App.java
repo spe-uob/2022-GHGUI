@@ -1,9 +1,6 @@
 package uk.ac.bristol;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,10 +36,10 @@ public class App extends Application {
   public final void start(final Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    FXMLLoader loader =new FXMLLoader();
+    FXMLLoader loader = new FXMLLoader();
 
     loader.setLocation(getClass().getClassLoader().getResource(FXML_FILE_PATH));
-    final  Parent root =loader.load();
+    final Parent root = loader.load();
     MainController mainController = loader.getController();
     mainController.setStage(primaryStage);
     final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
@@ -58,13 +55,13 @@ public class App extends Application {
   }
 
   /** {@inheritDoc} */
-  public  void loadMain( Stage primaryStage) throws IOException {
+  public void loadMain(Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    FXMLLoader loader =new FXMLLoader();
+    FXMLLoader loader = new FXMLLoader();
 
     loader.setLocation(getClass().getClassLoader().getResource(FXML_FILE_PATH));
-    final  Parent root =loader.load();
+    final Parent root = loader.load();
     MainController mainController = loader.getController();
     mainController.setStage(primaryStage);
     final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);

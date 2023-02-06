@@ -2,6 +2,7 @@ package uk.ac.bristol.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -13,7 +14,6 @@ import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.LoginAndRegister;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
 import uk.ac.bristol.util.errors.ErrorHandler;
-import javafx.event.ActionEvent;
 
 /** The FXML controller for the main window. */
 public class MainController {
@@ -34,7 +34,7 @@ public class MainController {
     }
 
     final RepositoryBuilder repositoryBuilder =
-            new RepositoryBuilder().findGitDir(selectedDirectory);
+        new RepositoryBuilder().findGitDir(selectedDirectory);
     final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory == null) {
@@ -44,21 +44,20 @@ public class MainController {
 
     final Tab tab = new Tab(gitDirectory.getParentFile().getName());
     ErrorHandler.deferredCatch(
-            () ->
-                    tab.setContent(
-                            TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build()))));
+        () ->
+            tab.setContent(
+                TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build()))));
     tabs.getTabs().add(tab);
   }
-
 
   @FXML
   void loginClick(ActionEvent event) throws Exception {
     LoginAndRegister loginAndRegister = new LoginAndRegister();
     loginAndRegister.start(this.stage);
-
   }
 
   private Stage stage;
+
   public void setStage(Stage primaryStage) {
     this.stage = primaryStage;
   }
