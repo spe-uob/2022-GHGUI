@@ -1,14 +1,20 @@
 package uk.ac.bristol;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import uk.ac.bristol.controllers.MainController;
 
 /** Base class to start JavaFX application. */
 public class App extends Application {
+
+  private static User loginUser;
 
   /** Location of main FXML file. */
   private static final String FXML_FILE_PATH = "fxml-resources/ghgui.fxml";
@@ -33,7 +39,12 @@ public class App extends Application {
   public final void start(final Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
+    FXMLLoader loader =new FXMLLoader();
+
+    loader.setLocation(getClass().getClassLoader().getResource(FXML_FILE_PATH));
+    final  Parent root =loader.load();
+    MainController mainController = loader.getController();
+    mainController.setStage(primaryStage);
     final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
 
     // Apply CSS
@@ -47,10 +58,15 @@ public class App extends Application {
   }
 
   /** {@inheritDoc} */
-  public void loadMain(Stage primaryStage) throws IOException {
+  public  void loadMain( Stage primaryStage) throws IOException {
 
     // Load and display FXML
-    final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
+    FXMLLoader loader =new FXMLLoader();
+
+    loader.setLocation(getClass().getClassLoader().getResource(FXML_FILE_PATH));
+    final  Parent root =loader.load();
+    MainController mainController = loader.getController();
+    mainController.setStage(primaryStage);
     final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
 
     // Apply CSS
