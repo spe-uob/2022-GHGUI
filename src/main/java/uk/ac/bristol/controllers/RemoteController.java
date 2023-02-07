@@ -4,11 +4,9 @@ import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -16,9 +14,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
@@ -62,38 +63,52 @@ public class RemoteController implements Initializable, Refreshable {
     this.remote = remote;
   }
 
+  /**
+   * Generate a Button from a git ref.
+   *
+   * @param ref The ref to generate the Button from
+   * @return A button representing the ref
+   */
+  private Button btnFromRef(final Ref ref) {
+    final String[] fmt = ref.getName().substring(Constants.R_REMOTES.length()).split("/");
+
+    // Remote names and branch names are both allowed to contain slashes.
+    // I'm ignoring this for now because I can't think of any way to resolve this.
+    final String remoteName = fmt[0], branchName = fmt[1];
+
+    if (!remoteName.equals(remote.getName()) || branchName.equals("HEAD")) {
+      return null;
+    }
+
+    final Button button = new Button(branchName);
+    button.setPrefWidth(Double.MAX_VALUE);
+    button.setAlignment(Pos.BASELINE_LEFT);
+    button.setOnMouseClicked(
+        (Event e) -> {
+          final Git git = gitInfo.getGit();
+          ErrorHandler.mightFail(git.checkout().addPath(ref.getName())::call);
+        });
+    return button;
+  }
+
   /** Generate all the buttons for every branch of every repo. */
   private void generateButtons() {
-    final Pattern pattern = Pattern.compile("refs/remotes/(.*)/(.*)");
-    final ObservableList<Button> buttons =
-        ErrorHandler.deferredCatch(
-            () ->
-                gitInfo.getGit().branchList().setListMode(ListMode.REMOTE).call().stream()
-                    .map(
-                        ref -> {
-                          final Matcher matcher = pattern.matcher(ref.getName());
-                          if (matcher.find()
-                              && matcher.group(1).equals(remote.getName())
-                              && !matcher.group(2).equals("HEAD")) {
-                            final Button button = new Button(matcher.group(2));
-                            button.setPrefWidth(Double.MAX_VALUE);
-                            button.setAlignment(Pos.BASELINE_LEFT);
-                            return button;
-                          } else {
-                            return null;
-                          }
-                        })
-                    .filter(button -> button != null)
-                    .collect(Collectors.toCollection(FXCollections::observableArrayList)));
-    container.getChildren().addAll(buttons);
+    ErrorHandler.tryWith(
+        () ->
+            gitInfo.getGit().branchList().setListMode(ListMode.REMOTE).call().stream()
+                .map(this::btnFromRef)
+                .filter(button -> button != null)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList)),
+        container.getChildren()::addAll);
   }
 
   /** Function to fetch from the remote repo. */
   @FXML
   private void fetch() {
-    System.out.println(
-        ErrorHandler.deferredCatch(
-            () -> gitInfo.getGit().fetch().setRemote(remote.getName()).call().getMessages()));
+    final Git git = gitInfo.getGit();
+    ErrorHandler.tryWith(
+        git.fetch().setRemote(remote.getName())::call,
+        res -> System.out.println(res.getMessages()));
     eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
     // since we only need to refresh this one controller, we call refresh manually instead of
     // refreshing all remote controllers through the event bus
@@ -103,8 +118,8 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    final GC gc = new GC((FileRepository) gitInfo.getGit().getRepository());
-    ErrorHandler.deferredCatch(() -> gc.prune(null));
+    ErrorHandler.tryWith(
+        () -> new GC((FileRepository) gitInfo.getGit().getRepository()), gc -> gc.prune(null));
     refresh();
   }
 
