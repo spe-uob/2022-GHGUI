@@ -7,6 +7,7 @@ import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
@@ -14,10 +15,12 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.LoginAndRegister;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -58,6 +61,12 @@ public class TabController implements Initializable, Refreshable {
     this.eventBus = new EventBus();
     eventBus.register(this);
     this.gitInfo = new GitInfo(git);
+  }
+
+  @FXML
+  final void loginClick(final ActionEvent event) throws Exception {
+    final LoginAndRegister loginAndRegister = new LoginAndRegister();
+    loginAndRegister.start(new Stage());
   }
 
   /** TODO: Link with JGitUtil. */
