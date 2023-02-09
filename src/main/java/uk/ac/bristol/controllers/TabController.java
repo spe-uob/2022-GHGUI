@@ -7,7 +7,6 @@ import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -64,9 +63,9 @@ public class TabController implements Initializable, Refreshable {
     this.gitInfo = new GitInfo(git);
   }
 
+  /** Function to active when the login button is clicked. */
   @FXML
-  final void loginClick(final ActionEvent event) throws Exception {
-    final LoginController loginAndRegister = new LoginController();
+  final void loginClick() {
     final Stage newWindow = new Stage();
     newWindow.setScene(new Scene(LoginControllerFactory.build()));
     newWindow.showAndWait();
