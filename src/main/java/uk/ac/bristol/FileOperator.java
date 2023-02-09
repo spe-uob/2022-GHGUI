@@ -10,31 +10,18 @@ public class FileOperator {
 
   public static void write(User user) {
     File fileDest = new File("data.txt");
-    BufferedWriter bw = null;
-    try {
-      bw = new BufferedWriter(new FileWriter(fileDest, true));
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(fileDest, true))) {
       bw.append(user.getUsername() + "/" + user.getPassword() + "\n");
       bw.flush();
-    } catch (FileNotFoundException e) {
+    } catch (Exception e) {
       e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (null != bw) {
-          bw.close();
-        }
-      } catch (Exception e) {
-      }
     }
   }
 
   public static void read() {
     userList = new ArrayList<>();
     File src = new File("data.txt");
-    BufferedReader reader = null;
-    try {
-      reader = new BufferedReader(new FileReader(src));
+    try (BufferedReader reader = new BufferedReader(new FileReader(src))) {
       String line = null;
       while ((line = reader.readLine()) != null) {
         String[] strList = line.split("/");
@@ -44,19 +31,8 @@ public class FileOperator {
         User user = new User(userName, password);
         userList.add(user);
       }
-
-    } catch (FileNotFoundException e) {
+    } catch (Exception e) {
       e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } finally {
-      try {
-        if (null != reader) {
-          reader.close();
-        }
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
     }
   }
 }
