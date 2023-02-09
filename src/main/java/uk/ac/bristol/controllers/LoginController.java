@@ -1,88 +1,80 @@
-package uk.ac.bristol;
+package uk.ac.bristol.controllers;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
-import javafx.application.Application;
-import javafx.scene.Scene;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 
-public class LoginAndRegister extends Application {
-  private static Stage stage;
-  private Pane contentPane;
-  private Label lblAccount;
-  private Label lblPassword;
-  private PasswordField user_password;
-  private TextField user_name;
+public class LoginController {
+  @FXML private VBox root;
+  @FXML private PasswordField password;
+  @FXML private TextField username;
 
-  public static void main(String[] args) {
-    launch(args);
-  }
+  // @Override
+  // public void start(Stage primaryStage) throws Exception {
+  //   stage = primaryStage;
+  //   stage.setTitle("login and register");
+  //   contentPane = new Pane();
+  //   contentPane.setPrefSize(543, 356);
 
-  @Override
-  public void start(Stage primaryStage) throws Exception {
-    stage = primaryStage;
-    stage.setTitle("login and register");
-    contentPane = new Pane();
-    contentPane.setPrefSize(543, 356);
+  //   Pane panel = new Pane();
+  //   panel.setPrefSize(478, 332);
+  //   contentPane.getChildren().add(panel);
+  //   user_name = new TextField();
+  //   user_name.setLayoutX(219);
+  //   user_name.setLayoutY(87);
+  //   panel.getChildren().add(user_name);
 
-    Pane panel = new Pane();
-    panel.setPrefSize(478, 332);
-    contentPane.getChildren().add(panel);
-    user_name = new TextField();
-    user_name.setLayoutX(219);
-    user_name.setLayoutY(87);
-    panel.getChildren().add(user_name);
+  //   lblAccount = new Label("acoount:");
+  //   lblAccount.setLayoutX(135);
+  //   lblAccount.setLayoutY(87);
+  //   panel.getChildren().add(lblAccount);
 
-    lblAccount = new Label("acoount:");
-    lblAccount.setLayoutX(135);
-    lblAccount.setLayoutY(87);
-    panel.getChildren().add(lblAccount);
+  //   Button btnLogin = new Button("login");
+  //   btnLogin.setLayoutX(135);
+  //   btnLogin.setLayoutY(207);
+  //   btnLogin.setPrefSize(116, 24);
+  //   panel.getChildren().add(btnLogin);
+  //   btnLogin.setOnAction(
+  //       event -> {
+  //         try {
+  //           userLogin();
+  //         } catch (URISyntaxException e) {
+  //           // TODO Auto-generated catch block
+  //           e.printStackTrace();
+  //         } catch (IOException e) {
+  //           e.printStackTrace();
+  //         }
+  //       });
 
-    Button btnLogin = new Button("login");
-    btnLogin.setLayoutX(135);
-    btnLogin.setLayoutY(207);
-    btnLogin.setPrefSize(116, 24);
-    panel.getChildren().add(btnLogin);
-    btnLogin.setOnAction(
-        event -> {
-          try {
-            userLogin();
-          } catch (URISyntaxException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        });
+  //   lblPassword = new Label("password:");
+  //   lblPassword.setLayoutX(135);
+  //   lblPassword.setLayoutY(143);
+  //   panel.getChildren().add(lblPassword);
 
-    lblPassword = new Label("password:");
-    lblPassword.setLayoutX(135);
-    lblPassword.setLayoutY(143);
-    panel.getChildren().add(lblPassword);
+  //   user_password = new PasswordField();
+  //   user_password.setLayoutX(219);
+  //   user_password.setLayoutY(143);
+  //   panel.getChildren().add(user_password);
 
-    user_password = new PasswordField();
-    user_password.setLayoutX(219);
-    user_password.setLayoutY(143);
-    panel.getChildren().add(user_password);
+  //   Button registerButton = new Button("register");
+  //   registerButton.setOnAction(
+  //       event -> {
+  //         userRigister();
+  //       });
 
-    Button registerButton = new Button("register");
-    registerButton.setOnAction(
-        event -> {
-          userRigister();
-        });
+  //   registerButton.setLayoutX(300);
+  //   registerButton.setLayoutY(207);
+  //   registerButton.setPrefSize(116, 24);
+  //   panel.getChildren().add(registerButton);
+  //   Scene scene = new Scene(contentPane);
+  //   stage.setScene(scene);
+  //   stage.show();
+  // }
 
-    registerButton.setLayoutX(300);
-    registerButton.setLayoutY(207);
-    registerButton.setPrefSize(116, 24);
-    panel.getChildren().add(registerButton);
-    Scene scene = new Scene(contentPane);
-    stage.setScene(scene);
-    stage.show();
-  }
-
+  @FXML
   private void userLogin() throws URISyntaxException, IOException {
 
     // check input

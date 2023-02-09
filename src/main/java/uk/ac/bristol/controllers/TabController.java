@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -20,11 +21,11 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
-import uk.ac.bristol.LoginAndRegister;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.LoginControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
@@ -65,8 +66,10 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   final void loginClick(final ActionEvent event) throws Exception {
-    final LoginAndRegister loginAndRegister = new LoginAndRegister();
-    loginAndRegister.start(new Stage());
+    final LoginController loginAndRegister = new LoginController();
+    final Stage newWindow = new Stage();
+    newWindow.setScene(new Scene(LoginControllerFactory.build()));
+    newWindow.showAndWait();
   }
 
   /** TODO: Link with JGitUtil. */
