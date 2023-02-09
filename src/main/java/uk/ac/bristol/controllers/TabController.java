@@ -102,8 +102,7 @@ public class TabController implements Initializable, Refreshable {
               .getTerminal()
               .command(
                   String.format(
-                      "cd \"%s\"\rclear\r",
-                      gitInfo.getGit().getRepository().getDirectory().getParent()));
+                      "cd \"%s\"\rclear\r", gitInfo.getRepo().getDirectory().getParent()));
         });
     final TabPane tabPane = new TabPane();
     tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
@@ -114,7 +113,7 @@ public class TabController implements Initializable, Refreshable {
     tabPane.getTabs().add(terminal);
     terminalPane.getChildren().add(tabPane);
 
-    final Repository repo = gitInfo.getGit().getRepository();
+    final Repository repo = gitInfo.getRepo();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
       final Collection<Ref> allRefs =

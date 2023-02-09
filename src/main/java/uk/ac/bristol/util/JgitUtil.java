@@ -44,8 +44,8 @@ public final class JgitUtil {
    * @param branchName Branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    final var git = gitInfo.getGit();
-    ErrorHandler.deferredCatch(git.checkout().setCreateBranch(false).setName(branchName)::call);
+    ErrorHandler.deferredCatch(
+        gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
@@ -56,8 +56,7 @@ public final class JgitUtil {
    * @param pushMessage Message for commit
    */
   public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
-    final var git = gitInfo.getGit();
-    ErrorHandler.deferredCatch(git.commit().setMessage(pushMessage)::call);
+    ErrorHandler.deferredCatch(gitInfo.command(Git::commit).setMessage(pushMessage)::call);
 
     // gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
   }
@@ -73,15 +72,15 @@ public final class JgitUtil {
     // create a new branch
     // users?
     // Probably best we instead prompt the user if they want to overwrite
-    final var git = gitInfo.getGit();
-    final List<Ref> refs = ErrorHandler.deferredCatch(git.branchList()::call);
+    final List<Ref> refs = ErrorHandler.deferredCatch(gitInfo.command(Git::branchList)::call);
     for (Ref ref : refs) {
       final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
       if (bName.equals(branchName)) {
         // log.info("The branch already exists, delete it and create a new
         // one;{}", baranchName);
         // delete local branch
-        ErrorHandler.deferredCatch(git.branchDelete().setBranchNames(bName).setForce(true)::call);
+        ErrorHandler.deferredCatch(
+            gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
 
         // delete remote branch
 
@@ -89,17 +88,14 @@ public final class JgitUtil {
             new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
         ErrorHandler.deferredCatch(
-            git.push()
-                    .setRefSpecs(refSpec3)
-                    .setRemote("origin")
-                    .setCredentialsProvider(gitInfo.getAuth())
-                ::call);
+            gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
         break;
       }
     }
     // new branch
-    final Ref ref = ErrorHandler.deferredCatch(git.branchCreate().setName(branchName)::call);
-    ErrorHandler.deferredCatch(git.push().add(ref).setCredentialsProvider(gitInfo.getAuth())::call);
+    final Ref ref =
+        ErrorHandler.deferredCatch(gitInfo.command(Git::branchCreate).setName(branchName)::call);
+    ErrorHandler.deferredCatch(gitInfo.command(Git::push).add(ref)::call);
   }
 
   /**

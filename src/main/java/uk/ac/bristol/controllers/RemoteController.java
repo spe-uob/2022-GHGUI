@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
@@ -68,7 +69,7 @@ public class RemoteController implements Initializable, Refreshable {
     final ObservableList<Button> buttons =
         ErrorHandler.deferredCatch(
             () ->
-                gitInfo.getGit().branchList().setListMode(ListMode.REMOTE).call().stream()
+                gitInfo.command(Git::branchList).setListMode(ListMode.REMOTE).call().stream()
                     .map(
                         ref -> {
                           final Matcher matcher = pattern.matcher(ref.getName());
@@ -93,7 +94,7 @@ public class RemoteController implements Initializable, Refreshable {
   private void fetch() {
     System.out.println(
         ErrorHandler.deferredCatch(
-            () -> gitInfo.getGit().fetch().setRemote(remote.getName()).call().getMessages()));
+            () -> gitInfo.command(Git::fetch).setRemote(remote.getName()).call().getMessages()));
     eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
     // since we only need to refresh this one controller, we call refresh manually instead of
     // refreshing all remote controllers through the event bus
@@ -103,7 +104,7 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    final GC gc = new GC((FileRepository) gitInfo.getGit().getRepository());
+    final GC gc = new GC((FileRepository) gitInfo.getRepo());
     ErrorHandler.deferredCatch(() -> gc.prune(null));
     refresh();
   }

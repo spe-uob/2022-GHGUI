@@ -55,7 +55,7 @@ public final class StatusBarController implements Initializable, Refreshable {
     root.getChildren().clear();
     final String branchName;
     try {
-      branchName = gitInfo.getGit().getRepository().getBranch();
+      branchName = gitInfo.getRepo().getBranch();
       final Label nameLabel = new Label("Checked-out: " + branchName);
       nameLabel.setId("genericlabel");
       root.getChildren().add(nameLabel);
@@ -66,7 +66,7 @@ public final class StatusBarController implements Initializable, Refreshable {
 
     try {
       final BranchTrackingStatus statusComparison =
-          BranchTrackingStatus.of(gitInfo.getGit().getRepository(), branchName);
+          BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
 
       final Label statusLabel;
       if (statusComparison != null) {

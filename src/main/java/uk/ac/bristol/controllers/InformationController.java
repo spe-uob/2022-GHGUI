@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -50,7 +51,7 @@ public class InformationController implements Initializable, Refreshable {
     final Button[] repoButtons =
         ErrorHandler.deferredCatch(
             () ->
-                gitInfo.getGit().branchList().call().stream()
+                gitInfo.command(Git::branchList).call().stream()
                     .map(
                         ref -> {
                           final Button button =
@@ -65,7 +66,7 @@ public class InformationController implements Initializable, Refreshable {
     final TitledPane[] remotes =
         ErrorHandler.deferredCatch(
             () ->
-                gitInfo.getGit().remoteList().call().stream()
+                gitInfo.command(Git::remoteList).call().stream()
                     .map(
                         remoteConfig ->
                             RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
