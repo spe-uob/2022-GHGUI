@@ -7,8 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<TitledPane collapsible="false" maxHeight="300.0" maxWidth="600.0" prefHeight="300.0" prefWidth="600.0" text="Commit to branch..." xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<TitledPane fx:id="root" collapsible="false" maxHeight="300.0" maxWidth="600.0" prefHeight="300.0" prefWidth="600.0" text="Commit to branch..." xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <content>
       <VBox maxHeight="300.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0">
          <children>
