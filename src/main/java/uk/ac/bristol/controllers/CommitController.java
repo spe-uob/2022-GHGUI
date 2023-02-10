@@ -5,8 +5,12 @@ import java.util.ResourceBundle;
 
 import com.google.common.eventbus.EventBus;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TitledPane;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -23,6 +27,17 @@ public class CommitController implements Initializable, Refreshable {
         /** The root pane for this controller. */
         @FXML private TitledPane root;
 
+        /** Elements that determine commit settings. */
+        @FXML private CheckBox stagedOnlyCheck;
+        @FXML private CheckBox amendCheck;
+        @FXML private TextArea textBox;
+        
+
+
+    @FXML
+    private void confirmCommit(Event event) {
+        
+    }
 
     @Override
     public void refresh() {
