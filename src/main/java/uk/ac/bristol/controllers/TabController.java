@@ -10,11 +10,13 @@ import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
@@ -23,6 +25,7 @@ import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
@@ -80,9 +83,9 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   private void commit(Event event) {
-    log.info(event.getEventType().getName());
-    JgitUtil.commit(gitInfo, "Commit made with GHGUI™");
-    log.info("Commit button pressed. Commit made.");
+    final Stage commitWindow = new Stage();
+    commitWindow.setScene(new Scene(CommitControllerFactory.build(eventBus, gitInfo)));
+    commitWindow.show();
   }
 
   /** TODO: Link with JGitUtil. */
