@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane id="statusTitledPane" fx:id="root" collapsible="false" styleClass="titledPane" text="Project Status" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusController">
+<TitledPane fx:id="root" collapsible="false" styleClass="main-title-box" text="Project Status" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusController">
    <content>
-      <VBox id="statusVBox" styleClass="titledPaneContents">
+      <VBox styleClass="flex-use">
          <children>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Added">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Added" textFill="#430d0d">
                <content>
-                  <GridPane fx:id="addedGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="addedGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -24,9 +24,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Changed">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Changed">
                <content>
-                  <GridPane fx:id="changedGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="changedGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -38,9 +38,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Conflicting">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Conflicting">
                <content>
-                  <GridPane fx:id="conflictingGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="conflictingGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -52,9 +52,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Missing">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Missing">
                <content>
-                  <GridPane fx:id="missingGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="missingGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -66,9 +66,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Modified">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Modified">
                <content>
-                  <GridPane fx:id="modifiedGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="modifiedGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -80,9 +80,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Removed">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Removed">
                <content>
-                  <GridPane fx:id="removedGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="removedGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>
@@ -94,9 +94,9 @@
                   </GridPane>
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="titledPane" text="Untracked">
+            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Untracked">
                <content>
-                  <GridPane fx:id="untrackedGridPane" styleClass="titledPaneContents">
+                  <GridPane fx:id="untrackedGridPane">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" />
                      </columnConstraints>

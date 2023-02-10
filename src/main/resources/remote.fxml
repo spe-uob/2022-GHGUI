@@ -6,14 +6,14 @@
 <?import javafx.scene.layout.VBox?>
 <?scenebuilder-stylesheet ./stylesheet.css?>
 
-<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="30.0" styleClass="titledPane" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.RemoteController">
+<TitledPane fx:id="root" animated="false" prefHeight="296.0" prefWidth="120.0" styleClass="main-title-box" text="untitled" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.RemoteController">
    <content>
-      <VBox fx:id="container" styleClass="titledPaneContents">
+      <VBox fx:id="container" styleClass="flex-use-title">
          <children>
             <HBox fx:id="buttons" styleClass="titledPaneContents">
                <children>
-                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#fetch" text="Fetch" HBox.hgrow="ALWAYS" />
-                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#prune" text="Prune" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#fetch" styleClass="flex-use-item-title" text="Fetch" HBox.hgrow="ALWAYS" />
+                  <Button maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#prune" styleClass="flex-use-item-title" text="Prune" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
          </children>

@@ -148,6 +148,13 @@ body {
   -fx-background-color: rgb(47, 52, 58);
 }
 
+.button {
+  -fx-alignment: center-left;
+  -fx-text-alignment: center
+  -fx-font: sans-serif;
+  -fx-text-fill: white
+}
+
 .top {
   -fx-background-color: rgb(47, 52, 58);
   -fx-width: 100%;
@@ -429,10 +436,24 @@ body {
   -fx-position: relative;
   -fx-height: 30px;
   line--fx-height: 30px;
-  -fx-color: rgb(206, 197, 197);
+  -fx-color: rgb(47, 52, 58);
   -fx-cursor: pointer;
   -fx-z-index: 10;
   -fx-font-size: 14px;
+  -fx-text-fill: white;
+}
+
+.main-title-box {
+  -fx-background-color: rgb(47, 52, 58);
+  -fx-padding-left: 45px;
+  -fx-position: relative;
+  -fx-height: 30px;
+  line--fx-height: 30px;
+  -fx-color: rgb(113, 118, 118);
+  -fx-cursor: pointer;
+  -fx-z-index: 10;
+  -fx-font-size: 14px;
+  -fx-text-fill: white;
 }
 
 .item-titleicon {
