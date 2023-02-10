@@ -30,7 +30,6 @@ import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
