@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="504.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
+<VBox prefHeight="681.0" prefWidth="936.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <children>
       <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane">
          <children>
@@ -18,8 +19,10 @@
             <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
             <Button mnemonicParsing="false" onMouseClicked="#checkout" styleClass="menuButton" text="Checkout" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
-            <ComboBox prefWidth="150.0" />
-            <ComboBox prefWidth="150.0" />
+            <Label text="HTTPS:" />
+            <ComboBox fx:id="HttpsCredentials" onAction="#updateCredentials" onShowing="#populateCredentials" promptText="Select credentials:" />
+            <Label text="SSH:" />
+            <ComboBox fx:id="SshCredentials" onAction="#updateCredentials" onShowing="#populateCredentials" promptText="Select credentials:" />
             <Button mnemonicParsing="false" onAction="#loginClick" text="+" />
          </children>
          <padding>

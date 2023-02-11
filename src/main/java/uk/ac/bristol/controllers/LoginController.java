@@ -3,8 +3,10 @@ package uk.ac.bristol.controllers;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Optional;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
@@ -13,49 +15,62 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.bristol.FileOperator;
 import uk.ac.bristol.User;
+import uk.ac.bristol.util.GitInfo;
 
 /** The FXML controller for the git login menu. */
 public class LoginController {
+
   /** The root pane for this controller. */
   @FXML private VBox root;
+
+  /** ID for token login. */
+  @FXML private TextField tokenID;
+  /** The box where a user can enter a GH Token. */
+  @FXML private TextField token;
+
+  /** ID for ssh login. */
+  @FXML private TextField sshID;
+  /** The box where a user can enter a path to an ssh key. */
+  @FXML private TextField keyPath;
+  /** The box where a user can enter a passphrase for an ssh key. */
+  @FXML private PasswordField passphrase;
+
+  /** ID for https login. */
+  @FXML private TextField httpsID;
   /** The box where a user can enter their username. */
-  @FXML private TextField usernameField;
+  @FXML private TextField username;
   /** The box where a user can enter a password. */
-  @FXML private PasswordField passwordField;
+  @FXML private PasswordField password;
 
-  /** Function to run when the user clicks the submit button. */
+  /**
+   * Function to run when the user clicks the submit button.
+   *
+   * @param e The event associated with clicking the button
+   */
   @FXML
-  private void userLogin() throws URISyntaxException, IOException {
-
-    // check input
-    if (checkInput() == -1) {
-      return;
+  private void addCredentials(final Event e) {
+    final Button source = (Button) e.getSource();
+    switch (source.getId()) {
+      case "TokenLogin":
+        GitInfo.addToken(tokenID.getText(), token.getText());
+        break;
+      case "SSHLogin":
+        GitInfo.addSSH(sshID.getText(), keyPath.getText(), passphrase.getText());
+        break;
+      case "HTTPSLogin":
+        GitInfo.addHTTPS(httpsID.getText(), username.getText(), passphrase.getText());
+        break;
+      default:
     }
-    // login check
-    userLogin(usernameField.getText(), passwordField.getText());
-    final Stage stage = (Stage) root.getScene().getWindow();
+    final Stage stage = (Stage) source.getScene().getWindow();
     stage.close();
   }
 
-  /**
-   * Check that inputs are vaild.
-   *
-   * @return 0 on success and -1 on failure
-   */
-  public int checkInput() {
-    if (usernameField.getText().trim().equals("")) {
-      new Alert(
-              Alert.AlertType.NONE, "account cannot be empty", new ButtonType[] {ButtonType.CLOSE})
-          .show();
-      return -1;
-    }
-    if (passwordField.getText().trim().equals("")) {
-      new Alert(
-              Alert.AlertType.NONE, "password cannot be empty", new ButtonType[] {ButtonType.CLOSE})
-          .show();
-      return -1;
-    }
-    return 0;
+  /** A function to open the directory dialog for selecting a key to use. */
+  @FXML
+  private void browse() {
+    // TODO:
+    System.out.println("browse!");
   }
 
   /**
@@ -88,44 +103,8 @@ public class LoginController {
               "account or password is incorrect!",
               new ButtonType[] {ButtonType.CLOSE})
           .show();
-      usernameField.setText("");
-      passwordField.setText("");
-    }
-  }
-
-  /**
-   * register.
-   *
-   * @param username
-   * @param password
-   */
-  private void userRegister(final String username, final String password) {
-    FileOperator.read();
-    // 查找是否有此账号
-    User user = null;
-    for (int i = 0; i < FileOperator.getUserList().size(); i++) {
-      if (FileOperator.getUserList().get(i).getUsername().trim().equals(username)
-          && FileOperator.getUserList().get(i).getPassword().trim().equals(password)) {
-        user = FileOperator.getUserList().get(i);
-        new Alert(
-                Alert.AlertType.NONE,
-                "user already exists. Please re-register",
-                new ButtonType[] {ButtonType.CLOSE})
-            .show();
-        usernameField.setText("");
-        passwordField.setText("");
-      }
-    }
-    // if not,log in.Display prompt information
-    if (user == null) {
-      FileOperator.write(new User(username, password));
-      new Alert(
-              Alert.AlertType.NONE,
-              "register successfully, please login",
-              new ButtonType[] {ButtonType.CLOSE})
-          .show();
-      usernameField.setText("");
-      passwordField.setText("");
+      // usernameField.setText("");
+      // passwordField.setText("");
     }
   }
 

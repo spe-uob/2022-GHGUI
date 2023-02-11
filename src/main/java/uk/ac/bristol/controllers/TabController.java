@@ -7,9 +7,12 @@ import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.Collection;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
@@ -87,6 +90,44 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   private void checkout() {
     return;
+  }
+
+  /**
+   * Populate the combobox with the contents of the stored credentials.
+   *
+   * @param e The event associated with opening the combo box
+   */
+  @FXML
+  private void populateCredentials(final Event e) {
+    final ComboBox<String> source = (ComboBox<String>) e.getSource();
+    switch (source.getId()) {
+      case "SshCredentials":
+        source.setItems(FXCollections.observableArrayList(GitInfo.getSshAuth().keySet()));
+        break;
+      case "HttpsCredentials":
+        source.setItems(FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet()));
+        break;
+      default:
+    }
+  }
+
+  /**
+   * Populate the combobox with the contents of the stored credentials.
+   *
+   * @param e The event associated with opening the combo box
+   */
+  @FXML
+  private void updateCredentials(final Event e) {
+    final ComboBox<String> source = (ComboBox<String>) e.getSource();
+    switch (source.getId()) {
+      case "SshCredentials":
+        gitInfo.setSshAuthKey(source.getValue());
+        break;
+      case "HttpsCredentials":
+        gitInfo.setHttpAuthKey(source.getValue());
+        break;
+      default:
+    }
   }
 
   /** {@inheritDoc} */
