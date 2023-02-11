@@ -99,6 +99,7 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void populateCredentials(final Event e) {
+    @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
     switch (source.getId()) {
       case "SshCredentials":
@@ -118,6 +119,7 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void updateCredentials(final Event e) {
+    @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
     switch (source.getId()) {
       case "SshCredentials":

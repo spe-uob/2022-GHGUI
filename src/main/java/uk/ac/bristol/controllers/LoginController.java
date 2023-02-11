@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Optional;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -13,8 +11,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import uk.ac.bristol.FileOperator;
-import uk.ac.bristol.User;
 import uk.ac.bristol.util.GitInfo;
 
 /** The FXML controller for the git login menu. */
@@ -71,41 +67,6 @@ public class LoginController {
   private void browse() {
     // TODO:
     System.out.println("browse!");
-  }
-
-  /**
-   * check login.
-   *
-   * @param username
-   * @param password
-   * @throws URISyntaxException
-   */
-  private void userLogin(final String username, final String password)
-      throws URISyntaxException, IOException {
-    FileOperator.read();
-    User user = null;
-
-    for (int i = 0; i < FileOperator.getUserList().size(); i++) {
-      if (FileOperator.getUserList().get(i).getUsername().trim().equals(username)
-          && FileOperator.getUserList().get(i).getPassword().trim().equals(password)) {
-        user = FileOperator.getUserList().get(i);
-        // close stage
-        // open new window
-        new Alert(Alert.AlertType.NONE, "login success", new ButtonType[] {ButtonType.CLOSE})
-            .show();
-        // final App app = new App();
-        // app.loadMain(stage);
-      }
-    }
-    if (user == null) {
-      new Alert(
-              Alert.AlertType.NONE,
-              "account or password is incorrect!",
-              new ButtonType[] {ButtonType.CLOSE})
-          .show();
-      // usernameField.setText("");
-      // passwordField.setText("");
-    }
   }
 
   /**
