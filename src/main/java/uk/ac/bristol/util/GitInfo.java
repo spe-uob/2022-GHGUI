@@ -75,12 +75,11 @@ public class GitInfo {
   /**
    * Call a function on the Git Object, with credentials applied.
    *
-   * @param <T> The type wrapped by GitCommand
    * @param <U> The type of the Command to be called later
    * @param f The git function that we want to call
    * @return The command, populated with credentials if necessary
    */
-  public <T, U extends GitCommand<T>> U command(final Function<Git, U> f) {
+  public <U extends GitCommand<?>> U command(final Function<Git, U> f) {
     final U command = f.apply(git);
     if (command instanceof TransportCommand<?, ?> transportCommand) {
       transportCommand.setCredentialsProvider(httpAuth.get("test"));
