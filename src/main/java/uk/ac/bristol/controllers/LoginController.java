@@ -1,6 +1,8 @@
 package uk.ac.bristol.controllers;
 
+import java.io.File;
 import java.util.Optional;
+import java.util.stream.Stream;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,7 +12,9 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.eclipse.jgit.util.FS;
 import uk.ac.bristol.util.GitInfo;
 
 /** The FXML controller for the git login menu. */
@@ -58,15 +62,24 @@ public class LoginController {
         break;
       default:
     }
-    final Stage stage = (Stage) source.getScene().getWindow();
+    final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }
 
   /** A function to open the directory dialog for selecting a key to use. */
   @FXML
   private void browse() {
-    // TODO:
-    System.out.println("browse!");
+    final FileChooser fileChooser = new FileChooser();
+    final File home = FS.detect().userHome();
+    final Optional<File> sshDir =
+        Stream.of(home.listFiles()).filter(file -> file.getName().equals(".ssh")).findAny();
+    fileChooser.setInitialDirectory(sshDir.orElse(home));
+    final File selectedFile = fileChooser.showOpenDialog(root.getScene().getWindow());
+    if (selectedFile == null) {
+      return;
+    }
+
+    keyPath.setText(selectedFile.getAbsolutePath());
   }
 
   /**
