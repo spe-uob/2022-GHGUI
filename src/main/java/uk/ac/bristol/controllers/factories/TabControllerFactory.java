@@ -1,12 +1,12 @@
 package uk.ac.bristol.controllers.factories;
 
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.TabController;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building TabController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -24,10 +24,11 @@ public final class TabControllerFactory {
    *
    * @param git The git object associated to this tab
    * @return The loaded FXML object for TabController
+   * @throws IOException
    */
-  public static Parent build(final Git git) {
+  public static Parent build(final Git git) throws IOException {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
     loader.setControllerFactory(__ -> new TabController(git));
-    return ErrorHandler.deferredCatch(() -> loader.load());
+    return loader.load();
   }
 }

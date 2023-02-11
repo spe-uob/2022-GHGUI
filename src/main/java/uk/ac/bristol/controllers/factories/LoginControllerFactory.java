@@ -1,11 +1,11 @@
 package uk.ac.bristol.controllers.factories;
 
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.LoginController;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building LoginController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -23,10 +23,11 @@ public class LoginControllerFactory {
    * Construct a new TabController.
    *
    * @return The loaded FXML object for TabController
+   * @throws IOException
    */
-  public static Parent build() {
+  public static Parent build() throws IOException {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
     loader.setControllerFactory(__ -> new LoginController());
-    return ErrorHandler.deferredCatch(() -> loader.load());
+    return loader.load();
   }
 }

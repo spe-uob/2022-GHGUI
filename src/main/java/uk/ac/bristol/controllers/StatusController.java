@@ -12,7 +12,6 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.Status;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -63,14 +62,18 @@ public final class StatusController implements Initializable, Refreshable {
 
   /** Refresh the contents of all status information grid panes. */
   private void updateStatus() {
-    final Status status = ErrorHandler.deferredCatch(gitInfo.command(Git::status)::call);
-    updateGridPane(addedGridPane, status.getAdded());
-    updateGridPane(changedGridPane, status.getChanged());
-    updateGridPane(conflictingGridPane, status.getConflicting());
-    updateGridPane(missingGridPane, status.getMissing());
-    updateGridPane(modifiedGridPane, status.getModified());
-    updateGridPane(removedGridPane, status.getRemoved());
-    updateGridPane(untrackedGridPane, status.getUntracked());
+
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::status)::call,
+        status -> {
+          updateGridPane(addedGridPane, status.getAdded());
+          updateGridPane(changedGridPane, status.getChanged());
+          updateGridPane(conflictingGridPane, status.getConflicting());
+          updateGridPane(missingGridPane, status.getMissing());
+          updateGridPane(modifiedGridPane, status.getModified());
+          updateGridPane(removedGridPane, status.getRemoved());
+          updateGridPane(untrackedGridPane, status.getUntracked());
+        });
   }
 
   /**

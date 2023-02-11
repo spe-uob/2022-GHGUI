@@ -1,10 +1,12 @@
 package uk.ac.bristol.util;
 
 import java.io.File;
-import java.util.List;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
@@ -22,19 +24,22 @@ public final class JgitUtil {
    * Clone a remote repository.
    *
    * @param url Url for the remote git repository
-   * @param destination Directory for the repo to be cloned into
+   * @param destination Direccontrollertory for the repo to be cloned into
    * @param auth Git credentials
    * @return The cloned git object
+   * @throws GitAPIException
+   * @throws TransportException
+   * @throws InvalidRemoteException
    */
   public static Git cloneRepository(
-      final String url, final File destination, final CredentialsProvider auth) {
-    return ErrorHandler.deferredCatch(
-        Git.cloneRepository()
-                .setURI(url)
-                .setDirectory(destination)
-                .setCloneAllBranches(true)
-                .setCredentialsProvider(auth)
-            ::call);
+      final String url, final File destination, final CredentialsProvider auth)
+      throws InvalidRemoteException, TransportException, GitAPIException {
+    return Git.cloneRepository()
+        .setURI(url)
+        .setDirectory(destination)
+        .setCloneAllBranches(true)
+        .setCredentialsProvider(auth)
+        .call();
   }
 
   /**
@@ -44,7 +49,7 @@ public final class JgitUtil {
    * @param branchName Branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    ErrorHandler.deferredCatch(
+    ErrorHandler.mightFail(
         gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
@@ -56,7 +61,7 @@ public final class JgitUtil {
    * @param pushMessage Message for commit
    */
   public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
-    ErrorHandler.deferredCatch(gitInfo.command(Git::commit).setMessage(pushMessage)::call);
+    ErrorHandler.mightFail(gitInfo.command(Git::commit).setMessage(pushMessage)::call);
 
     // gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
   }
@@ -72,30 +77,35 @@ public final class JgitUtil {
     // create a new branch
     // users?
     // Probably best we instead prompt the user if they want to overwrite
-    final List<Ref> refs = ErrorHandler.deferredCatch(gitInfo.command(Git::branchList)::call);
-    for (Ref ref : refs) {
-      final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
-      if (bName.equals(branchName)) {
-        // log.info("The branch already exists, delete it and create a new
-        // one;{}", baranchName);
-        // delete local branch
-        ErrorHandler.deferredCatch(
-            gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::branchList)::call,
+        refs -> {
+          for (Ref ref : refs) {
+            final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
+            if (bName.equals(branchName)) {
+              // log.info("The branch already exists, delete it and create a new
+              // one;{}", baranchName);
+              // delete local branch
+              ErrorHandler.mightFail(
+                  gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
 
-        // delete remote branch
+              // delete remote branch
 
-        final RefSpec refSpec3 =
-            new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
+              final RefSpec refSpec3 =
+                  new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
-        ErrorHandler.deferredCatch(
-            gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
-        break;
-      }
-    }
+              ErrorHandler.mightFail(
+                  gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
+              break;
+            }
+          }
+        });
     // new branch
-    final Ref ref =
-        ErrorHandler.deferredCatch(gitInfo.command(Git::branchCreate).setName(branchName)::call);
-    ErrorHandler.deferredCatch(gitInfo.command(Git::push).add(ref)::call);
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::branchCreate).setName(branchName)::call,
+        ref -> {
+          gitInfo.command(Git::push).add(ref).call();
+        });
   }
 
   /**

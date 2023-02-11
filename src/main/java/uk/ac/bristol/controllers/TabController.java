@@ -5,7 +5,6 @@ import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
-import java.util.Collection;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -70,8 +69,12 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     final Stage newWindow = new Stage();
-    newWindow.setScene(new Scene(LoginControllerFactory.build()));
-    newWindow.showAndWait();
+    ErrorHandler.tryWith(
+        LoginControllerFactory::build,
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
   }
 
   /** TODO: Link with JGitUtil. */
@@ -135,9 +138,14 @@ public class TabController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
-    statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
-    informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
-    statusBarHBox.getChildren().add(StatusBarControllerFactory.build(eventBus, gitInfo));
+    ErrorHandler.tryWith(
+        () -> StatusControllerFactory.build(eventBus, gitInfo), statusPane.getChildren()::add);
+    ErrorHandler.tryWith(
+        () -> InformationControllerFactory.build(eventBus, gitInfo),
+        informationPane.getChildren()::add);
+    ErrorHandler.tryWith(
+        () -> StatusBarControllerFactory.build(eventBus, gitInfo),
+        statusBarHBox.getChildren()::add);
 
     final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
@@ -161,12 +169,14 @@ public class TabController implements Initializable, Refreshable {
     final Repository repo = gitInfo.getRepo();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
-      final Collection<Ref> allRefs =
-          ErrorHandler.deferredCatch(() -> repo.getRefDatabase().getRefs());
-      for (Ref ref : allRefs) {
-        ErrorHandler.deferredCatch(
-            () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
-      }
+      ErrorHandler.tryWith(
+          repo.getRefDatabase()::getRefs,
+          allRefs -> {
+            for (Ref ref : allRefs) {
+              ErrorHandler.mightFail(
+                  () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+            }
+          });
       treePane.setContent(plotRenderer.draw(plotWalk));
     }
   }
