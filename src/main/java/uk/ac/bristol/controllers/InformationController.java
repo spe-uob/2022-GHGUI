@@ -63,16 +63,14 @@ public class InformationController implements Initializable, Refreshable {
 
   /** Load all the components to display information about the local and remote branches. */
   private void generateComponents() {
-    final Git git = gitInfo.getGit();
-
     ErrorHandler.tryWith(
-        git.branchList()::call,
+        gitInfo.command(Git::branchList)::call,
         refs -> {
           local.getChildren().addAll(refs.stream().map(this::buttonFromRef).toArray(Button[]::new));
         });
 
     ErrorHandler.tryWith(
-        git.remoteList()::call,
+        gitInfo.command(Git::remoteList)::call,
         remotes -> {
           remote.getChildren().addAll(RemoteControllerFactory.buildAll(eventBus, gitInfo, remotes));
         });

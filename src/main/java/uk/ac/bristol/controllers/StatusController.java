@@ -11,6 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -61,10 +62,9 @@ public final class StatusController implements Initializable, Refreshable {
 
   /** Refresh the contents of all status information grid panes. */
   private void updateStatus() {
-    final var git = gitInfo.getGit();
 
     ErrorHandler.tryWith(
-        git.status()::call,
+        gitInfo.command(Git::status)::call,
         status -> {
           updateGridPane(addedGridPane, status.getAdded());
           updateGridPane(changedGridPane, status.getChanged());

@@ -85,8 +85,7 @@ public class RemoteController implements Initializable, Refreshable {
     button.setAlignment(Pos.BASELINE_LEFT);
     button.setOnMouseClicked(
         (Event e) -> {
-          final Git git = gitInfo.getGit();
-          ErrorHandler.mightFail(git.checkout().addPath(ref.getName())::call);
+          ErrorHandler.mightFail(gitInfo.command(Git::checkout).addPath(ref.getName())::call);
         });
     return button;
   }
@@ -95,7 +94,7 @@ public class RemoteController implements Initializable, Refreshable {
   private void generateButtons() {
     ErrorHandler.tryWith(
         () ->
-            gitInfo.getGit().branchList().setListMode(ListMode.REMOTE).call().stream()
+            gitInfo.command(Git::branchList).setListMode(ListMode.REMOTE).call().stream()
                 .map(this::btnFromRef)
                 .filter(button -> button != null)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList)),
@@ -105,9 +104,8 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to fetch from the remote repo. */
   @FXML
   private void fetch() {
-    final Git git = gitInfo.getGit();
     ErrorHandler.tryWith(
-        git.fetch().setRemote(remote.getName())::call,
+        gitInfo.command(Git::fetch).setRemote(remote.getName())::call,
         res -> System.out.println(res.getMessages()));
     eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
     // since we only need to refresh this one controller, we call refresh manually instead of
@@ -118,8 +116,7 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    ErrorHandler.tryWith(
-        () -> new GC((FileRepository) gitInfo.getGit().getRepository()), gc -> gc.prune(null));
+    ErrorHandler.tryWith(() -> new GC((FileRepository) gitInfo.getRepo()), gc -> gc.prune(null));
     refresh();
   }
 

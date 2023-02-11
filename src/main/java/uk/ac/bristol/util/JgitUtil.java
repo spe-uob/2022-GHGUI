@@ -24,7 +24,7 @@ public final class JgitUtil {
    * Clone a remote repository.
    *
    * @param url Url for the remote git repository
-   * @param destination Directory for the repo to be cloned into
+   * @param destination Direccontrollertory for the repo to be cloned into
    * @param auth Git credentials
    * @return The cloned git object
    * @throws GitAPIException
@@ -49,8 +49,8 @@ public final class JgitUtil {
    * @param branchName Branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    final var git = gitInfo.getGit();
-    ErrorHandler.mightFail(git.checkout().setCreateBranch(false).setName(branchName)::call);
+    ErrorHandler.mightFail(
+        gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
@@ -61,8 +61,7 @@ public final class JgitUtil {
    * @param pushMessage Message for commit
    */
   public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
-    final var git = gitInfo.getGit();
-    ErrorHandler.mightFail(git.commit().setMessage(pushMessage)::call);
+    ErrorHandler.mightFail(gitInfo.command(Git::commit).setMessage(pushMessage)::call);
 
     // gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
   }
@@ -78,9 +77,8 @@ public final class JgitUtil {
     // create a new branch
     // users?
     // Probably best we instead prompt the user if they want to overwrite
-    final var git = gitInfo.getGit();
     ErrorHandler.tryWith(
-        git.branchList()::call,
+        gitInfo.command(Git::branchList)::call,
         refs -> {
           for (Ref ref : refs) {
             final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
@@ -88,7 +86,8 @@ public final class JgitUtil {
               // log.info("The branch already exists, delete it and create a new
               // one;{}", baranchName);
               // delete local branch
-              ErrorHandler.mightFail(git.branchDelete().setBranchNames(bName).setForce(true)::call);
+              ErrorHandler.mightFail(
+                  gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
 
               // delete remote branch
 
@@ -96,20 +95,16 @@ public final class JgitUtil {
                   new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
 
               ErrorHandler.mightFail(
-                  git.push()
-                          .setRefSpecs(refSpec3)
-                          .setRemote("origin")
-                          .setCredentialsProvider(gitInfo.getAuth())
-                      ::call);
+                  gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
               break;
             }
           }
         });
     // new branch
     ErrorHandler.tryWith(
-        git.branchCreate().setName(branchName)::call,
+        gitInfo.command(Git::branchCreate).setName(branchName)::call,
         ref -> {
-          git.push().add(ref).setCredentialsProvider(gitInfo.getAuth()).call();
+          gitInfo.command(Git::push).add(ref).call();
         });
   }
 
