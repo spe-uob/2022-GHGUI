@@ -3,6 +3,9 @@ package uk.ac.bristol.controllers;
 import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.eclipse.jgit.api.Git;
+
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -30,24 +33,29 @@ public class CommitController implements Initializable, Refreshable {
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
-  @FXML
-  private void confirmCommit(Event event) {}
+  public CommitController(final Git git) {
+    this.eventBus = new EventBus();
+    eventBus.register(this);
+    this.gitInfo = new GitInfo(git);
+  }
 
   @Override
   public void refresh() {
-    // TODO Auto-generated method stub
-
+    // Nothing to be done.
   }
 
   @Override
   public void onRefreshEvent(RefreshEvent event) {
-    // TODO Auto-generated method stub
-
+    // Nothing to be done.
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    // TODO Auto-generated method stub
+    // Nothing to be done.
+  }
+
+  @FXML
+  public void confirmCommit(Event event) {
 
   }
 }

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane fx:id="root" collapsible="false" maxHeight="300.0" maxWidth="600.0" prefHeight="300.0" prefWidth="600.0" text="Commit to branch..." xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="CommitController">
+<TitledPane fx:id="root" collapsible="false" maxHeight="300.0" maxWidth="600.0" prefHeight="300.0" prefWidth="600.0" text="Commit to branch..." xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.CommitController">
    <content>
       <VBox maxHeight="300.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0">
          <children>
@@ -26,7 +26,7 @@
                   </VBox>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
                      <children>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#confirmCommit" text="Commit" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#confirmCommit" text="Commit" />
                      </children>
                   </HBox>
                </children>
