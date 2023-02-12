@@ -7,7 +7,6 @@ import javafx.scene.Parent;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.CommitController;
-import uk.ac.bristol.controllers.InformationController;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 

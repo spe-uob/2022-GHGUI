@@ -31,6 +31,7 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
+
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 

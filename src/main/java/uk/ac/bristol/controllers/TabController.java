@@ -83,7 +83,8 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   private void commit(Event event) {
     final Stage commitWindow = new Stage();
-    commitWindow.setScene(new Scene(CommitControllerFactory.build(eventBus, gitInfo, commitWindow)));
+    commitWindow.setScene(
+        new Scene(CommitControllerFactory.build(eventBus, gitInfo, commitWindow)));
     commitWindow.show();
   }
 
