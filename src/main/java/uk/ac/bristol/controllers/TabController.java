@@ -5,19 +5,19 @@ import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
-import java.util.Collection;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -27,6 +27,7 @@ import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.LoginControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
@@ -66,6 +67,18 @@ public class TabController implements Initializable, Refreshable {
     this.gitInfo = new GitInfo(git);
   }
 
+  /** Function to active when the login button is clicked. */
+  @FXML
+  final void loginClick() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        LoginControllerFactory::build,
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+  }
+
   /** TODO: Link with JGitUtil. */
   @FXML
   private void push(Event event) {
@@ -94,12 +107,57 @@ public class TabController implements Initializable, Refreshable {
     return;
   }
 
+  /**
+   * Populate the combobox with the contents of the stored credentials.
+   *
+   * @param e The event associated with opening the combo box
+   */
+  @FXML
+  private void populateCredentials(final Event e) {
+    @SuppressWarnings("unchecked")
+    final ComboBox<String> source = (ComboBox<String>) e.getSource();
+    switch (source.getId()) {
+      case "SshCredentials":
+        source.setItems(FXCollections.observableArrayList(GitInfo.getSshAuth().keySet()));
+        break;
+      case "HttpsCredentials":
+        source.setItems(FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet()));
+        break;
+      default:
+    }
+  }
+
+  /**
+   * Populate the combobox with the contents of the stored credentials.
+   *
+   * @param e The event associated with opening the combo box
+   */
+  @FXML
+  private void updateCredentials(final Event e) {
+    @SuppressWarnings("unchecked")
+    final ComboBox<String> source = (ComboBox<String>) e.getSource();
+    switch (source.getId()) {
+      case "SshCredentials":
+        gitInfo.setSshAuthKey(source.getValue());
+        break;
+      case "HttpsCredentials":
+        gitInfo.setHttpAuthKey(source.getValue());
+        break;
+      default:
+    }
+  }
+
   /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
-    statusPane.getChildren().add(StatusControllerFactory.build(eventBus, gitInfo));
-    informationPane.getChildren().add(InformationControllerFactory.build(eventBus, gitInfo));
-    statusBarHBox.getChildren().add(StatusBarControllerFactory.build(eventBus, gitInfo));
+    ErrorHandler.tryWith(
+        () -> StatusControllerFactory.build(eventBus, gitInfo), statusPane.getChildren()::add);
+    ErrorHandler.tryWith(
+        () -> InformationControllerFactory.build(eventBus, gitInfo),
+        informationPane.getChildren()::add);
+    ErrorHandler.tryWith(
+        () -> StatusBarControllerFactory.build(eventBus, gitInfo),
+        statusBarHBox.getChildren()::add);
 
     final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
@@ -109,8 +167,7 @@ public class TabController implements Initializable, Refreshable {
               .getTerminal()
               .command(
                   String.format(
-                      "cd \"%s\"\rclear\r",
-                      gitInfo.getGit().getRepository().getDirectory().getParent()));
+                      "cd \"%s\"\rclear\r", gitInfo.getRepo().getDirectory().getParent()));
         });
     final TabPane tabPane = new TabPane();
     tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
@@ -121,15 +178,17 @@ public class TabController implements Initializable, Refreshable {
     tabPane.getTabs().add(terminal);
     terminalPane.getChildren().add(tabPane);
 
-    final Repository repo = gitInfo.getGit().getRepository();
+    final Repository repo = gitInfo.getRepo();
     try (PlotWalk plotWalk = new PlotWalk(repo)) {
       final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
-      final Collection<Ref> allRefs =
-          ErrorHandler.deferredCatch(() -> repo.getRefDatabase().getRefs());
-      for (Ref ref : allRefs) {
-        ErrorHandler.deferredCatch(
-            () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
-      }
+      ErrorHandler.tryWith(
+          repo.getRefDatabase()::getRefs,
+          allRefs -> {
+            for (Ref ref : allRefs) {
+              ErrorHandler.mightFail(
+                  () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+            }
+          });
       treePane.setContent(plotRenderer.draw(plotWalk));
     }
   }

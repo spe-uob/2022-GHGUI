@@ -32,6 +32,9 @@ public class App extends Application {
   @Override
   public final void start(final Stage primaryStage) throws IOException {
 
+    // Thread.setDefaultUncaughtExceptionHandler(
+    //     (t, e) -> Platform.runLater(() -> ErrorHandler.handle(e)));
+
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
     final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
