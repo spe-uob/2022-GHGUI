@@ -11,6 +11,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.stage.Stage;
+
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -25,6 +27,9 @@ public class CommitController implements Initializable, Refreshable {
   /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
 
+  /** Own stage, so that the window can close itself once a commit is done */
+  private Stage stage;
+
   /** The root pane for this controller. */
   @FXML private TitledPane root;
 
@@ -33,9 +38,10 @@ public class CommitController implements Initializable, Refreshable {
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
-  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
+  public CommitController(EventBus eventBus, final GitInfo gitInfo, Stage stage) {
     this.eventBus = eventBus;
     this.gitInfo = gitInfo;
+    this.stage = stage;
   }
 
   @Override
@@ -59,5 +65,6 @@ public class CommitController implements Initializable, Refreshable {
     Boolean amendMode = amendCheck.selectedProperty().getValue();
     Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+    stage.close();
   }
 }

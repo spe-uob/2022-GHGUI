@@ -4,6 +4,7 @@ import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.CommitController;
 import uk.ac.bristol.controllers.InformationController;
@@ -28,9 +29,9 @@ public final class CommitControllerFactory {
    * @param gitInfo Information about the git repo for this tab
    * @return The loaded FXML object for InformationController
    */
-  public static Parent build(final EventBus eventBus, final GitInfo gitInfo) {
+  public static Parent build(final EventBus eventBus, final GitInfo gitInfo, Stage stage) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(__ -> new CommitController(eventBus, gitInfo));
+    loader.setControllerFactory(__ -> new CommitController(eventBus, gitInfo, stage));
     return ErrorHandler.deferredCatch(() -> loader.load());
   }
 }
