@@ -8,7 +8,7 @@
    <content>
       <VBox styleClass="flex-use-title">
          <children>
-            <TitledPane animated="false" styleClass="main-title-box" text="local">
+            <TitledPane animated="false" styleClass="flex-use-item-title" text="local">
                <content>
                   <VBox fx:id="local" styleClass="titledPaneContents" />
                </content>
