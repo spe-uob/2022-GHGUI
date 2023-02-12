@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -25,6 +26,7 @@ import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
@@ -35,6 +37,7 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
+@Slf4j
 public class TabController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -79,14 +82,27 @@ public class TabController implements Initializable, Refreshable {
 
   /** TODO: Link with JGitUtil. */
   @FXML
-  private void push() {
-    return;
+  private void push(Event event) {
+    log.info(event.getEventType().getName());
+    log.info("Push was requested - feature not implemented.");
   }
 
   /** TODO: Link with JGitUtil. */
   @FXML
-  private void commit() {
-    return;
+  private void pull(Event event) {
+    log.info(event.getEventType().getName());
+    log.info("Pull was requested - feature not implemented.");
+  }
+
+  @FXML
+  private void commit(Event event) {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> CommitControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
   }
 
   /** TODO: Link with JGitUtil. */

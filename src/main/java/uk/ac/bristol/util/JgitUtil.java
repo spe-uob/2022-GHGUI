@@ -3,6 +3,7 @@ package uk.ac.bristol.util;
 import java.io.File;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -52,6 +53,25 @@ public final class JgitUtil {
     ErrorHandler.mightFail(
         gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
+  }
+
+  public static void commit(
+      final GitInfo gitInfo,
+      final String message,
+      final Boolean amendMode,
+      final Boolean stagedOnly) {
+    CommitCommand commitCommand = gitInfo.command(Git::commit);
+    commitCommand.setMessage(message);
+    commitCommand.setAllowEmpty(false);
+    commitCommand.setAll(!stagedOnly);
+    commitCommand.setAmend(amendMode);
+    // It may be a better idea to throw this exception further up in the chain, or at least
+    // handle it slightly better down here. A problem for anyone but present me.
+    try {
+      commitCommand.call();
+    } catch (Exception e) {
+      ErrorHandler.handle(e);
+    }
   }
 
   /**
