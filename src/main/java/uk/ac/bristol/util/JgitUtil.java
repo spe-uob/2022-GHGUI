@@ -50,7 +50,11 @@ public final class JgitUtil {
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
-  public static void commit(final GitInfo gitInfo, final String message, final Boolean amendMode, final Boolean stagedOnly) {
+  public static void commit(
+      final GitInfo gitInfo,
+      final String message,
+      final Boolean amendMode,
+      final Boolean stagedOnly) {
     CommitCommand commitCommand = gitInfo.getGit().commit();
     commitCommand.setMessage(message);
     commitCommand.setAllowEmpty(false);

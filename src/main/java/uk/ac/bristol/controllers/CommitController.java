@@ -3,8 +3,6 @@ package uk.ac.bristol.controllers;
 import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import javafx.beans.property.BooleanProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,8 +10,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
-
-import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
@@ -35,6 +31,7 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
+
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
