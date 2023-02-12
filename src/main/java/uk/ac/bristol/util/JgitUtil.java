@@ -60,7 +60,7 @@ public final class JgitUtil {
       final String message,
       final Boolean amendMode,
       final Boolean stagedOnly) {
-    CommitCommand commitCommand = gitInfo.getGit().commit();
+    CommitCommand commitCommand = gitInfo.command(Git::commit);
     commitCommand.setMessage(message);
     commitCommand.setAllowEmpty(false);
     commitCommand.setAll(!stagedOnly);

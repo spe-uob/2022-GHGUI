@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -95,10 +96,14 @@ public class TabController implements Initializable, Refreshable {
 
   @FXML
   private void commit(Event event) {
-    final Stage commitWindow = new Stage();
-    commitWindow.setScene(
-        new Scene(CommitControllerFactory.build(eventBus, gitInfo, commitWindow)));
-    commitWindow.show();
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> CommitControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+
   }
 
   /** TODO: Link with JGitUtil. */

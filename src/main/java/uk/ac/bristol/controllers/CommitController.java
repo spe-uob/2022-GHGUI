@@ -24,7 +24,6 @@ public class CommitController implements Initializable, Refreshable {
   private GitInfo gitInfo;
 
   /** Own stage, so that the window can close itself once a commit is done */
-  private Stage stage;
 
   /** The root pane for this controller. */
   @FXML private TitledPane root;
@@ -35,10 +34,9 @@ public class CommitController implements Initializable, Refreshable {
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
-  public CommitController(EventBus eventBus, final GitInfo gitInfo, Stage stage) {
+  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     this.gitInfo = gitInfo;
-    this.stage = stage;
   }
 
   @Override
@@ -62,6 +60,7 @@ public class CommitController implements Initializable, Refreshable {
     Boolean amendMode = amendCheck.selectedProperty().getValue();
     Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+    final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }
 }

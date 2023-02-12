@@ -1,14 +1,14 @@
 package uk.ac.bristol.controllers.factories;
 
 import com.google.common.eventbus.EventBus;
+
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.CommitController;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building InformationController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -26,11 +26,11 @@ public final class CommitControllerFactory {
    *
    * @param eventBus The EventBus shared by this tab
    * @param gitInfo Information about the git repo for this tab
-   * @return The loaded FXML object for InformationController
+   * @return The loaded FXML object for CommitControler
    */
-  public static Parent build(final EventBus eventBus, final GitInfo gitInfo, Stage stage) {
+  public static Parent build(final EventBus eventBus, final GitInfo gitInfo) throws IOException {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(__ -> new CommitController(eventBus, gitInfo, stage));
-    return ErrorHandler.deferredCatch(() -> loader.load());
+    loader.setControllerFactory(__ -> new CommitController(eventBus, gitInfo));
+    return loader.load();
   }
 }
