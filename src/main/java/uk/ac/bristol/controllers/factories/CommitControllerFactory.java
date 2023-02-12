@@ -5,6 +5,7 @@ import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
+import uk.ac.bristol.controllers.CommitController;
 import uk.ac.bristol.controllers.InformationController;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -29,7 +30,7 @@ public final class CommitControllerFactory {
    */
   public static Parent build(final EventBus eventBus, final GitInfo gitInfo) {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(__ -> new InformationController(eventBus, gitInfo));
+    loader.setControllerFactory(__ -> new CommitController(eventBus, gitInfo));
     return ErrorHandler.deferredCatch(() -> loader.load());
   }
 }

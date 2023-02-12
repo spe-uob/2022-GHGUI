@@ -3,6 +3,8 @@ package uk.ac.bristol.controllers;
 import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import javafx.beans.property.BooleanProperty;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -13,6 +15,7 @@ import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 
 public class CommitController implements Initializable, Refreshable {
 
@@ -27,14 +30,12 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
-
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
-  public CommitController(final Git git) {
-    this.eventBus = new EventBus();
-    eventBus.register(this);
-    this.gitInfo = new GitInfo(git);
+  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
+    this.eventBus = eventBus;
+    this.gitInfo = gitInfo;
   }
 
   @Override
@@ -53,5 +54,10 @@ public class CommitController implements Initializable, Refreshable {
   }
 
   @FXML
-  public void confirmCommit(Event event) {}
+  public void confirmCommit(Event event) {
+    String messageString = textBox.getText();
+    Boolean amendMode = amendCheck.selectedProperty().getValue();
+    Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
+    JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+  }
 }
