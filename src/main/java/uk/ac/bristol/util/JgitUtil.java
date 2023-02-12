@@ -50,10 +50,12 @@ public final class JgitUtil {
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
-  public static void commit(final GitInfo gitInfo, final String message) {
+  public static void commit(final GitInfo gitInfo, final String message, final Boolean amendMode, final Boolean stagedOnly) {
     CommitCommand commitCommand = gitInfo.getGit().commit();
     commitCommand.setMessage(message);
     commitCommand.setAllowEmpty(false);
+    commitCommand.setAll(!stagedOnly);
+    commitCommand.setAmend(amendMode);
     // It may be a better idea to throw this exception further up in the chain, or at least
     // handle it slightly better down here. A problem for anyone but present me.
     try {
