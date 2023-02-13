@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<TitledPane animated="false" collapsible="false" text="Push" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controller.PushController">
+   <content>
+      <VBox prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <VBox alignment="CENTER" prefHeight="350.0" prefWidth="600.0">
+               <children>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="Remote: " />
+                        <TextField fx:id="remoteTextBox" />
+                     </children>
+                  </HBox>
+                  <CheckBox fx:id="allCheck" mnemonicParsing="false" text="Push All Branches">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="forceCheck" mnemonicParsing="false" text="Force Push">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <CheckBox fx:id="tagsCheck" mnemonicParsing="false" text="Push Tags">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </CheckBox>
+                  <Button mnemonicParsing="false" onMouseClicked="#confirmPush" text="Push">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </Button>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
+               <children>
+                  <ProgressBar prefWidth="200.0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>
