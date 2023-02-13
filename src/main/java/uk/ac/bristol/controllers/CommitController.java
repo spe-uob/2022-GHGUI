@@ -30,11 +30,13 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
+
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
   /**
    * Constructor for the CommitController. Registers obect to the EventBus.
+   *
    * @param eventBus
    * @param gitInfo
    */
@@ -62,9 +64,9 @@ public class CommitController implements Initializable, Refreshable {
     // Nothing to be done.
   }
 
-  /** 
-   * Called when the Commit buttons is pressed on the window.
-   * Calls nevessary JGit utilities and closes the window.
+  /**
+   * Called when the Commit buttons is pressed on the window. Calls nevessary JGit utilities and
+   * closes the window.
    */
   @FXML
   public void confirmCommit() {

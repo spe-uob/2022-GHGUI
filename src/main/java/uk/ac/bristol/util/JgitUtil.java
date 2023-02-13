@@ -55,9 +55,9 @@ public final class JgitUtil {
     // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
   }
 
-  /** 
+  /**
    * Commit to the local repository
-   * 
+   *
    * @param gitInfo Shared git information
    * @param message Commit message
    * @param amendMode Amend the last commit instead
