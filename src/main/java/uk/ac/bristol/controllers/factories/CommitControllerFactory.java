@@ -9,11 +9,11 @@ import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.CommitController;
 import uk.ac.bristol.util.GitInfo;
 
-/** A class for building InformationController. */
+/** A class for building CommitController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class CommitControllerFactory {
-  /** The filename of the fxml file for building the InformationController. */
+  /** The filename of the fxml file for building the CommitController. */
   private static final String FILE_PATH = "fxml-resources/commit.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */

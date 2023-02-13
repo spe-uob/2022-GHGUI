@@ -3,7 +3,6 @@ package uk.ac.bristol.controllers;
 import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -15,6 +14,7 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
+/** The FXML class to handle the Commit pop-up window. */
 public class CommitController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -30,32 +30,44 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
-
   @FXML private CheckBox amendCheck;
   @FXML private TextArea textBox;
 
+  /**
+   * Constructor for the CommitController. Registers obect to the EventBus.
+   * @param eventBus
+   * @param gitInfo
+   */
   public CommitController(EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
+    eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
+  /** {@inheritDoc} */
   @Override
   public void refresh() {
     // Nothing to be done.
   }
 
+  /** {@inheritDoc} */
   @Override
   public void onRefreshEvent(RefreshEvent event) {
     // Nothing to be done.
   }
 
+  /** {@inheritDoc} */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     // Nothing to be done.
   }
 
+  /** 
+   * Called when the Commit buttons is pressed on the window.
+   * Calls nevessary JGit utilities and closes the window.
+   */
   @FXML
-  public void confirmCommit(Event event) {
+  public void confirmCommit() {
     String messageString = textBox.getText();
     Boolean amendMode = amendCheck.selectedProperty().getValue();
     Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
