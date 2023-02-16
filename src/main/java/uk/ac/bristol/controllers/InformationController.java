@@ -11,6 +11,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.Ref;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -45,32 +48,32 @@ public class InformationController implements Initializable, Refreshable {
     this.gitInfo = gitInfo;
   }
 
+  /**
+   * A function to convert a ref to a button containing the name of the branch.
+   *
+   * @param ref A ref representing a branch
+   * @return A button representing the branch
+   */
+  private Button buttonFromRef(final Ref ref) {
+    final Button button = new Button(ref.getName().substring(Constants.R_HEADS.length()));
+    button.setPrefWidth(Double.MAX_VALUE);
+    button.setAlignment(Pos.BASELINE_LEFT);
+    return button;
+  }
+
   /** Load all the components to display information about the local and remote branches. */
   private void generateComponents() {
-    final Button[] repoButtons =
-        ErrorHandler.deferredCatch(
-            () ->
-                gitInfo.getGit().branchList().call().stream()
-                    .map(
-                        ref -> {
-                          final Button button =
-                              new Button(ref.getName().substring("refs/heads/".length()));
-                          button.setPrefWidth(Double.MAX_VALUE);
-                          button.setAlignment(Pos.BASELINE_LEFT);
-                          return button;
-                        })
-                    .toArray(Button[]::new));
-    local.getChildren().addAll(repoButtons);
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::branchList)::call,
+        refs -> {
+          local.getChildren().addAll(refs.stream().map(this::buttonFromRef).toArray(Button[]::new));
+        });
 
-    final TitledPane[] remotes =
-        ErrorHandler.deferredCatch(
-            () ->
-                gitInfo.getGit().remoteList().call().stream()
-                    .map(
-                        remoteConfig ->
-                            RemoteControllerFactory.build(eventBus, gitInfo, remoteConfig))
-                    .toArray(TitledPane[]::new));
-    remote.getChildren().addAll(remotes);
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::remoteList)::call,
+        remotes -> {
+          remote.getChildren().addAll(RemoteControllerFactory.buildAll(eventBus, gitInfo, remotes));
+        });
   }
 
   /** {@inheritDoc} */

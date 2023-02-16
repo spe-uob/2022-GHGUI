@@ -638,3 +638,8 @@ body {
 .taskbar-item-img:hover path {
   -fx-text-fill: white;
 }
+
+#genericlabel {
+  -fx-text-fill: #FFFFFF;
+  -fx-padding: 5px;
+}
