@@ -1,14 +1,15 @@
 package uk.ac.bristol.controllers.factories;
 
 import com.google.common.eventbus.EventBus;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.RemoteController;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building RemoteController. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -28,11 +29,32 @@ public final class RemoteControllerFactory {
    * @param gitInfo Information about the git repo for this tab
    * @param remote Information about the remote repo assigned to this RemoteController
    * @return The loaded FXML object for RemoteController
+   * @throws IOException
    */
   public static Parent build(
-      final EventBus eventBus, final GitInfo gitInfo, final RemoteConfig remote) {
+      final EventBus eventBus, final GitInfo gitInfo, final RemoteConfig remote)
+      throws IOException {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
     loader.setControllerFactory(__ -> new RemoteController(eventBus, gitInfo, remote));
-    return ErrorHandler.deferredCatch(() -> loader.load());
+    return loader.load();
+  }
+
+  /**
+   * Constructs a list of RemoteControllers.
+   *
+   * @param eventBus The EventBus shared by this tab
+   * @param gitInfo Information about the git repo for this tab
+   * @param remotes Information about each repo
+   * @return The loaded FXML object for RemoteController
+   * @throws IOException
+   */
+  public static Parent[] buildAll(
+      final EventBus eventBus, final GitInfo gitInfo, final List<RemoteConfig> remotes)
+      throws IOException {
+    final Parent[] parents = new Parent[remotes.size()];
+    for (int i = 0; i < parents.length; ++i) {
+      parents[i] = build(eventBus, gitInfo, remotes.get(i));
+    }
+    return parents;
   }
 }

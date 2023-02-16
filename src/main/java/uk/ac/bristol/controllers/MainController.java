@@ -10,7 +10,7 @@ import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
-import uk.ac.bristol.util.errors.ErrorHandler;
+import uk.ac.bristol.util.errors.AlertBuilder;
 
 /** The FXML controller for the main window. */
 public class MainController {
@@ -21,9 +21,13 @@ public class MainController {
   /** The pane that contains the tabs each corresponding to an open git project. */
   @FXML private TabPane tabs;
 
-  /** Directory selection dialog. */
+  /**
+   * Directory selection dialog.
+   *
+   * @throws IOException
+   */
   @FXML
-  private void selectDirectory() {
+  private void selectDirectory() throws IOException {
     final DirectoryChooser directoryChooser = new DirectoryChooser();
     final File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
@@ -35,15 +39,13 @@ public class MainController {
     final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory == null) {
-      ErrorHandler.handle(new IOException());
+      AlertBuilder.warn("The directory you selected is not a valid git repository!").showAndWait();
       return;
     }
 
     final Tab tab = new Tab(gitDirectory.getParentFile().getName());
-    ErrorHandler.deferredCatch(
-        () ->
-            tab.setContent(
-                TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build()))));
+    tab.setContent(
+        TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
     tabs.getTabs().add(tab);
   }
 }
