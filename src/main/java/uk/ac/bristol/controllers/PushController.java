@@ -24,12 +24,12 @@ public class PushController implements Initializable, Refreshable {
   /** The root pane for this controller. */
   @FXML private TitledPane root;
 
-  /** The text box for the remote locator.*/
+  /** The text box for the remote locator. */
   @FXML private TextField remoteTextBox;
   /** The checkbox to add the all flag to the push. */
   @FXML private CheckBox allCheck;
   /** The checbox to add the force flag to the push. */
-  @FXML private CheckBox forceCheck; 
+  @FXML private CheckBox forceCheck;
   /** The checkbox to add the tags flag to the push. */
   @FXML private CheckBox tagsCheck;
 
@@ -64,10 +64,9 @@ public class PushController implements Initializable, Refreshable {
   }
 
   /**
-   * Called when the Push button is pressed on the window. Calls nevessary JGit utilities and
-   * closes the window.
+   * Called when the Push button is pressed on the window. Calls nevessary JGit utilities and closes
+   * the window.
    */
   @FXML
-  public void confirmPush() {
-  }
+  public void confirmPush() {}
 }
