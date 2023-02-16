@@ -23,15 +23,14 @@ public class CommitController implements Initializable, Refreshable {
   /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
 
-  /** Own stage, so that the window can close itself once a commit is done */
-
   /** The root pane for this controller. */
   @FXML private TitledPane root;
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
-
+  /** CheckBox to enable amend mode. */
   @FXML private CheckBox amendCheck;
+  /** TextArea in which to input the commit message. */
   @FXML private TextArea textBox;
 
   /**
@@ -65,15 +64,18 @@ public class CommitController implements Initializable, Refreshable {
   }
 
   /**
-   * Called when the Commit buttons is pressed on the window. Calls nevessary JGit utilities and
+   * Called when the Commit button is pressed on the window. Calls nevessary JGit utilities and
    * closes the window.
    */
   @FXML
   public void confirmCommit() {
+    // Get values from the pop-up.
     String messageString = textBox.getText();
     Boolean amendMode = amendCheck.selectedProperty().getValue();
     Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
+    // JGit sets the flags and options on the CommitCommand and calls it.
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+    // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }
