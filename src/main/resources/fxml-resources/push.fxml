@@ -10,8 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<TitledPane animated="false" collapsible="false" text="Push" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controller.PushController">
+<TitledPane animated="false" collapsible="false" text="Push" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.PushController">
    <content>
       <VBox prefHeight="400.0" prefWidth="600.0">
          <children>
