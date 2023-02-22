@@ -1,16 +1,23 @@
 package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.Set;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Push pop-up window. */
 public class PushController implements Initializable, Refreshable {
@@ -60,7 +67,11 @@ public class PushController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    // Nothing to be done.
+    // set the default text for the repository based on current branch
+      Set<String> remotes = gitInfo.getRepo().getRemoteNames();
+      if (!remotes.isEmpty()) {
+        remoteTextBox.setText(remotes.iterator().next());
+      }
   }
 
   /**
@@ -68,5 +79,13 @@ public class PushController implements Initializable, Refreshable {
    * the window.
    */
   @FXML
-  public void confirmPush() {}
+  public void confirmPush() {
+    String remoteText = remoteTextBox.getText();
+    Boolean allFlag = allCheck.selectedProperty().getValue();
+    Boolean forceFlag = forceCheck.selectedProperty().getValue();
+    Boolean tagsFlag = tagsCheck.selectedProperty().getValue();
+    JgitUtil.push(gitInfo, remoteText, allFlag, forceFlag, tagsFlag);
+    final Stage stage = (Stage) root.getScene().getWindow();
+    stage.close();
+  }
 }

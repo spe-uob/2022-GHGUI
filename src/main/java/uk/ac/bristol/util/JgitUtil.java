@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
@@ -174,5 +175,18 @@ public final class JgitUtil {
       }
     }
     return dirFile.delete();
+  }
+
+  public static void push(final GitInfo gitInfo, final String remote, final boolean all, final boolean force, final boolean tags) {
+    PushCommand pushCommand =  gitInfo.command(Git::push);
+    pushCommand.setRemote(remote);
+    pushCommand.setForce(force);
+    if (all) pushCommand.setPushAll();
+    if (tags) pushCommand.setPushTags();
+    try {
+      pushCommand.call();
+    } catch (Exception e) {
+      ErrorHandler.handle(e);
+    }
   }
 }
