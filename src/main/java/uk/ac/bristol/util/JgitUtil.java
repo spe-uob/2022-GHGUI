@@ -177,8 +177,13 @@ public final class JgitUtil {
     return dirFile.delete();
   }
 
-  public static void push(final GitInfo gitInfo, final String remote, final boolean all, final boolean force, final boolean tags) {
-    PushCommand pushCommand =  gitInfo.command(Git::push);
+  public static void push(
+      final GitInfo gitInfo,
+      final String remote,
+      final boolean all,
+      final boolean force,
+      final boolean tags) {
+    PushCommand pushCommand = gitInfo.command(Git::push);
     pushCommand.setRemote(remote);
     pushCommand.setForce(force);
     if (all) pushCommand.setPushAll();

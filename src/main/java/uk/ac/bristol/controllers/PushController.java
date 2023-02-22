@@ -1,12 +1,9 @@
 package uk.ac.bristol.controllers;
 
 import com.google.common.eventbus.EventBus;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -17,7 +14,6 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Push pop-up window. */
 public class PushController implements Initializable, Refreshable {
@@ -68,10 +64,10 @@ public class PushController implements Initializable, Refreshable {
   @Override
   public void initialize(URL location, ResourceBundle resources) {
     // set the default text for the repository based on current branch
-      Set<String> remotes = gitInfo.getRepo().getRemoteNames();
-      if (!remotes.isEmpty()) {
-        remoteTextBox.setText(remotes.iterator().next());
-      }
+    Set<String> remotes = gitInfo.getRepo().getRemoteNames();
+    if (!remotes.isEmpty()) {
+      remoteTextBox.setText(remotes.iterator().next());
+    }
   }
 
   /**
