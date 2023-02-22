@@ -1,19 +1,5 @@
-/* defines a styleclass, this styleclass can be
-   applied to objects in javafx-scenebuilder
-
-   current colours are ripped off from discord*/
-
 /* JavaFX documentation recommends that you put each attribute on it's own line, 
 rather than defining size, colour, style etc. all on one single line.*/
-
-* {
-  border: 1px solid black;
-}
-
-* {
-  -fx-margin: 0;
-  -fx-padding: 0;
-}
 
 body,
 h1,
@@ -440,13 +426,9 @@ body {
 
 .flex-use-item-title {
   -fx-background-color: rgb(47, 52, 58);
-  -fx-padding-left: 45px;
   -fx-alignment: relative;
-  -fx-height: 30px;
-  line--fx-height: 30px;
   -fx-color: rgb(47, 52, 58);
   -fx-cursor: pointer;
-  -fx-z-index: 10;
   -fx-font-size: 14px;
   -fx-text-fill: white;
 }
@@ -455,7 +437,6 @@ body {
   -fx-background-color: rgb(47, 52, 58);
   -fx-padding-left: 45px;
   -fx-alignment: relative;
-  -fx-height: 30px;
   line--fx-height: 30px;
   -fx-color: rgb(113, 118, 118);
   -fx-cursor: pointer;
