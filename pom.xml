@@ -149,26 +149,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.panteleyev</groupId>
-        <artifactId>jpackage-maven-plugin</artifactId>
-        <version>1.5.2</version>
-        <configuration>
-          <name>ghgui</name>
-          <appVersion>${project.version}</appVersion>
-          <vendor>uk.ac.bristol</vendor>
-          <destination>target/dist</destination>
-          <module>uk.ac.bristol/App</module>
-          <runtimeImage>target/ghgui</runtimeImage>
-          <linuxShortcut>true</linuxShortcut>
-          <linuxPackageName>ghgui</linuxPackageName>
-          <linuxAppCategory>Utilities</linuxAppCategory>
-          <linuxMenuGroup>Utilities</linuxMenuGroup>
-          <javaOptions>
-            <option>-Dfile.encoding=UTF-8</option>
-          </javaOptions>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>com.gluonhq</groupId>
         <artifactId>gluonfx-maven-plugin</artifactId>
         <version>1.0.15</version>
