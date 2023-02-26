@@ -38,22 +38,35 @@
   </repositories>
 
   <dependencies>
+    <!-- Testing Framework -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- JGit -->
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${jgit.version}</version>
     </dependency>
+    <!-- Ssh support for JGit -->
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
       <version>${jgit.version}</version>
+      <!-- This exclusion is necessary for compilation with Graal -->
+      <!-- There's a non-zero chance it renders any sort of file transfer with JGit useless-->
+      <!-- But I suppose we'll figure that out later...-->
+      <!-- <exclusions>
+        <exclusion>
+          <groupId>org.apache.sshd</groupId>
+          <artifactId>sshd-sftp</artifactId>
+        </exclusion>
+      </exclusions> -->
     </dependency>
+    <!-- JavaFX libs -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -64,6 +77,7 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${openjfx.version}</version>
     </dependency>
+    <!-- JavaFX graphics libs. All platforms are included to allow cross-platform fat jars -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-graphics </artifactId>
@@ -82,17 +96,19 @@
       <version>${openjfx.version}</version>
       <classifier>mac</classifier>
     </dependency>
+    <!-- Annotations preprocessor -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
     </dependency>
+    <!-- We use this for the EventBus -->
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
-    <dependency>
+    <!-- <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
       <version>${log4j-slf4j-impl.version}</version>
@@ -102,7 +118,8 @@
           <artifactId>slf4j-api</artifactId>
         </exclusion>
       </exclusions>
-    </dependency>
+    </dependency> -->
+    <!-- Terminal emulator for JavaFX -->
     <dependency>
       <groupId>com.kodedu.terminalfx</groupId>
       <artifactId>terminalfx</artifactId>
