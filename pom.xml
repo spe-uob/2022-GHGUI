@@ -17,12 +17,12 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <openjfx.version>19</openjfx.version>
-    <jgit.version>6.3.0.202209071007-r</jgit.version>
-    <slf4j.version>2.0.3</slf4j.version>
-    <log4j-slf4j-impl.version>2.19.0</log4j-slf4j-impl.version>
+    <openjfx.version>21-ea+5</openjfx.version>
+    <jgit.version>6.4.0.202211300538-r</jgit.version>
+    <slf4j.version>2.0.6</slf4j.version>
+    <log4j-slf4j-impl.version>2.20.0</log4j-slf4j-impl.version>
     <guava.version>31.1-jre</guava.version>
-    <lombok.version>1.18.24</lombok.version>
+    <lombok.version>1.18.26</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
   </properties>
 
@@ -168,24 +168,9 @@
       <plugin>
         <groupId>com.gluonhq</groupId>
         <artifactId>gluonfx-maven-plugin</artifactId>
-        <version>1.0.15</version>
+        <version>1.0.16</version>
         <configuration>
           <mainClass>uk.ac.bristol.App</mainClass>
-          <bundlesList>
-            <item>
-              org.eclipse.jgit.internal.JGitText
-            </item>
-          </bundlesList>
-          <reflectionList>
-            <item>javafx.scene.control.Menu</item>
-            <item>javafx.scene.control.MenuItem</item>
-            <item>javafx.scene.control.MenuBar</item>
-            <item>javafx.scene.text.Text</item>
-            <item>javafx.scene.layout.GridPane</item>
-            <item>uk.ac.bristol.controllers.MainController</item>
-            <item>uk.ac.bristol.controllers.TabController</item>
-            <item>org.eclipse.jgit.internal.JGitText</item>
-          </reflectionList>
         </configuration>
       </plugin>
       <plugin>
