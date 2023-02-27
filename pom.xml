@@ -35,6 +35,10 @@
       <id>terminalfx-repo</id>
       <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
     </repository>
+    <repository>
+      <id>Jsch</id>
+      <url>http://jsch.sf.net/maven2/</url>
+    </repository>
   </repositories>
 
   <dependencies>
@@ -51,21 +55,53 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${jgit.version}</version>
     </dependency>
-    <!-- Ssh support for JGit -->
+    <!-- Ssh support for JGit:
+    This section is a little tricky to explain, but here we go:
+
+    There's two backends for SSH with JGit. The older JSch library, and the newer Apache MINA library.
+    JSch is older and no longer maintained, however there is still an actively maintained fork.
+    The developers of JGit recommend using Apache MINA, however, at the time of writing, the sshd-sftp
+    library that Apache MINA depends on does not compile on Graal.
+
+    Therefore, there's three ways to go about this part:
+    1. Use the JSch SSH implementation (not recommended but should work everywhere)
+    2. Use the Apache MINA SSH implementation (recommended but won't compile on Graal)
+    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks file transfer over ssh)
+    -->
+
+    <!-- These dependencies let us use the JSch backend for SSH -->
     <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
+      <version>${jgit.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jcraft</groupId>
+          <artifactId>jsch</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Include the actively maintained JSch fork -->
+    <dependency>
+      <groupId>com.github.mwiede</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.2.7</version>
+    </dependency>
+
+    <!-- These dependencies let us use the Apache MINA backend for SSH -->
+    <!-- Only include the 'exclusions' section if you're attempting to compile this code with Graal -->
+    <!-- <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
       <version>${jgit.version}</version>
-      <!-- This exclusion is necessary for compilation with Graal -->
-      <!-- There's a non-zero chance it renders any sort of file transfer with JGit useless-->
-      <!-- But I suppose we'll figure that out later...-->
-      <!-- <exclusions>
+      <exclusions>
         <exclusion>
           <groupId>org.apache.sshd</groupId>
           <artifactId>sshd-sftp</artifactId>
         </exclusion>
-      </exclusions> -->
-    </dependency>
+      </exclusions>
+    </dependency> -->
+
     <!-- JavaFX libs -->
     <dependency>
       <groupId>org.openjfx</groupId>
