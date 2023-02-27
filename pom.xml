@@ -20,7 +20,7 @@
     <openjfx.version>21-ea+5</openjfx.version>
     <jgit.version>6.4.0.202211300538-r</jgit.version>
     <slf4j.version>2.0.6</slf4j.version>
-    <log4j-slf4j-impl.version>2.20.0</log4j-slf4j-impl.version>
+    <logback.version>1.4.5</logback.version>
     <guava.version>31.1-jre</guava.version>
     <lombok.version>1.18.26</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
@@ -108,17 +108,17 @@
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
-    <!-- <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>${log4j-slf4j-impl.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency> -->
+    <!-- Logging framework -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
     <!-- Terminal emulator for JavaFX -->
     <dependency>
       <groupId>com.kodedu.terminalfx</groupId>
