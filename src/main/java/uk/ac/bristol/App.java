@@ -42,14 +42,14 @@ public class App extends Application {
 
     Screen screen = Screen.getPrimary();
 
-    //get window Screen range
+    // get window Screen range
     Rectangle2D bounds = screen.getVisualBounds();
 
     // get screen width and height
     double screenWidth = bounds.getWidth();
     double screenHeight = bounds.getHeight();
     // set scene in  Perfect size
-    final Scene scene = new Scene(root, screenWidth-5, screenHeight-50);
+    final Scene scene = new Scene(root, screenWidth - 5, screenHeight - 50);
 
     // Apply CSS
     final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
