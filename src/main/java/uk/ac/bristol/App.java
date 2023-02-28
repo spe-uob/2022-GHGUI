@@ -3,8 +3,10 @@ package uk.ac.bristol;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /** Base class to start JavaFX application. */
@@ -37,7 +39,17 @@ public class App extends Application {
 
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
-    final Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
+
+    Screen screen = Screen.getPrimary();
+
+    //get window Screen range
+    Rectangle2D bounds = screen.getVisualBounds();
+
+    // get screen width and height
+    double screenWidth = bounds.getWidth();
+    double screenHeight = bounds.getHeight();
+    // set scene in  Perfect size
+    final Scene scene = new Scene(root, screenWidth-5, screenHeight-50);
 
     // Apply CSS
     final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
