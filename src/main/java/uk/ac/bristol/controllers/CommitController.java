@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.Event;
@@ -10,7 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
-import uk.ac.bristol.controllers.events.RefreshEvent;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
@@ -41,11 +40,6 @@ public class CommitController implements Initializable, Refreshable {
 
   @Override
   public void refresh() {
-    // Nothing to be done.
-  }
-
-  @Override
-  public void onRefreshEvent(RefreshEvent event) {
     // Nothing to be done.
   }
 
