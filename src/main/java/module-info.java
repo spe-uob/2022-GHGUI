@@ -6,7 +6,6 @@ module uk.ac.bristol {
   requires transitive org.eclipse.jgit;
   requires org.eclipse.jgit.ssh.apache;
   requires lombok;
-  requires com.google.common;
   requires org.slf4j;
   requires com.kodedu.terminalfx;
 

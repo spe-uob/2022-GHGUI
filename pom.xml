@@ -19,7 +19,6 @@
     <jgit.version>6.3.0.202209071007-r</jgit.version>
     <slf4j.version>2.0.3</slf4j.version>
     <log4j-slf4j-impl.version>2.19.0</log4j-slf4j-impl.version>
-    <guava.version>31.1-jre</guava.version>
     <lombok.version>1.18.24</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
   </properties>
@@ -66,11 +65,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

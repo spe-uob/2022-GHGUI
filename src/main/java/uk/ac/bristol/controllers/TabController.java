@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
@@ -23,8 +21,7 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotWalk;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
@@ -201,15 +198,5 @@ public class TabController implements Initializable, Refreshable {
   @Override
   public void refresh() {
     // Currently unnecessary
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshTab)) {
-      refresh();
-      System.out.println("Refreshed tab");
-    }
   }
 }
