@@ -84,6 +84,7 @@ public class InformationController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public final void refresh() {
+    eventBus.refresh(RemoteController.class);
     remote.getChildren().clear();
     local.getChildren().clear();
     generateComponents();
