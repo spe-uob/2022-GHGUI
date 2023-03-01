@@ -1,20 +1,16 @@
 package uk.ac.bristol.controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
-import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
-public class CommitController implements Initializable, Refreshable {
+public class CommitController {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -36,16 +32,6 @@ public class CommitController implements Initializable, Refreshable {
   public CommitController(EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     this.gitInfo = gitInfo;
-  }
-
-  @Override
-  public void refresh() {
-    // Nothing to be done.
-  }
-
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    // Nothing to be done.
   }
 
   @FXML

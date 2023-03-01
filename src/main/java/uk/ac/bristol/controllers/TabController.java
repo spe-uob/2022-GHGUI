@@ -99,12 +99,6 @@ public class TabController implements Initializable, Refreshable {
         });
   }
 
-  /** TODO: Link with JGitUtil. */
-  @FXML
-  private void checkout() {
-    return;
-  }
-
   /**
    * Populate the combobox with the contents of the stored credentials.
    *
@@ -180,9 +174,8 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
-  /** {@inheritDoc} */
   @Override
   public void refresh() {
-    // Currently unnecessary
+    eventBus.refresh(StatusController.class, InformationController.class);
   }
 }
