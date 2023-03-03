@@ -16,7 +16,7 @@
       <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="menuButton" text="Push" />
-            <Button mnemonicParsing="false" onAction="#pull" onMouseClicked="#pull" styleClass="menuButton" text="Pull" />
+            <Button mnemonicParsing="false" onMouseClicked="#pull" styleClass="menuButton" text="Pull" />
             <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:" />
