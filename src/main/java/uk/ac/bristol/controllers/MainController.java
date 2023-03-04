@@ -53,13 +53,14 @@ public class MainController {
     tabs.getTabs().add(tab);
   }
 
+  /** Event to start the window containing licensing. */
   @FXML
   private void licensing() {
     ErrorHandler.tryWith(
         LicenseControllerFactory::build,
         root -> {
-          Scene scene = new Scene(root);
-          Stage stage = new Stage();
+          final Scene scene = new Scene(root);
+          final Stage stage = new Stage();
           stage.setScene(scene);
           stage.show();
         });
