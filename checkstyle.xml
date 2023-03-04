@@ -67,12 +67,6 @@ documentation.
   </module>
 
   <module name="TreeWalker">
-
-    <module name="SuppressionCommentFilter">
-      <property name="messageFormat" value="CHECKSTYLE:IGNORE ([^ ]+)" />
-      <property name="checkFormat" value="$1" />
-    </module>
-
     <module name="SuppressWithNearbyCommentFilter">
       <property name="commentFormat" value="CHECKSTYLE:IGNORE ([^ ]+) (\d+)" />
       <property name="checkFormat" value="$1" />
