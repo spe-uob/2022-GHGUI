@@ -7,6 +7,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+class Shim {
+  public static void main(final String[] args) {
+    App.main(args);
+  }
+}
+
 /** Base class to start JavaFX application. */
 public class App extends Application {
 
