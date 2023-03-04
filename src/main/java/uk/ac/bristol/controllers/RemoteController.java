@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -16,8 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
-import org.eclipse.jgit.api.errors.CheckoutConflictException;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
@@ -28,7 +25,6 @@ import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
-import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for each remote repo inside the information bar. */
@@ -87,9 +83,10 @@ public class RemoteController implements Initializable, Refreshable {
     final Button button = new Button(branchName);
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(event -> {
-      JgitUtil.checkoutBranch(gitInfo, ref);
-    });
+    button.setOnMouseClicked(
+        event -> {
+          JgitUtil.checkoutBranch(gitInfo, ref);
+        });
     return button;
   }
 
