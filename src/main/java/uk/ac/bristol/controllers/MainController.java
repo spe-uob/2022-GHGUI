@@ -9,10 +9,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
-
 import uk.ac.bristol.controllers.factories.LicenseControllerFactory;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
 import uk.ac.bristol.util.errors.AlertBuilder;
@@ -57,11 +55,13 @@ public class MainController {
 
   @FXML
   private void licensing() {
-    ErrorHandler.tryWith(LicenseControllerFactory::build, root -> {
-      Scene scene = new Scene(root);
-      Stage stage = new Stage();
-      stage.setScene(scene);
-      stage.show();
-    });
+    ErrorHandler.tryWith(
+        LicenseControllerFactory::build,
+        root -> {
+          Scene scene = new Scene(root);
+          Stage stage = new Stage();
+          stage.setScene(scene);
+          stage.show();
+        });
   }
 }
