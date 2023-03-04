@@ -2,6 +2,7 @@ package uk.ac.bristol.controllers;
 
 import javafx.application.Application;
 import javafx.application.HostServices;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -32,7 +33,9 @@ public class LicenceController {
       currentPane = infoPane.getChildrenUnmodifiable().get(0);
     }
     currentPane.setVisible(false);
+    currentPane.setDisable(true);
     childPane.setVisible(true);
+    childPane.setDisable(false);
     currentPane = childPane;
   }
 
@@ -49,20 +52,18 @@ public class LicenceController {
     DummyApp _app = new DummyApp();
     HostServices hostServices = _app.getHostServices();
 
-    switch (source.getText()) {
-      case "Apache-2.0":
-        hostServices.showDocument("https://www.apache.org/licenses/LICENSE-2.0");
-      case "GPLv2+CE":
-        hostServices.showDocument("https://openjdk.org/legal/gplv2+ce.html");
-      case "EDL-1.0":
-        hostServices.showDocument("https://www.eclipse.org/org/documents/edl-v10.php");
-      case "MIT":
-        hostServices.showDocument("https://opensource.org/license/mit/");
-      case "EPL-1.0":
-        hostServices.showDocument("https://www.eclipse.org/legal/epl-v10.html");
-      case "LGPL-2.1":
-        hostServices.showDocument("https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html");
-      default:
+    final String url =
+        switch (source.getText()) {
+          case "Apache-2.0" -> "https://www.apache.org/licenses/LICENSE-2.0";
+          case "GPLv2+CE" -> "https://openjdk.org/legal/gplv2+ce.html";
+          case "EDL-1.0" -> "https://www.eclipse.org/org/documents/edl-v10.php";
+          case "MIT" -> "https://opensource.org/license/mit/";
+          case "EPL-1.0" -> "https://www.eclipse.org/legal/epl-v10.html";
+          case "LGPL-2.1" -> "https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html";
+          default -> null;
+        };
+    if (url != null) {
+      Platform.runLater(() -> hostServices.showDocument(url));
     }
   }
 }
