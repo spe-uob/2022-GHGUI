@@ -41,46 +41,40 @@ public final class StatusBarController implements Initializable, Refreshable {
     this.gitInfo = gitInfo;
   }
 
+  /**
+   * Generate informational labels.
+   *
+   * @throws IOException
+   */
+  private void generateLabels() throws IOException {
+    final String branchName = gitInfo.getRepo().getBranch();
+    final Label nameLabel = new Label("Checked-out: " + branchName);
+    nameLabel.setId("genericlabel");
+    root.getChildren().add(nameLabel);
+
+    final BranchTrackingStatus status = BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
+
+    final Label statusLabel =
+        status != null
+            ? new Label("↑" + status.getAheadCount() + " ↓" + status.getBehindCount())
+            : new Label("...no remote detected.");
+    statusLabel.setId("genericlabel");
+    root.getChildren().add(statusLabel);
+  }
+
   /** {@inheritDoc} */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
-    refresh();
+    ErrorHandler.mightFail(this::generateLabels);
   }
 
   /** {@inheritDoc} */
   @Override
   public void refresh() {
     root.getChildren().clear();
-    final String branchName;
-    try {
-      branchName = gitInfo.getRepo().getBranch();
-      final Label nameLabel = new Label("Checked-out: " + branchName);
-      nameLabel.setId("genericlabel");
-      root.getChildren().add(nameLabel);
-    } catch (IOException ex) {
-      ErrorHandler.handle(ex);
-      return;
-    }
-
-    try {
-      final BranchTrackingStatus statusComparison =
-          BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
-
-      final Label statusLabel;
-      if (statusComparison != null) {
-        statusLabel =
-            new Label(
-                "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
-      } else {
-        statusLabel = new Label("...no remote detected.");
-      }
-      statusLabel.setId("genericlabel");
-      root.getChildren().add(statusLabel);
-    } catch (IOException ex) {
-      ErrorHandler.handle(ex);
-    }
+    ErrorHandler.mightFail(this::generateLabels);
   }
 
   /** {@inheritDoc} */

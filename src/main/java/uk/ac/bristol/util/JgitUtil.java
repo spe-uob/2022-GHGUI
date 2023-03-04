@@ -67,11 +67,7 @@ public final class JgitUtil {
     commitCommand.setAmend(amendMode);
     // It may be a better idea to throw this exception further up in the chain, or at least
     // handle it slightly better down here. A problem for anyone but present me.
-    try {
-      commitCommand.call();
-    } catch (Exception e) {
-      ErrorHandler.handle(e);
-    }
+    ErrorHandler.mightFail(commitCommand::call);
   }
 
   /**
