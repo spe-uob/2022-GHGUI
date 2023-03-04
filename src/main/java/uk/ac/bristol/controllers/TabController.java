@@ -174,6 +174,7 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
+  /** {@inheritDoc} */
   @Override
   public void refresh() {
     eventBus.refresh(StatusController.class, InformationController.class);
