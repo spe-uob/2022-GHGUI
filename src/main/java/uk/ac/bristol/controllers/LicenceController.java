@@ -44,12 +44,10 @@ public class LicenceController {
     // This is a really hacky workaround, but JavaFX is dumb and doesn't let you access this stuff
     // statically for some reason
     class DummyApp extends Application {
-      public HostServices hostServices = this.getHostServices();
-
       public void start(Stage __) {}
     }
     DummyApp _app = new DummyApp();
-    HostServices hostServices = _app.hostServices;
+    HostServices hostServices = _app.getHostServices();
 
     switch (source.getText()) {
       case "Apache-2.0":
