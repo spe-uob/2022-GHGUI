@@ -80,7 +80,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="Apache 2.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Hyperlink onMouseClicked="#license" text="Apache-2.0"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -135,7 +136,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="GPLv2+CE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Hyperlink onMouseClicked="#license" text="GPLv2+CE"
+                           GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -185,7 +187,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="EDL-1.0 (BSD-3-Clause)" GridPane.columnIndex="1"
+                        <Hyperlink onMouseClicked="#license" text="EDL-1.0 (BSD-3-Clause)"
+                           GridPane.columnIndex="1"
                            GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
@@ -236,7 +239,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -288,8 +292,8 @@
                         </Text>
                         <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <Hyperlink text="EPL-1.0" />
-                              <Hyperlink text="LGPL-2.1" />
+                              <Hyperlink onMouseClicked="#license" text="EPL-1.0" />
+                              <Hyperlink onMouseClicked="#license" text="LGPL-2.1" />
                            </children>
                         </VBox>
                      </children>
@@ -341,7 +345,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
@@ -391,7 +396,8 @@
                               <Insets left="3.0" />
                            </GridPane.margin>
                         </Text>
-                        <Hyperlink text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1"
+                           GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
                </children>
