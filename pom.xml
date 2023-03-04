@@ -65,7 +65,8 @@
     Therefore, there's three ways to go about this part:
     1. Use the JSch SSH implementation (not recommended but should work everywhere)
     2. Use the Apache MINA SSH implementation (recommended but won't compile on Graal)
-    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks file transfer over ssh)
+    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks
+    file transfer over ssh)
     -->
 
     <!-- These dependencies let us use the JSch backend for SSH -->
