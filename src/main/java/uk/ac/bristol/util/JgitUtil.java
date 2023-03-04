@@ -13,7 +13,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** Utility class containing static methods for interfacing with JGit. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class JgitUtil {
 

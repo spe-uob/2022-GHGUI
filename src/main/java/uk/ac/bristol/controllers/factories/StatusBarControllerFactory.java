@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.StatusBarController;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building StatusBarController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
+@UtilityClass
 public final class StatusBarControllerFactory {
 
   /** The filename of the fxml file for building the StatusController. */
