@@ -14,6 +14,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
+import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
@@ -22,6 +24,7 @@ import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for each remote repo inside the information bar. */
@@ -80,10 +83,16 @@ public class RemoteController implements Initializable, Refreshable {
     final Button button = new Button(branchName);
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(
-        (Event e) -> {
-          ErrorHandler.mightFail(gitInfo.command(Git::checkout).addPath(ref.getName())::call);
-        });
+    button.setOnMouseClicked(event -> {
+      System.out.println("Attempted to checkout " + ref.getName());
+      try {
+        gitInfo.command(Git::checkout).setName(ref.getName()).call();
+      } catch (CheckoutConflictException e) {
+        AlertBuilder.warn("Conflicts detected!").showAndWait();
+      } catch (GitAPIException e) {
+        ErrorHandler.handle(e);
+      }
+    });
     return button;
   }
 
