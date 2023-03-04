@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>uk.ac.bristol</groupId>
@@ -15,11 +17,11 @@
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
 
-    <openjfx.version>19</openjfx.version>
-    <jgit.version>6.3.0.202209071007-r</jgit.version>
-    <slf4j.version>2.0.3</slf4j.version>
-    <log4j-slf4j-impl.version>2.19.0</log4j-slf4j-impl.version>
-    <lombok.version>1.18.24</lombok.version>
+    <openjfx.version>21-ea+5</openjfx.version>
+    <jgit.version>6.4.0.202211300538-r</jgit.version>
+    <slf4j.version>2.0.6</slf4j.version>
+    <logback.version>1.4.5</logback.version>
+    <lombok.version>1.18.26</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
   </properties>
 
@@ -32,25 +34,74 @@
       <id>terminalfx-repo</id>
       <url>https://github.com/javaterminal/terminalfx/raw/master/releases</url>
     </repository>
+    <repository>
+      <id>Jsch</id>
+      <url>http://jsch.sf.net/maven2/</url>
+    </repository>
   </repositories>
 
   <dependencies>
+    <!-- Testing Framework -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <!-- JGit -->
     <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit</artifactId>
       <version>${jgit.version}</version>
     </dependency>
+    <!-- Ssh support for JGit:
+    This section is a little tricky to explain, but here we go:
+
+    There's two backends for SSH with JGit. The older JSch library, and the newer Apache MINA library.
+    JSch is older and no longer maintained, however there is still an actively maintained fork.
+    The developers of JGit recommend using Apache MINA, however, at the time of writing, the sshd-sftp
+    library that Apache MINA depends on does not compile on Graal.
+
+    Therefore, there's three ways to go about this part:
+    1. Use the JSch SSH implementation (not recommended but should work everywhere)
+    2. Use the Apache MINA SSH implementation (recommended but won't compile on Graal)
+    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks file transfer over ssh)
+    -->
+
+    <!-- These dependencies let us use the JSch backend for SSH -->
     <dependency>
+      <groupId>org.eclipse.jgit</groupId>
+      <artifactId>org.eclipse.jgit.ssh.jsch</artifactId>
+      <version>${jgit.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>com.jcraft</groupId>
+          <artifactId>jsch</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- Include the actively maintained JSch fork -->
+    <dependency>
+      <groupId>com.github.mwiede</groupId>
+      <artifactId>jsch</artifactId>
+      <version>0.2.7</version>
+    </dependency>
+
+    <!-- These dependencies let us use the Apache MINA backend for SSH -->
+    <!-- Only include the 'exclusions' section if you're attempting to compile this code with Graal -->
+    <!-- <dependency>
       <groupId>org.eclipse.jgit</groupId>
       <artifactId>org.eclipse.jgit.ssh.apache</artifactId>
       <version>${jgit.version}</version>
-    </dependency>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.sshd</groupId>
+          <artifactId>sshd-sftp</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency> -->
+
+    <!-- JavaFX libs -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
@@ -61,22 +112,43 @@
       <artifactId>javafx-fxml</artifactId>
       <version>${openjfx.version}</version>
     </dependency>
+    <!-- JavaFX graphics libs. All platforms are included to allow cross-platform fat jars -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics </artifactId>
+      <version>${openjfx.version}</version>
+      <classifier>win</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics </artifactId>
+      <version>${openjfx.version}</version>
+      <classifier>linux</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-graphics </artifactId>
+      <version>${openjfx.version}</version>
+      <classifier>mac</classifier>
+    </dependency>
+    <!-- Annotations preprocessor -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
     </dependency>
+    <!-- Logging framework -->
     <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-slf4j-impl</artifactId>
-      <version>${log4j-slf4j-impl.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
     </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <!-- Terminal emulator for JavaFX -->
     <dependency>
       <groupId>com.kodedu.terminalfx</groupId>
       <artifactId>terminalfx</artifactId>
@@ -85,93 +157,89 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <artifactId>maven-clean-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
-        <plugin>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.10.1</version>
-          <configuration>
-            <compilerArgs>
-              <arg>--add-exports</arg>
-              <arg>javafx.graphics/com.sun.glass.ui=com.andrei</arg>
-            </compilerArgs>
-            <annotationProcessorPaths>
-              <path>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-              </path>
-            </annotationProcessorPaths>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.openjfx</groupId>
-          <artifactId>javafx-maven-plugin</artifactId>
-          <version>0.0.8</version>
-          <configuration>
-            <stripDebug>true</stripDebug>
-            <compress>2</compress>
-            <noHeaderFiles>true</noHeaderFiles>
-            <noManPages>true</noManPages>
-            <launcher>ghgui</launcher>
-            <jlinkImageName>ghgui</jlinkImageName>
-            <jlinkZipName>ghgui</jlinkZipName>
-            <mainClass>uk.ac.bristol/uk.ac.bristol.App</mainClass>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.panteleyev</groupId>
-          <artifactId>jpackage-maven-plugin</artifactId>
-          <version>1.5.2</version>
-          <configuration>
-            <name>ghgui</name>
-            <appVersion>${project.version}</appVersion>
-            <vendor>uk.ac.bristol</vendor>
-            <destination>target/dist</destination>
-            <module>uk.ac.bristol/App</module>
-            <runtimeImage>target/ghgui</runtimeImage>
-            <linuxShortcut>true</linuxShortcut>
-            <linuxPackageName>ghgui</linuxPackageName>
-            <linuxAppCategory>Utilities</linuxAppCategory>
-            <linuxMenuGroup>Utilities</linuxMenuGroup>
-            <javaOptions>
-              <option>-Dfile.encoding=UTF-8</option>
-            </javaOptions>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>com.gluonhq</groupId>
-          <artifactId>gluonfx-maven-plugin</artifactId>
-          <version>1.0.15</version>
-          <configuration>
-            <mainClass>uk.ac.bristol.App</mainClass>
-            <bundlesList>
-              <item>
-                org.eclipse.jgit.internal.JGitText
-              </item>
-            </bundlesList>
-            <reflectionList>
-              <item>javafx.scene.control.Menu</item>
-              <item>javafx.scene.control.MenuItem</item>
-              <item>javafx.scene.control.MenuBar</item>
-              <item>javafx.scene.text.Text</item>
-              <item>javafx.scene.layout.GridPane</item>
-              <item>uk.ac.bristol.controllers.MainController</item>
-              <item>uk.ac.bristol.controllers.TabController</item>
-              <item>org.eclipse.jgit.internal.JGitText</item>
-            </reflectionList>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-wrapper-plugin</artifactId>
-          <version>3.1.1</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
+    <plugins>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.10.1</version>
+        <configuration>
+          <compilerArgs>
+            <arg>--add-exports</arg>
+            <arg>javafx.graphics/com.sun.glass.ui=com.andrei</arg>
+          </compilerArgs>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-maven-plugin</artifactId>
+        <version>0.0.8</version>
+        <configuration>
+          <stripDebug>true</stripDebug>
+          <compress>2</compress>
+          <noHeaderFiles>true</noHeaderFiles>
+          <noManPages>true</noManPages>
+          <launcher>ghgui</launcher>
+          <jlinkImageName>ghgui</jlinkImageName>
+          <jlinkZipName>ghgui</jlinkZipName>
+          <mainClass>uk.ac.bristol/uk.ac.bristol.App</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.gluonhq</groupId>
+        <artifactId>gluonfx-maven-plugin</artifactId>
+        <version>1.0.16</version>
+        <configuration>
+          <mainClass>uk.ac.bristol.App</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.4.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <outputFile>target/shade/${project.artifactId}.jar</outputFile>
+              <createDependencyReducedPom>false</createDependencyReducedPom>
+              <transformers>
+                <transformer
+                  implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                  <mainClass>uk.ac.bristol.Shim</mainClass>
+                </transformer>
+              </transformers>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-wrapper-plugin</artifactId>
+        <version>3.1.1</version>
+      </plugin>
+    </plugins>
   </build>
 </project>

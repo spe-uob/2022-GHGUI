@@ -1,7 +1,9 @@
 package uk.ac.bristol.util;
 
-import java.io.File;
-import java.util.Arrays;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.JSchException;
+// import java.io.File;
+// import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -13,11 +15,13 @@ import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.SshTransport;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.eclipse.jgit.transport.sshd.IdentityPasswordProvider;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder;
+import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
+// import org.eclipse.jgit.transport.sshd.IdentityPasswordProvider;
+// import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+// import org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder;
 import org.eclipse.jgit.util.FS;
 
 /** A class wrapping information git information. */
@@ -86,21 +90,35 @@ public class GitInfo {
       final String path, final String passphrase) {
     return transport -> {
       if (transport instanceof SshTransport sshTransport) {
-        sshTransport.setCredentialsProvider(
-            new UsernamePasswordCredentialsProvider("", passphrase));
 
-        final File key = new File(path);
-        final FS fs = FS.detect();
+        // FOR USE WITH JSCH:
+        SshSessionFactory sshSessionFactory =
+            new JschConfigSessionFactory() {
+              @Override
+              protected JSch createDefaultJSch(FS fs) throws JSchException {
+                JSch defaultJSch = super.createDefaultJSch(fs);
+                defaultJSch.addIdentity(path, passphrase);
+                return defaultJSch;
+              }
+            };
 
-        final SshdSessionFactory sshdSessionFactory =
-            new SshdSessionFactoryBuilder()
-                .setHomeDirectory(fs.userHome())
-                .setKeyPasswordProvider(IdentityPasswordProvider::new)
-                .setSshDirectory(key.getParentFile())
-                .setDefaultIdentities(__ -> Arrays.asList(key.toPath()))
-                .build(null);
+        //// FOR USE WITH APACHE MINA:
+        //
+        // sshTransport.setCredentialsProvider(
+        //     new UsernamePasswordCredentialsProvider("", passphrase));
+        //
+        // final File key = new File(path);
+        // final FS fs = FS.detect();
+        //
+        // final SshdSessionFactory sshSessionFactory =
+        //     new SshdSessionFactoryBuilder()
+        //         .setHomeDirectory(fs.userHome())
+        //         .setKeyPasswordProvider(IdentityPasswordProvider::new)
+        //         .setSshDirectory(key.getParentFile())
+        //         .setDefaultIdentities(__ -> Arrays.asList(key.toPath()))
+        //         .build(null);
 
-        sshTransport.setSshSessionFactory(sshdSessionFactory);
+        sshTransport.setSshSessionFactory(sshSessionFactory);
       }
     };
   }
