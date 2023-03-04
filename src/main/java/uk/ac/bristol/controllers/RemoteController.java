@@ -27,6 +27,7 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
@@ -87,14 +88,7 @@ public class RemoteController implements Initializable, Refreshable {
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
     button.setOnMouseClicked(event -> {
-      System.out.println("Attempted to checkout " + ref.getName());
-      try {
-        gitInfo.command(Git::checkout).setName(ref.getName()).call();
-      } catch (CheckoutConflictException e) {
-        AlertBuilder.warn("Conflicts detected!").showAndWait();
-      } catch (GitAPIException e) {
-        ErrorHandler.handle(e);
-      }
+      JgitUtil.checkoutBranch(gitInfo, ref);
     });
     return button;
   }
