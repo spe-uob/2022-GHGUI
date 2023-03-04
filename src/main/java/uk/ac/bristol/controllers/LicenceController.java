@@ -39,18 +39,28 @@ public class LicenceController {
     currentPane = childPane;
   }
 
-  /** Open Hyperlink to the relevant license. */
+  /**
+   * Open Hyperlink to the relevant license.
+   *
+   * @param e The event that caused this function to be called
+   */
   @FXML
   private void license(final Event e) {
     final Hyperlink source = (Hyperlink) e.getSource();
 
-    // This is a really hacky workaround, but JavaFX is dumb and doesn't let you access this stuff
-    // statically for some reason
+    /**
+     * This is a really hacky workaround, but JavaFX is dumb and doesn't let you access this stuff
+     * statically for some reason.
+     */
     class DummyApp extends Application {
-      public void start(Stage __) {}
+      /** {@inheritdoc} */
+      @Override
+      public void start(final Stage stage) {
+        // This needs to be implemented but we can just leave it blank
+      }
     }
-    DummyApp _app = new DummyApp();
-    HostServices hostServices = _app.getHostServices();
+    final DummyApp dummyApp = new DummyApp();
+    final HostServices hostServices = dummyApp.getHostServices();
 
     final String url =
         switch (source.getText()) {
