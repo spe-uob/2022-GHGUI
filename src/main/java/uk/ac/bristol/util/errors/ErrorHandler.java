@@ -1,6 +1,7 @@
 package uk.ac.bristol.util.errors;
 
 import java.util.Optional;
+import javafx.application.Platform;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,11 +33,14 @@ public class ErrorHandler {
    * @param f The function to call
    */
   public static void mightFail(final CheckedProcedure f) {
-    try {
-      f.run();
-    } catch (Exception ex) {
-      handle(ex);
-    }
+    Platform.runLater(
+        () -> {
+          try {
+            f.run();
+          } catch (Exception ex) {
+            handle(ex);
+          }
+        });
   }
 
   /**
@@ -48,11 +52,14 @@ public class ErrorHandler {
    * @param c The Consumer to apply the value to
    */
   public static <T> void tryWith(final CheckedSupplier<T> s, final CheckedConsumer<T> c) {
-    try {
-      c.accept(s.get());
-    } catch (Exception ex) {
-      handle(ex);
-    }
+    Platform.runLater(
+        () -> {
+          try {
+            c.accept(s.get());
+          } catch (Exception ex) {
+            handle(ex);
+          }
+        });
   }
 
   // /**
