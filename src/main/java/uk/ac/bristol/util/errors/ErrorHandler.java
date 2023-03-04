@@ -101,7 +101,7 @@ public class ErrorHandler {
    * @param ex An Exception to be handled
    */
   public static void handle(final Exception ex) {
-    AlertBuilder.fromException(ex).showAndWait();
+    AlertBuilder.fromException(ex).show();
     log.error(ex.getLocalizedMessage(), ex);
   }
 
