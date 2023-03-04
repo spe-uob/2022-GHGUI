@@ -12,7 +12,6 @@ import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building RemoteController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class RemoteControllerFactory {
   /** The filename of the fxml file for building the RemoteController. */

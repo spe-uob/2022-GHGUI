@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 
 /** Shim class for building fat jars. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 class Shim {
   /**
