@@ -105,12 +105,6 @@ public class TabController implements Initializable, Refreshable {
         });
   }
 
-  /** TODO: Link with JGitUtil. */
-  @FXML
-  private void checkout() {
-    return;
-  }
-
   /**
    * Populate the combobox with the contents of the stored credentials.
    *
