@@ -36,30 +36,51 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
 
+  /** This class represents one row (and therefore one commit) in the commit tree. */
   class CurrentRow extends HBox {
-    public final Group lines = new Group();
-    public final VBox box1 = new VBox();
-    public final VBox box2 = new VBox();
+    /** The space between items in this HBox. */
+    private static final double SPACING = 10;
 
-    public CurrentRow() {
+    /** This represents the commit that we're currently working on. */
+    private final PlotCommit<JavaFxLane> commit;
+    /** This group contains all the lines and squares that graphically respresent the tree. */
+    private final Group lines = new Group();
+    /** This shows which branches currently have the active commit as their head. */
+    private final VBox heads = new VBox();
+    /** This shows the message attached to the current commit. */
+    private final VBox message = new VBox();
+
+    /**
+     * Construct an empty CurrentRow.
+     *
+     * @param commit The commit that this row will be built upon.
+     */
+    CurrentRow(final PlotCommit<JavaFxLane> commit) {
       super();
-      setSpacing(10);
-      box1.setAlignment(Pos.CENTER_LEFT);
-      box2.setAlignment(Pos.CENTER_LEFT);
-      getChildren().addAll(lines, box1, box2);
+      this.commit = commit;
+      setSpacing(SPACING);
+      heads.setAlignment(Pos.CENTER_LEFT);
+      message.setAlignment(Pos.CENTER_LEFT);
+      getChildren().addAll(lines, heads, message);
     }
   }
 
+  /** The reposity that we're using to build this commit tree. */
   private Repository repo;
-  private CurrentRow currentRow;
-  private PlotCommit<JavaFxLane> currentCommit;
 
-  public JavaFxPlotRenderer(GitInfo gitInfo) {
+  /** The row that we're currently working on. */
+  private CurrentRow currentRow;
+
+  /**
+   * Construct a new JavaFxPlotRenderer.
+   *
+   * @param gitInfo The reposity that we're using to build this commit tree
+   */
+  public JavaFxPlotRenderer(final GitInfo gitInfo) {
     repo = gitInfo.getRepo();
   }
 
   /**
-   * @param plotWalk the plotwalk to render
    * @return A Vbox containing the rendered plot
    * @throws IOException
    * @throws IncorrectObjectTypeException
@@ -68,8 +89,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   public final VBox draw()
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
 
-    PlotWalk plotWalk = new PlotWalk(repo);
-    List<Ref> allRefs = repo.getRefDatabase().getRefs();
+    final PlotWalk plotWalk = new PlotWalk(repo);
+    final List<Ref> allRefs = repo.getRefDatabase().getRefs();
     for (Ref ref : allRefs) {
       // TODO: Fix possible race condition here with the threaded version of ErrorHandler
       ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
@@ -80,8 +101,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     pcl.source(plotWalk);
     pcl.fillTo(Integer.MAX_VALUE);
     for (var commit : pcl) {
-      currentCommit = commit;
-      currentRow = new CurrentRow();
+      currentRow = new CurrentRow(commit);
       paintCommit(commit, ROW_HEIGHT);
       treeView.getChildren().add(currentRow);
       treeView.getChildren().add(new Separator(Orientation.HORIZONTAL));
@@ -107,7 +127,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     text.setFill(Color.RED);
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
-    currentRow.box1.getChildren().add(text);
+    currentRow.heads.getChildren().add(text);
     final int offset = 10;
     return (int) Math.floor(offset + width);
   }
@@ -153,10 +173,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final String desc =
         String.format(
             "Commit ID: %s\n Author: %s (%s)\n Message: %s",
-            currentCommit.getId().getName(),
-            currentCommit.getAuthorIdent().getName(),
-            currentCommit.getAuthorIdent().getEmailAddress(),
-            currentCommit.getFullMessage());
+            currentRow.commit.getId().getName(),
+            currentRow.commit.getAuthorIdent().getName(),
+            currentRow.commit.getAuthorIdent().getEmailAddress(),
+            currentRow.commit.getFullMessage());
 
     final Pane pane = new Pane(new Label(desc));
     pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
@@ -197,7 +217,6 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** {@inheritDoc} */
   @Override
   protected final void drawText(final String msg, final int x, final int y) {
-    final Text text = new Text(msg);
-    currentRow.box2.getChildren().add(text);
+    currentRow.message.getChildren().add(new Text(msg));
   }
 }
