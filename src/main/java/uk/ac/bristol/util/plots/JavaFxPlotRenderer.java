@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -34,8 +36,22 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
 
+  class CurrentRow extends HBox {
+    public final Group lines = new Group();
+    public final VBox box1 = new VBox();
+    public final VBox box2 = new VBox();
+
+    public CurrentRow() {
+      super();
+      setSpacing(10);
+      box1.setAlignment(Pos.CENTER_LEFT);
+      box2.setAlignment(Pos.CENTER_LEFT);
+      getChildren().addAll(lines, box1, box2);
+    }
+  }
+
   private Repository repo;
-  private Group currentNode;
+  private CurrentRow currentRow;
   private PlotCommit<JavaFxLane> currentCommit;
 
   public JavaFxPlotRenderer(GitInfo gitInfo) {
@@ -65,10 +81,9 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     pcl.fillTo(Integer.MAX_VALUE);
     for (var commit : pcl) {
       currentCommit = commit;
-      currentNode = new Group();
-
+      currentRow = new CurrentRow();
       paintCommit(commit, ROW_HEIGHT);
-      treeView.getChildren().add(currentNode);
+      treeView.getChildren().add(currentRow);
       treeView.getChildren().add(new Separator(Orientation.HORIZONTAL));
     }
     treeView.layout();
@@ -89,12 +104,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       refName = refName.substring(Constants.R_TAGS.length(), refName.length());
     }
     final Text text = new Text(refName);
-    text.setX(x);
-    text.setY(y);
     text.setFill(Color.RED);
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
-    currentNode.getChildren().add(text);
+    currentRow.box1.getChildren().add(text);
     final int offset = 10;
     return (int) Math.floor(offset + width);
   }
@@ -107,8 +120,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     path.setStrokeWidth(width);
     path.setStroke(color);
     final Circle placeHolder = new Circle();
-    currentNode.getChildren().add(placeHolder);
-    currentNode.getChildren().add(path);
+    currentRow.lines.getChildren().add(placeHolder);
+    currentRow.lines.getChildren().add(path);
   }
 
   /** {@inheritDoc} */
@@ -126,8 +139,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.WHITE);
 
-    currentNode.getChildren().add(circle);
-    currentNode.getChildren().add(innerCircle);
+    currentRow.lines.getChildren().add(circle);
+    currentRow.lines.getChildren().add(innerCircle);
 
     final int radiusOverdraw = 5;
     final Circle hoverbox = new Circle();
@@ -135,7 +148,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     hoverbox.setCenterY(Math.floor(y + h / 2));
     hoverbox.setRadius(Math.floor(w / 2 + radiusOverdraw));
     hoverbox.setFill(Color.TRANSPARENT);
-    currentNode.getChildren().add(hoverbox);
+    currentRow.lines.getChildren().add(hoverbox);
 
     final String desc = currentCommit.getId().getName() + "\n\n" + currentCommit.getFullMessage();
 
@@ -151,7 +164,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
             (observable, oldValue, newValue) -> {
               if (newValue) {
                 final Point2D bnds = circle.localToScreen(x + w, y + w);
-                p.show(currentNode, bnds.getX(), bnds.getY());
+                p.show(currentRow.lines, bnds.getX(), bnds.getY());
               } else {
                 p.hide();
               }
@@ -171,16 +184,14 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.LIGHTGRAY);
-    currentNode.getChildren().add(circle);
-    currentNode.getChildren().add(innerCircle);
+    currentRow.lines.getChildren().add(circle);
+    currentRow.lines.getChildren().add(innerCircle);
   }
 
   /** {@inheritDoc} */
   @Override
   protected final void drawText(final String msg, final int x, final int y) {
     final Text text = new Text(msg);
-    text.setX(x);
-    text.setY(y);
-    currentNode.getChildren().add(text);
+    currentRow.box2.getChildren().add(text);
   }
 }
