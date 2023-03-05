@@ -150,7 +150,13 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     hoverbox.setFill(Color.TRANSPARENT);
     currentRow.lines.getChildren().add(hoverbox);
 
-    final String desc = currentCommit.getId().getName() + "\n\n" + currentCommit.getFullMessage();
+    final String desc =
+        String.format(
+            "Commit ID: %s\n Author: %s (%s)\n Message: %s",
+            currentCommit.getId().getName(),
+            currentCommit.getAuthorIdent().getName(),
+            currentCommit.getAuthorIdent().getEmailAddress(),
+            currentCommit.getFullMessage());
 
     final Pane pane = new Pane(new Label(desc));
     pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
