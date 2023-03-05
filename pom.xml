@@ -66,7 +66,8 @@
     Therefore, there's three ways to go about this part:
     1. Use the JSch SSH implementation (not recommended but should work everywhere)
     2. Use the Apache MINA SSH implementation (recommended but won't compile on Graal)
-    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks file transfer over ssh)
+    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks
+    file transfer over ssh)
     -->
 
     <!-- These dependencies let us use the JSch backend for SSH -->
@@ -144,17 +145,6 @@
       <artifactId>guava</artifactId>
       <version>${guava.version}</version>
     </dependency>
-    <!-- Logging framework -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-    </dependency>
     <!-- Terminal emulator for JavaFX -->
     <dependency>
       <groupId>com.kodedu.terminalfx</groupId>
@@ -162,6 +152,30 @@
       <version>${terminalfx.version}</version>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>logging</id>
+      <activation>
+        <property>
+          <name>!release</name>
+        </property>
+      </activation>
+      <dependencies>
+        <!-- Logging framework -->
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>${logback.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
