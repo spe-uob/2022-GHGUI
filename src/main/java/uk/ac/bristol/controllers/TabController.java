@@ -20,9 +20,6 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -182,19 +179,8 @@ public class TabController implements Initializable, Refreshable {
     tabPane.getTabs().add(terminal);
     terminalPane.getChildren().add(tabPane);
 
-    final Repository repo = gitInfo.getRepo();
-    try (PlotWalk plotWalk = new PlotWalk(repo)) {
-      final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
-      ErrorHandler.tryWith(
-          repo.getRefDatabase()::getRefs,
-          allRefs -> {
-            for (Ref ref : allRefs) {
-              ErrorHandler.mightFail(
-                  () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
-            }
-          });
-      ErrorHandler.tryWith(() -> plotRenderer.draw(plotWalk), treePane::setContent);
-    }
+    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
   /** {@inheritDoc} */

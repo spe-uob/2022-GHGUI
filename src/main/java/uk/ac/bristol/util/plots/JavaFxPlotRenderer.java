@@ -1,6 +1,7 @@
 package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
+import java.util.List;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -17,9 +18,12 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /**
  * Extends JGit's {@link org.eclipse.jgit.revplot.AbstractPlotRenderer AbstractPlotRenderer} to
@@ -30,8 +34,13 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
 
+  private Repository repo;
   private Group currentNode;
   private PlotCommit<JavaFxLane> currentCommit;
+
+  public JavaFxPlotRenderer(GitInfo gitInfo) {
+    repo = gitInfo.getRepo();
+  }
 
   /**
    * @param plotWalk the plotwalk to render
@@ -40,8 +49,16 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @throws IncorrectObjectTypeException
    * @throws MissingObjectException
    */
-  public final VBox draw(final PlotWalk plotWalk)
+  public final VBox draw()
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
+
+    PlotWalk plotWalk = new PlotWalk(repo);
+    List<Ref> allRefs = repo.getRefDatabase().getRefs();
+    for (Ref ref : allRefs) {
+      // TODO: Fix possible race condition here with the threaded version of ErrorHandler
+      ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+    }
+
     final VBox treeView = new VBox();
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
