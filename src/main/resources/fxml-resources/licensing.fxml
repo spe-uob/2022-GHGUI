@@ -30,7 +30,7 @@
             <VBox fx:id="GHGUI" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" translateZ="1.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GHGUI" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="GHGUI is our GUI for git, written in Java." VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="GHGUI is our GUI for git, written in Java." wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -70,7 +70,7 @@
             <VBox fx:id="JavaFX" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JavaFX" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JavaFX is a software platform for developing GUI applications in Java, that we have used for this entire project" VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JavaFX is a software platform for developing GUI applications in Java, that we have used for this entire project" wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -116,7 +116,7 @@
             <VBox fx:id="JGit" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JGit" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JGit is a pure Java implementation of the git version control system. It is developed and maintained by The Eclipse Foundation" VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JGit is a pure Java implementation of the git version control system. It is developed and maintained by The Eclipse Foundation" wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -156,7 +156,7 @@
             <VBox fx:id="Slf4J" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Slf4J" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Slf4J is a frontend for logging frameworks in Java such as Log4j2 and Logback" VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Slf4J is a frontend for logging frameworks in Java such as Log4j2 and Logback" wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -196,7 +196,7 @@
             <VBox fx:id="Logback" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Logback" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Logback is the logging framework that we're using as the backend for Slf4J" VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Logback is the logging framework that we're using as the backend for Slf4J" wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -241,7 +241,7 @@
             <VBox fx:id="Lombok" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lombok" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lombok provides an annotations preprocessor for Java with plenty of annotations that implement common patterns in Java code, making code more readable and streamlined" VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lombok provides an annotations preprocessor for Java with plenty of annotations that implement common patterns in Java code, making code more readable and streamlined" wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
@@ -281,7 +281,7 @@
             <VBox fx:id="TerminalFX" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TerminalFX" />
-                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="TerminalFX is a terminal emulator that combines Pty4J with hterm.js on top of JavaFX's WebView to provide a functioning embedded terminal in our app." VBox.vgrow="ALWAYS" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="TerminalFX is a terminal emulator that combines Pty4J with hterm.js on top of JavaFX's WebView to provide a functioning embedded terminal in our app." wrapText="true" VBox.vgrow="ALWAYS" />
                   <GridPane gridLinesVisible="true">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
