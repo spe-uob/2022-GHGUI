@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers.factories;
 
-import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
@@ -8,6 +7,7 @@ import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import uk.ac.bristol.controllers.PullController;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building PullController. */
