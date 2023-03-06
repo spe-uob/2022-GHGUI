@@ -26,12 +26,7 @@ import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
-import uk.ac.bristol.controllers.factories.CommitControllerFactory;
-import uk.ac.bristol.controllers.factories.InformationControllerFactory;
-import uk.ac.bristol.controllers.factories.LoginControllerFactory;
-import uk.ac.bristol.controllers.factories.PushControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusControllerFactory;
+import uk.ac.bristol.controllers.factories.*;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -96,8 +91,15 @@ public class TabController implements Initializable, Refreshable {
   /** TODO: Link with JGitUtil. */
   @FXML
   private void pull(Event event) {
-    log.info(event.getEventType().getName());
-    log.info("Pull was requested - feature not implemented.");
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+            () -> PullControllerFactory.build(eventBus, gitInfo),
+            root -> {
+              newWindow.setScene(new Scene(root));
+              newWindow.showAndWait();
+            });
+//    log.info(event.getEventType().getName());
+//    log.info("Pull was requested - feature not implemented.");
   }
 
   @FXML
