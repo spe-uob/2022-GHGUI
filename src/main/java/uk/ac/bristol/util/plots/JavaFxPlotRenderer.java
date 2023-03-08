@@ -172,11 +172,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
 
     final String desc =
         String.format(
-            "Commit ID: %s\n Author: %s (%s)\n Message: %s",
+            "Commit ID: %s\n Author: %s (%s)",
             currentRow.commit.getId().getName(),
             currentRow.commit.getAuthorIdent().getName(),
-            currentRow.commit.getAuthorIdent().getEmailAddress(),
-            currentRow.commit.getFullMessage());
+            currentRow.commit.getAuthorIdent().getEmailAddress());
 
     final Pane pane = new Pane(new Label(desc));
     pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
