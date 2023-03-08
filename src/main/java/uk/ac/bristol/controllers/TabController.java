@@ -93,13 +93,13 @@ public class TabController implements Initializable, Refreshable {
   private void pull(Event event) {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-            () -> PullControllerFactory.build(eventBus, gitInfo),
-            root -> {
-              newWindow.setScene(new Scene(root));
-              newWindow.showAndWait();
-            });
-//    log.info(event.getEventType().getName());
-//    log.info("Pull was requested - feature not implemented.");
+        () -> PullControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+    //    log.info(event.getEventType().getName());
+    //    log.info("Pull was requested - feature not implemented.");
   }
 
   @FXML
