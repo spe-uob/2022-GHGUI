@@ -1,16 +1,14 @@
 package uk.ac.bristol.controllers.factories;
 
 import com.google.common.eventbus.EventBus;
+import java.io.IOException;
+import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.errors.GitAPIException;
-import uk.ac.bristol.controllers.CommitController;
 import uk.ac.bristol.controllers.PullController;
 import uk.ac.bristol.util.GitInfo;
-
-import java.io.IOException;
-import java.net.URL;
 
 /** A class for building PullController. */
 @UtilityClass
@@ -31,13 +29,14 @@ public final class PullControllerFactory {
    */
   public static Parent build(final EventBus eventBus, final GitInfo gitInfo) throws IOException {
     final FXMLLoader loader = new FXMLLoader(COMPONENT);
-    loader.setControllerFactory(__ -> {
-      try {
-        return new PullController(eventBus, gitInfo);
-      } catch (GitAPIException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    loader.setControllerFactory(
+        __ -> {
+          try {
+            return new PullController(eventBus, gitInfo);
+          } catch (GitAPIException e) {
+            throw new RuntimeException(e);
+          }
+        });
     return loader.load();
   }
 }
