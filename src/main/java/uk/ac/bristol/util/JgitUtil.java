@@ -49,7 +49,7 @@ public final class JgitUtil {
    * Checkout branch.
    *
    * @param gitInfo Shared git information
-   * @param branchName Branch to checkout
+   * @param ref Branch to checkout
    */
   public static void checkoutBranch(final GitInfo gitInfo, final Ref ref) {
     try {
