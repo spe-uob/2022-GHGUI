@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -42,12 +43,12 @@ public final class StatusBarController implements Initializable, Refreshable {
    * Generate informational labels.
    *
    * @throws IOException
+   * @return A collection of labels to add to this statusbar
    */
-  private void generateLabels() throws IOException {
+  private Node[] generateLabels() throws IOException {
     final String branchName = gitInfo.getRepo().getBranch();
     final Label nameLabel = new Label("Checked-out: " + branchName);
     nameLabel.setId("genericlabel");
-    root.getChildren().add(nameLabel);
 
     final BranchTrackingStatus status = BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
 
@@ -56,7 +57,7 @@ public final class StatusBarController implements Initializable, Refreshable {
             ? new Label("↑" + status.getAheadCount() + " ↓" + status.getBehindCount())
             : new Label("...no remote detected.");
     statusLabel.setId("genericlabel");
-    root.getChildren().add(statusLabel);
+    return new Node[] {nameLabel, statusLabel};
   }
 
   /** {@inheritDoc} */
@@ -64,13 +65,13 @@ public final class StatusBarController implements Initializable, Refreshable {
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
-    ErrorHandler.mightFail(this::generateLabels);
+    ErrorHandler.tryWith(this::generateLabels, root.getChildren()::addAll);
   }
 
   /** {@inheritDoc} */
   @Override
   public void refresh() {
     root.getChildren().clear();
-    ErrorHandler.mightFail(this::generateLabels);
+    ErrorHandler.tryWith(this::generateLabels, root.getChildren()::addAll);
   }
 }
