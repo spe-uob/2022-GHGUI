@@ -1,7 +1,13 @@
 /* JavaFX documentation recommends that you put each attribute on it's own line, 
 rather than defining size, colour, style etc. all on one single line.*/
 
-
+/*
+#330036 Russian Violet
+#38182F Dark Purple
+#48639C Lapis Lazuli
+#9AC6C5 Light Blue
+#938274 Beaver
+*/
 
 code,
 kbd,
@@ -82,3 +88,4 @@ table {
   -fx-border-collapse: collapse;
   -fx-border-spacing: 0;
 }
+
