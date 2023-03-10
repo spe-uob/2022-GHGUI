@@ -45,6 +45,7 @@ public class GitInfo {
 
   /**
    * getGit
+   *
    * @return
    */
   public Git getGit() {
