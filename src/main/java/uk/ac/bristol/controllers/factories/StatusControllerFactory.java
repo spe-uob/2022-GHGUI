@@ -10,7 +10,6 @@ import uk.ac.bristol.controllers.StatusController;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building StatusController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class StatusControllerFactory {
   /** The filename of the fxml file for building the StatusController. */

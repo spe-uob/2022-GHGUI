@@ -9,7 +9,6 @@ import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.TabController;
 
 /** A class for building TabController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class TabControllerFactory {
   /** The filename of the fxml file for building the TabController. */

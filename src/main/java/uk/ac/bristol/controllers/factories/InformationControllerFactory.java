@@ -10,7 +10,6 @@ import uk.ac.bristol.controllers.InformationController;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building InformationController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class InformationControllerFactory {
   /** The filename of the fxml file for building the InformationController. */
