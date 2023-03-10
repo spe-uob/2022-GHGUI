@@ -125,14 +125,16 @@ public class GitInfo {
 
   /**
    * getHttpAuth
+   *
    * @return
    */
-  public  Map<String, CredentialsProvider> getHttpAuth() {
+  public Map<String, CredentialsProvider> getHttpAuth() {
     return httpAuth;
   }
 
   /**
    * getHttpAuthKey
+   *
    * @return
    */
   public String getHttpAuthKey() {
