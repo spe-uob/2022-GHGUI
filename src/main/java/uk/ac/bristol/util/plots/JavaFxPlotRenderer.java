@@ -92,8 +92,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final PlotWalk plotWalk = new PlotWalk(repo);
     final List<Ref> allRefs = repo.getRefDatabase().getRefs();
     for (Ref ref : allRefs) {
-      // TODO: Fix possible race condition here with the threaded version of ErrorHandler
-      ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+      ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())))
+          .join();
     }
 
     final VBox treeView = new VBox();
