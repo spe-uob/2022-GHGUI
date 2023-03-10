@@ -10,12 +10,12 @@
          <children>
             <TitledPane animated="false" styleClass="flex-use-item-title" text="local">
                <content>
-                  <VBox fx:id="local" styleClass="titledPaneContents" />
+                  <VBox fx:id="local" spacing="5.0" styleClass="titledPaneContents" />
                </content>
             </TitledPane>
             <TitledPane animated="false" styleClass="main-title-box" text="remote">
                <content>
-                  <VBox fx:id="remote" styleClass="titledPaneContents" />
+                  <VBox fx:id="remote" spacing="5.0" styleClass="titledPaneContents" />
                </content>
             </TitledPane>
          </children>

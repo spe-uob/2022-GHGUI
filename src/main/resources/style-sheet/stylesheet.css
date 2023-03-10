@@ -1,59 +1,7 @@
 /* JavaFX documentation recommends that you put each attribute on it's own line, 
 rather than defining size, colour, style etc. all on one single line.*/
 
-body,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-hr,
-p,
-blockquote,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-pre,
-form,
-fieldset,
-legend,
-button,
-input,
-textarea,
-th,
-td {
-  -fx-margin: 0;
-  -fx-padding: 0;
-}
 
-body,
-button,
-input,
-select,
-textarea {
-  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  -fx-font-size: 100%;
-}
-
-address,
-cite,
-dfn,
-em,
-var {
-  -fx-font-style: normal;
-}
 
 code,
 kbd,
@@ -96,86 +44,41 @@ img {
   -fx-border: 0;
 }
 
-button,
-input,
-select,
-textarea {
-  -fx-font-size: 100%;
+VBox,
+HBox {
+  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
+  -fx-background-color: rgb(54, 47, 58);
 }
 
-table {
-  -fx-border-collapse: collapse;
-  -fx-border-spacing: 0;
-}
+.root {
+  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
+  -fx-background-color: rgb(54, 47, 58);
+} 
 
-.top {
-  -fx-width: 100%;
-  -fx-height: 60px;
-  -fx-alignment: relative;
-  -fx-top: 0;
-  -fx-left: 0;
-  -fx-text-fill: black
-}
-
-
-.flex-use {
-  -fx-flex-basis: 20%;
-  -fx-background-color: rgb(32, 34, 37);
-  -fx-overflow-y: scroll;
-  -fx-height: 100vh;
-}
-
-.flex-use-title {
-  -fx-box-sizing: border-box;
-  -fx-padding-left: 10px;
-  -fx-color: rgb(247, 247, 247);
-  -fx-background-color: rgb(95, 96, 97);
-  -fx-border-radius: 3px 3px 0 0;
-  -fx-height: 30px;
-  line--fx-height: 30px;
-  -fx-cursor: pointer;
-  -fx-font-weight: 600;
-}
-
-.flex-use-title .icon{
-  -fx-width: 20px;
-  -fx-height: 20px;
-  -fx-position: relative;
-  -fx-top: 2px;
-}
-
-.flex-use-content-item {
-  -fx-border-top: 1px solid rgb(255, 255, 255);
-  -fx-overflow: hidden;
-}
-
-.flex-use-item-title {
+Button {
   -fx-background-color: rgb(47, 52, 58);
   -fx-alignment: relative;
   -fx-color: rgb(47, 52, 58);
   -fx-cursor: pointer;
   -fx-font-size: 14px;
   -fx-text-fill: white;
+  -fx-margin: 100px
 }
 
-.main-title-box {
-  -fx-background-color: rgb(47, 52, 58);
-  -fx-padding-left: 45px;
-  -fx-alignment: relative;
-  line--fx-height: 30px;
-  -fx-color: rgb(113, 118, 118);
-  -fx-cursor: pointer;
-  -fx-z-index: 10;
-  -fx-font-size: 14px;
-  -fx-text-fill: white;
-}
-
-.flex-use-item-title:hover .item-titleicon {
+Button:hover {
   -fx-transition: all .5s;
   -fx-transform: rotate(90deg);
 }
 
-#genericlabel {
-  -fx-text-fill: #FFFFFF;
-  -fx-padding: 5px;
+input,
+select,
+TextArea {
+  -fx-font-size: 100%;
+  -fx-text-fill: white;
+  -fx-border-color: rgb(24, 21, 26);
+}
+
+table {
+  -fx-border-collapse: collapse;
+  -fx-border-spacing: 0;
 }
