@@ -1,12 +1,12 @@
 package uk.ac.bristol.controllers.factories;
 
-import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.StatusBarController;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building StatusBarController. */

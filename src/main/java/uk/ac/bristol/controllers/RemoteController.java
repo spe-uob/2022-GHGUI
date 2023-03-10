@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -20,8 +18,7 @@ import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RemoteConfig;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
@@ -107,7 +104,7 @@ public class RemoteController implements Initializable, Refreshable {
     ErrorHandler.tryWith(
         gitInfo.command(Git::fetch).setRemote(remote.getName())::call,
         res -> System.out.println(res.getMessages()));
-    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    eventBus.refresh(StatusController.class);
     // since we only need to refresh this one controller, we call refresh manually instead of
     // refreshing all remote controllers through the event bus
     refresh();
@@ -133,15 +130,5 @@ public class RemoteController implements Initializable, Refreshable {
   public final void refresh() {
     container.getChildren().removeIf(child -> child != buttons);
     generateButtons();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshRemote)) {
-      refresh();
-      System.out.println("Refreshed remote");
-    }
   }
 }
