@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
@@ -20,11 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revplot.PlotWalk;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
@@ -80,22 +74,31 @@ public class TabController implements Initializable, Refreshable {
         });
   }
 
-  /** TODO: Link with JGitUtil. */
+  /**
+   * TODO: Link with JGitUtil.
+   *
+   * @param event The event that caused this function to fire.
+   */
   @FXML
-  private void push(Event event) {
+  private void push(final Event event) {
     log.info(event.getEventType().getName());
     log.info("Push was requested - feature not implemented.");
   }
 
-  /** TODO: Link with JGitUtil. */
+  /**
+   * TODO: Link with JGitUtil.
+   *
+   * @param event The event that caused this function to fire.
+   */
   @FXML
-  private void pull(Event event) {
+  private void pull(final Event event) {
     log.info(event.getEventType().getName());
     log.info("Pull was requested - feature not implemented.");
   }
 
+  /** Open the commit dialog. */
   @FXML
-  private void commit(Event event) {
+  private void commit() {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         () -> CommitControllerFactory.build(eventBus, gitInfo),
@@ -103,12 +106,6 @@ public class TabController implements Initializable, Refreshable {
           newWindow.setScene(new Scene(root));
           newWindow.show();
         });
-  }
-
-  /** TODO: Link with JGitUtil. */
-  @FXML
-  private void checkout() {
-    return;
   }
 
   /**
@@ -182,35 +179,13 @@ public class TabController implements Initializable, Refreshable {
     tabPane.getTabs().add(terminal);
     terminalPane.getChildren().add(tabPane);
 
-    final Repository repo = gitInfo.getRepo();
-    try (PlotWalk plotWalk = new PlotWalk(repo)) {
-      final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer();
-      ErrorHandler.tryWith(
-          repo.getRefDatabase()::getRefs,
-          allRefs -> {
-            for (Ref ref : allRefs) {
-              ErrorHandler.mightFail(
-                      () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())))
-                  .join();
-            }
-          });
-      treePane.setContent(plotRenderer.draw(plotWalk));
-    }
+    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
   /** {@inheritDoc} */
   @Override
   public void refresh() {
-    // Currently unnecessary
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshTab)) {
-      refresh();
-      System.out.println("Refreshed tab");
-    }
+    eventBus.refresh(StatusController.class, InformationController.class);
   }
 }

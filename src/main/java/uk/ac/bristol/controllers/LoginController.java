@@ -5,10 +5,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
@@ -80,35 +77,5 @@ public class LoginController {
     }
 
     keyPath.setText(selectedFile.getAbsolutePath());
-  }
-
-  /**
-   * Result: Customize a JavaFX dialog.
-   *
-   * @param alterType
-   * @param title
-   * @param header
-   * @param message
-   * @return boolean
-   */
-  public boolean informationDialog(
-      final Alert.AlertType alterType,
-      final String title,
-      final String header,
-      final String message) {
-    // You can use a preset button section or you can create a new one like this
-    final Alert alert =
-        new Alert(
-            alterType,
-            message,
-            new ButtonType("cancle", ButtonData.CANCEL_CLOSE),
-            new ButtonType("yes", ButtonData.YES));
-    // // Set the title of the dialog box
-    alert.setTitle(title);
-    alert.setHeaderText(header);
-    // showAndWait() will not execute the code until the dialog disappears
-    final Optional<ButtonType> buttonType = alert.showAndWait();
-    // Returns the result of the click, or true if "OK" is clicked
-    return buttonType.get().getButtonData().equals(ButtonData.YES);
   }
 }

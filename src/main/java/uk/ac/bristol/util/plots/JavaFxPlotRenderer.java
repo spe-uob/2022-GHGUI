@@ -1,16 +1,30 @@
 package uk.ac.bristol.util.plots;
 
+import java.io.IOException;
+import java.util.List;
+import javafx.geometry.Orientation;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import lombok.extern.slf4j.Slf4j;
+import javafx.stage.Popup;
+import org.eclipse.jgit.errors.IncorrectObjectTypeException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
+import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /**
@@ -18,27 +32,79 @@ import uk.ac.bristol.util.errors.ErrorHandler;
  * provide a {@link #draw} method for converting a {@link org.eclipse.jgit.revplot.PlotWalk JGit
  * Plotwalk} into a {@link javafx.scene.layout.VBox JavaFX VBox}.
  */
-@Slf4j
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
 
-  /** A group representing the node that is currently being constructed. */
-  private Group currentRow;
+  /** This class represents one row (and therefore one commit) in the commit tree. */
+  class CurrentRow extends HBox {
+    /** The space between items in this HBox. */
+    private static final double SPACING = 10;
+
+    /** This represents the commit that we're currently working on. */
+    private final PlotCommit<JavaFxLane> commit;
+    /** This group contains all the lines and squares that graphically respresent the tree. */
+    private final Group lines = new Group();
+    /** This shows which branches currently have the active commit as their head. */
+    private final VBox heads = new VBox();
+    /** This shows the message attached to the current commit. */
+    private final VBox message = new VBox();
+
+    /**
+     * Construct an empty CurrentRow.
+     *
+     * @param commit The commit that this row will be built upon.
+     */
+    CurrentRow(final PlotCommit<JavaFxLane> commit) {
+      super();
+      this.commit = commit;
+      setSpacing(SPACING);
+      heads.setAlignment(Pos.CENTER_LEFT);
+      message.setAlignment(Pos.CENTER_LEFT);
+      getChildren().addAll(lines, heads, message);
+    }
+  }
+
+  /** The reposity that we're using to build this commit tree. */
+  private Repository repo;
+
+  /** The row that we're currently working on. */
+  private CurrentRow currentRow;
 
   /**
-   * @param plotWalk the plotwalk to render
-   * @return A Vbox containing the rendered plot
+   * Construct a new JavaFxPlotRenderer.
+   *
+   * @param gitInfo The reposity that we're using to build this commit tree
    */
-  public final VBox draw(final PlotWalk plotWalk) {
+  public JavaFxPlotRenderer(final GitInfo gitInfo) {
+    repo = gitInfo.getRepo();
+  }
+
+  /**
+   * @return A Vbox containing the rendered plot
+   * @throws IOException
+   * @throws IncorrectObjectTypeException
+   * @throws MissingObjectException
+   */
+  public final VBox draw()
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+
+    final PlotWalk plotWalk = new PlotWalk(repo);
+    final List<Ref> allRefs = repo.getRefDatabase().getRefs();
+    for (Ref ref : allRefs) {
+      // TODO: Fix possible race condition here with the threaded version of ErrorHandler
+      ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+    }
+
     final VBox treeView = new VBox();
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
-    ErrorHandler.mightFail(() -> pcl.fillTo(Integer.MAX_VALUE)).join();
+    pcl.fillTo(Integer.MAX_VALUE);
     for (var commit : pcl) {
-      currentRow = new Group();
+      currentRow = new CurrentRow(commit);
       paintCommit(commit, ROW_HEIGHT);
       treeView.getChildren().add(currentRow);
+      treeView.getChildren().add(new Separator(Orientation.HORIZONTAL));
     }
     treeView.layout();
     return treeView;
@@ -58,12 +124,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       refName = refName.substring(Constants.R_TAGS.length(), refName.length());
     }
     final Text text = new Text(refName);
-    text.setX(x);
-    text.setY(y);
     text.setFill(Color.RED);
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
-    currentRow.getChildren().add(text);
+    currentRow.heads.getChildren().add(text);
     final int offset = 10;
     return (int) Math.floor(offset + width);
   }
@@ -76,8 +140,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     path.setStrokeWidth(width);
     path.setStroke(color);
     final Circle placeHolder = new Circle();
-    currentRow.getChildren().add(placeHolder);
-    currentRow.getChildren().add(path);
+    currentRow.lines.getChildren().add(placeHolder);
+    currentRow.lines.getChildren().add(path);
   }
 
   /** {@inheritDoc} */
@@ -88,13 +152,48 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     circle.setCenterY(Math.floor(y + h / 2));
     circle.setRadius(Math.floor(w / 2));
     circle.setFill(Color.DARKGRAY);
+
     final Circle innerCircle = new Circle();
     innerCircle.setCenterX(Math.floor(x + w / 2 + 1));
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.WHITE);
-    currentRow.getChildren().add(circle);
-    currentRow.getChildren().add(innerCircle);
+
+    currentRow.lines.getChildren().add(circle);
+    currentRow.lines.getChildren().add(innerCircle);
+
+    final int radiusOverdraw = 5;
+    final Circle hoverbox = new Circle();
+    hoverbox.setCenterX(Math.floor(x + w / 2) + 1);
+    hoverbox.setCenterY(Math.floor(y + h / 2));
+    hoverbox.setRadius(Math.floor(w / 2 + radiusOverdraw));
+    hoverbox.setFill(Color.TRANSPARENT);
+    currentRow.lines.getChildren().add(hoverbox);
+
+    final String desc =
+        String.format(
+            "Commit ID: %s\n Author: %s (%s)",
+            currentRow.commit.getId().getName(),
+            currentRow.commit.getAuthorIdent().getName(),
+            currentRow.commit.getAuthorIdent().getEmailAddress());
+
+    final Pane pane = new Pane(new Label(desc));
+    pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
+    pane.setStyle("-fx-background-color: white;");
+    final Popup p = new Popup();
+    p.getContent().add(pane);
+
+    hoverbox
+        .hoverProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (newValue) {
+                final Point2D bnds = circle.localToScreen(x + w, y + w);
+                p.show(currentRow.lines, bnds.getX(), bnds.getY());
+              } else {
+                p.hide();
+              }
+            });
   }
 
   /** {@inheritDoc} */
@@ -110,17 +209,13 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     innerCircle.setCenterY(Math.floor(y + h / 2));
     innerCircle.setRadius(Math.floor(w / 2 - 2));
     innerCircle.setFill(Color.LIGHTGRAY);
-    currentRow.getChildren().add(circle);
-    currentRow.getChildren().add(innerCircle);
+    currentRow.lines.getChildren().add(circle);
+    currentRow.lines.getChildren().add(innerCircle);
   }
 
   /** {@inheritDoc} */
   @Override
   protected final void drawText(final String msg, final int x, final int y) {
-    final Text text = new Text(msg);
-    text.setX(x);
-    text.setY(y);
-    currentRow.getChildren().add(text);
-    log.info("Placing text with message \"{}\" at ({},{})", msg, x, y);
+    currentRow.message.getChildren().add(new Text(msg));
   }
 }

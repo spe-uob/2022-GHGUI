@@ -21,7 +21,6 @@
     <jgit.version>6.4.0.202211300538-r</jgit.version>
     <slf4j.version>2.0.6</slf4j.version>
     <logback.version>1.4.5</logback.version>
-    <guava.version>31.1-jre</guava.version>
     <lombok.version>1.18.26</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
   </properties>
@@ -66,7 +65,8 @@
     Therefore, there's three ways to go about this part:
     1. Use the JSch SSH implementation (not recommended but should work everywhere)
     2. Use the Apache MINA SSH implementation (recommended but won't compile on Graal)
-    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks file transfer over ssh)
+    3. Use the Apache MINA SSH implementation but without sshd-sftp (should work everywhere, but breaks
+    file transfer over ssh)
     -->
 
     <!-- These dependencies let us use the JSch backend for SSH -->
@@ -137,12 +137,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
-    </dependency>
-    <!-- We use this for the EventBus -->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
     </dependency>
     <!-- Logging framework -->
     <dependency>

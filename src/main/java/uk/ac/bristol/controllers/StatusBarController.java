@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,8 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -75,15 +72,5 @@ public final class StatusBarController implements Initializable, Refreshable {
   public void refresh() {
     root.getChildren().clear();
     ErrorHandler.mightFail(this::generateLabels);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshStatus)) {
-      refresh();
-      System.out.println("Refreshed status pane");
-    }
   }
 }

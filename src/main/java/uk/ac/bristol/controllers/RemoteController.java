@@ -1,12 +1,9 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -21,10 +18,10 @@ import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RemoteConfig;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for each remote repo inside the information bar. */
@@ -84,8 +81,8 @@ public class RemoteController implements Initializable, Refreshable {
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
     button.setOnMouseClicked(
-        (Event e) -> {
-          ErrorHandler.mightFail(gitInfo.command(Git::checkout).addPath(ref.getName())::call);
+        event -> {
+          JgitUtil.checkoutBranch(gitInfo, ref);
         });
     return button;
   }
@@ -107,7 +104,7 @@ public class RemoteController implements Initializable, Refreshable {
     ErrorHandler.tryWith(
         gitInfo.command(Git::fetch).setRemote(remote.getName())::call,
         res -> System.out.println(res.getMessages()));
-    eventBus.post(new RefreshEvent(RefreshEventTypes.RefreshStatus));
+    eventBus.refresh(StatusController.class);
     // since we only need to refresh this one controller, we call refresh manually instead of
     // refreshing all remote controllers through the event bus
     refresh();
@@ -133,15 +130,5 @@ public class RemoteController implements Initializable, Refreshable {
   public final void refresh() {
     container.getChildren().removeIf(child -> child != buttons);
     generateButtons();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshRemote)) {
-      refresh();
-      System.out.println("Refreshed remote");
-    }
   }
 }

@@ -1,7 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -14,11 +12,11 @@ import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.RemoteControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the left-side repo and branch information component. */
@@ -58,6 +56,10 @@ public class InformationController implements Initializable, Refreshable {
     final Button button = new Button(ref.getName().substring(Constants.R_HEADS.length()));
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
+    button.setOnMouseClicked(
+        event -> {
+          JgitUtil.checkoutBranch(gitInfo, ref);
+        });
     return button;
   }
 
@@ -87,18 +89,9 @@ public class InformationController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public final void refresh() {
+    eventBus.refresh(RemoteController.class);
     remote.getChildren().clear();
     local.getChildren().clear();
     generateComponents();
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public final void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshInformation)) {
-      refresh();
-      System.out.println("Refreshed information pane");
-    }
   }
 }
