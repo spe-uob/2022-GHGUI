@@ -53,22 +53,21 @@ img {
 VBox,
 HBox {
   -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: rgb(54, 47, 58);
+  -fx-background-color: #330036;
 }
 
 .root {
   -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: rgb(54, 47, 58);
+  -fx-background-color: #330036;
 } 
 
 Button {
-  -fx-background-color: rgb(47, 52, 58);
+  -fx-background-color: #38182F;
   -fx-alignment: relative;
-  -fx-color: rgb(47, 52, 58);
+  -fx-color: #38182F;
   -fx-cursor: pointer;
   -fx-font-size: 14px;
   -fx-text-fill: white;
-  -fx-margin: 100px
 }
 
 Button:hover {
@@ -81,7 +80,7 @@ select,
 TextArea {
   -fx-font-size: 100%;
   -fx-text-fill: white;
-  -fx-border-color: rgb(24, 21, 26);
+  -fx-border-color: #38182F;
 }
 
 table {
@@ -89,3 +88,39 @@ table {
   -fx-border-spacing: 0;
 }
 
+.titled-pane {
+  -fx-spacing: 3px;
+  -fx-background-color: #330036;
+  -fx-text-fill: white
+}
+
+.titled-pane > .title 
+{
+-fx-background-color: #330036;
+-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+-fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
+ /* 2 10 3 10 */
+}
+
+.tab-pane .tab
+{
+  -fx-background-color: #330036;
+}
+
+.menu-bar {
+  -fx-background-color: black ;
+  -fx-opacity: 0.5;
+  -fx-border-width: 0;
+
+}
+.menu-bar .label {
+  -fx-font-size: 14.0 pt;
+  -fx-font-family: "Bookman Old Style";
+  -fx-text-fill: white;
+  -fx-font-weight: bold; 
+  -fx-padding: 10.0px;
+
+
+Label {
+  -fx-text-fill: white;
+}
