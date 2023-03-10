@@ -92,11 +92,11 @@ public class GitInfo {
       if (transport instanceof SshTransport sshTransport) {
 
         // FOR USE WITH JSCH:
-        SshSessionFactory sshSessionFactory =
+        final SshSessionFactory sshSessionFactory =
             new JschConfigSessionFactory() {
               @Override
-              protected JSch createDefaultJSch(FS fs) throws JSchException {
-                JSch defaultJSch = super.createDefaultJSch(fs);
+              protected JSch createDefaultJSch(final FS fs) throws JSchException {
+                final JSch defaultJSch = super.createDefaultJSch(fs);
                 defaultJSch.addIdentity(path, passphrase);
                 return defaultJSch;
               }
