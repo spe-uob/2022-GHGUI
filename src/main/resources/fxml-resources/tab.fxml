@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="681.0" prefWidth="936.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
+<VBox prefHeight="681.0" prefWidth="936.0" styleClass="generic-background-pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <children>
-      <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane">
+      <HBox alignment="CENTER" spacing="10.0" styleClass="generic-background-pane">
          <children>
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
                <HBox.margin>
@@ -55,17 +55,17 @@
       </HBox>
       <SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
          <items>
-            <AnchorPane fx:id="informationPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
+            <AnchorPane fx:id="informationPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
             <SplitPane dividerPositions="0.7" orientation="VERTICAL">
               <items>
-                  <ScrollPane fx:id="treePane" />
-                <AnchorPane fx:id="terminalPane" SplitPane.resizableWithParent="false" />
+                  <ScrollPane fx:id="treePane" styleClass="generic-background-pane" />
+                <AnchorPane fx:id="terminalPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
-            <AnchorPane fx:id="statusPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
+            <AnchorPane fx:id="statusPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
          </items>
       </SplitPane>
-      <HBox alignment="CENTER" minHeight="30.0" styleClass="tab-pane" />
-      <HBox fx:id="statusBarHBox" alignment="CENTER" styleClass="tab-pane" />
+      <HBox alignment="CENTER" minHeight="30.0" styleClass="generic-background-pane" />
+      <HBox fx:id="statusBarHBox" alignment="CENTER" styleClass="generic-background-pane" />
    </children>
 </VBox>

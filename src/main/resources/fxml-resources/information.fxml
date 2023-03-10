@@ -6,16 +6,16 @@
 
 <TitledPane fx:id="root" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="main-title-box" text="Repo" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.InformationController">
    <content>
-      <VBox styleClass="flex-use-title">
+      <VBox styleClass="generic-background-pane">
          <children>
             <TitledPane animated="false" styleClass="flex-use-item-title" text="local">
                <content>
-                  <VBox fx:id="local" spacing="5.0" styleClass="titledPaneContents" />
+                  <VBox fx:id="local" spacing="5.0" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
             <TitledPane animated="false" styleClass="main-title-box" text="remote">
                <content>
-                  <VBox fx:id="remote" spacing="5.0" styleClass="titledPaneContents" />
+                  <VBox fx:id="remote" spacing="5.0" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
          </children>

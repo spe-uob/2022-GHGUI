@@ -50,27 +50,25 @@ img {
   -fx-border: 0;
 }
 
-VBox,
-HBox {
-  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
+.generic-background-pane {
   -fx-background-color: #330036;
 }
 
 .root {
   -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: #330036;
+  -fx-background-color: #38182F;
 } 
 
 Button {
   -fx-background-color: #38182F;
   -fx-alignment: relative;
-  -fx-color: #38182F;
   -fx-cursor: pointer;
   -fx-font-size: 14px;
   -fx-text-fill: white;
 }
 
 Button:hover {
+  -fx-background-color: #330036;
   -fx-transition: all .5s;
   -fx-transform: rotate(90deg);
 }
@@ -91,7 +89,9 @@ table {
 .titled-pane {
   -fx-spacing: 3px;
   -fx-background-color: #330036;
-  -fx-text-fill: white
+  -fx-text-fill: white;
+  -fx-border-color: #330036;
+  -fx-margin: 0 0 0 0;
 }
 
 .titled-pane > .title 
@@ -102,16 +102,26 @@ table {
  /* 2 10 3 10 */
 }
 
+.tab-header-background {
+  -fx-background-color: #38182F;
+}
+
 .tab-pane .tab
 {
   -fx-background-color: #330036;
 }
 
-.menu-bar {
-  -fx-background-color: black ;
-  -fx-opacity: 0.5;
-  -fx-border-width: 0;
+.topMenuBar {
+  -fx-background-color: #38182F;
+}
 
+.menu-bar {
+  -fx-background-color: #38182F;
+  -fx-border-width: 2.0;
+}
+
+.menu-button {
+  -fx-background-color: #38182F;
 }
 .menu-bar .label {
   -fx-font-size: 14.0 pt;
@@ -119,7 +129,12 @@ table {
   -fx-text-fill: white;
   -fx-font-weight: bold; 
   -fx-padding: 10.0px;
+}
 
+.combo-box {
+  -fx-background-color: #38182F;
+  -fx-text-fill: white;
+}
 
 Label {
   -fx-text-fill: white;
