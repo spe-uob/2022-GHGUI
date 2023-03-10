@@ -92,7 +92,7 @@ public class PullController implements Initializable, Refreshable {
     @FXML
     void pull(ActionEvent event) {
         try {
-            UsernamePasswordCredentialsProvider usernamePasswordCredentialsProvider = new UsernamePasswordCredentialsProvider("su21085","Ww121213.");
+            UsernamePasswordCredentialsProvider usernamePasswordCredentialsProvider = new UsernamePasswordCredentialsProvider("","");
             String remote = null;
             String branch = null;
             if(branchCombox.getValue()!=null){

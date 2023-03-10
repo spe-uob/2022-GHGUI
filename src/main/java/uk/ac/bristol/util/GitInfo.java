@@ -43,12 +43,11 @@ public class GitInfo {
     this.git = git;
   }
 
-
   /**
    * getGit
    * @return
    */
-  public Git getGit(){
+  public Git getGit() {
     return git;
   }
 
@@ -58,7 +57,6 @@ public class GitInfo {
    * @param id The name to use for this set of credentials
    * @param token The GitHub token to use
    */
-
   public static void addToken(final String id, final String token) {
     httpAuth.put(id, new UsernamePasswordCredentialsProvider(token, ""));
   }
