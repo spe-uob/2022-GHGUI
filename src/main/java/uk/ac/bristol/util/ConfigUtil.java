@@ -1,4 +1,3 @@
 package uk.ac.bristol.util;
 
-public class ConfigUtil {
-}
+public class ConfigUtil {}
