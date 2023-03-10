@@ -190,7 +190,8 @@ public class TabController implements Initializable, Refreshable {
           allRefs -> {
             for (Ref ref : allRefs) {
               ErrorHandler.mightFail(
-                  () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
+                      () -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())))
+                  .join();
             }
           });
       treePane.setContent(plotRenderer.draw(plotWalk));

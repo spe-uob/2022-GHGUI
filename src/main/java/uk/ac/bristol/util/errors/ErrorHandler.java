@@ -2,9 +2,9 @@ package uk.ac.bristol.util.errors;
 
 import java.util.function.Consumer;
 import javafx.application.Platform;
-import javafx.concurrent.Task;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import uk.ac.bristol.util.Task;
 
 /** Utility class containing methods for error handling. */
 // CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
@@ -31,6 +31,8 @@ public class ErrorHandler {
             }
           };
       task.setOnFailed(__ -> ErrorHandler.handle(task.getException()));
+      final Thread thread = new Thread(task);
+      thread.start();
       return task;
     }
   }
@@ -57,9 +59,7 @@ public class ErrorHandler {
    * @return A task representing this function
    */
   public static <T> Task<T> mightFail(final CheckedSupplier<T> f) {
-    final Task<T> task = ThrowingTaskBuilder.build(f);
-    task.run();
-    return task;
+    return ThrowingTaskBuilder.build(f);
   }
 
   /**
@@ -69,9 +69,7 @@ public class ErrorHandler {
    * @return A task representing this object
    */
   public static Task<Void> mightFail(final CheckedProcedure f) {
-    final Task<Void> task = ThrowingTaskBuilder.build(nullOnSuccess(f));
-    task.run();
-    return task;
+    return ThrowingTaskBuilder.build(nullOnSuccess(f));
   }
 
   /**
@@ -83,22 +81,9 @@ public class ErrorHandler {
    * @param c The Consumer to apply the value to
    * @return The task corresponding to this series of operations
    */
-  public static <T> Task<Void> tryWith(final CheckedSupplier<T> s, final CheckedConsumer<T> c) {
-
-    final Task<Void> task;
-    if (c instanceof Consumer<?>) {
-      final Consumer<T> cons = (Consumer<T>) c;
-      task =
-          ThrowingTaskBuilder.build(
-              () -> {
-                final T res = s.get();
-                Platform.runLater(() -> cons.accept(res));
-                return null;
-              });
-    } else {
-      task = ThrowingTaskBuilder.build(nullOnSuccess(() -> c.accept(s.get())));
-    }
-    task.run();
+  public static <T> Task<T> tryWith(final CheckedSupplier<T> s, final Consumer<T> c) {
+    final Task<T> task = ThrowingTaskBuilder.build(s);
+    task.setOnSucceeded(__ -> Platform.runLater(() -> c.accept(task.getValue())));
     return task;
   }
 

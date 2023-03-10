@@ -34,7 +34,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final VBox treeView = new VBox();
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
-    ErrorHandler.mightFail(() -> pcl.fillTo(Integer.MAX_VALUE));
+    ErrorHandler.mightFail(() -> pcl.fillTo(Integer.MAX_VALUE)).join();
     for (var commit : pcl) {
       currentRow = new Group();
       paintCommit(commit, ROW_HEIGHT);

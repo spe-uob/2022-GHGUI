@@ -116,7 +116,7 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    ErrorHandler.tryWith(() -> new GC((FileRepository) gitInfo.getRepo()), gc -> gc.prune(null));
+    ErrorHandler.mightFail(() -> new GC((FileRepository) gitInfo.getRepo()).prune(null));
     refresh();
   }
 
