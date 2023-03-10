@@ -4,12 +4,14 @@ import java.io.File;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** Utility class containing static methods for interfacing with JGit. */
@@ -42,12 +44,16 @@ public final class JgitUtil {
    * Checkout branch.
    *
    * @param gitInfo Shared git information
-   * @param branchName Branch to checkout
+   * @param ref Branch to checkout
    */
-  public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    ErrorHandler.mightFail(
-        gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
-    // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
+  public static void checkoutBranch(final GitInfo gitInfo, final Ref ref) {
+    try {
+      gitInfo.command(Git::checkout).setName(ref.getName()).call();
+    } catch (CheckoutConflictException e) {
+      AlertBuilder.warn("Conflicts detected!").show();
+    } catch (GitAPIException e) {
+      ErrorHandler.handle(e);
+    }
   }
 
   /**

@@ -6,7 +6,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -25,6 +24,7 @@ import uk.ac.bristol.controllers.events.RefreshEvent;
 import uk.ac.bristol.controllers.events.RefreshEventTypes;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for each remote repo inside the information bar. */
@@ -84,8 +84,8 @@ public class RemoteController implements Initializable, Refreshable {
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
     button.setOnMouseClicked(
-        (Event e) -> {
-          ErrorHandler.mightFail(gitInfo.command(Git::checkout).addPath(ref.getName())::call);
+        event -> {
+          JgitUtil.checkoutBranch(gitInfo, ref);
         });
     return button;
   }
