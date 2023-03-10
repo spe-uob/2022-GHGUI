@@ -5,7 +5,6 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 /** Utility class containing methods for error handling. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 @Slf4j
 public class ErrorHandler {

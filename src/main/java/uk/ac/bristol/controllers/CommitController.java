@@ -1,21 +1,16 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
-public class CommitController implements Initializable, Refreshable {
+/** The FXML controller for the popup window for creating commits. */
+public class CommitController {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -31,34 +26,29 @@ public class CommitController implements Initializable, Refreshable {
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
 
+  /** Whether this commit should amend the last commit. */
   @FXML private CheckBox amendCheck;
+
+  /** Area for creating commit messages. */
   @FXML private TextArea textBox;
 
-  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
+  /**
+   * Construct a new CommitController.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
+  public CommitController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     this.gitInfo = gitInfo;
   }
 
-  @Override
-  public void refresh() {
-    // Nothing to be done.
-  }
-
-  @Override
-  public void onRefreshEvent(RefreshEvent event) {
-    // Nothing to be done.
-  }
-
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    // Nothing to be done.
-  }
-
+  /** The function to call when the user clicks the confirm button. */
   @FXML
-  public void confirmCommit(Event event) {
-    String messageString = textBox.getText();
-    Boolean amendMode = amendCheck.selectedProperty().getValue();
-    Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
+  public final void confirmCommit() {
+    final String messageString = textBox.getText();
+    final Boolean amendMode = amendCheck.selectedProperty().getValue();
+    final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();

@@ -10,7 +10,6 @@ module uk.ac.bristol {
   // Apache MINA SSH support
   // requires org.eclipse.jgit.ssh.apache;
   requires lombok;
-  requires com.google.common;
   requires org.slf4j;
   requires com.kodedu.terminalfx;
 
