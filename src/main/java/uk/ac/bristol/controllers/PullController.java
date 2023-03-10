@@ -91,7 +91,7 @@ public class PullController implements Initializable, Refreshable {
           .pull()
           .setRemote(remote)
           .setRemoteBranchName(branch)
-          .setCredentialsProvider((gitInfo.getHttpAuth().get(gitInfo.getHttpAuthKey())))
+          .setCredentialsProvider((GitInfo.getHttpAuth().get(gitInfo.getHttpAuthKey())))
           .call();
 
       final Alert alert = new Alert(Alert.AlertType.INFORMATION);

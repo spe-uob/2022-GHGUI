@@ -128,7 +128,7 @@ public class GitInfo {
    *
    * @return
    */
-  public Map<String, CredentialsProvider> getHttpAuth() {
+  public static Map<String, CredentialsProvider> getHttpAuth() {
     return httpAuth;
   }
 
