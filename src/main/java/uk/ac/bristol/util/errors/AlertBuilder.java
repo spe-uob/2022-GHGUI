@@ -6,7 +6,6 @@ import javafx.scene.control.TextArea;
 import lombok.experimental.UtilityClass;
 
 /** Provides methods for constructing JavaFX alerts from Exceptions. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class AlertBuilder {
   /**

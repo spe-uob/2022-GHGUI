@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
@@ -10,6 +9,7 @@ import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
+/** The FXML controller for the popup window for creating commits. */
 public class CommitController {
 
   /** The event bus used for refresh events for this tab. */
@@ -26,19 +26,29 @@ public class CommitController {
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
 
+  /** Whether this commit should amend the last commit. */
   @FXML private CheckBox amendCheck;
+
+  /** Area for creating commit messages. */
   @FXML private TextArea textBox;
 
-  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
+  /**
+   * Construct a new CommitController.
+   *
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
+   */
+  public CommitController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     this.gitInfo = gitInfo;
   }
 
+  /** The function to call when the user clicks the confirm button. */
   @FXML
-  public void confirmCommit(Event event) {
-    String messageString = textBox.getText();
-    Boolean amendMode = amendCheck.selectedProperty().getValue();
-    Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
+  public final void confirmCommit() {
+    final String messageString = textBox.getText();
+    final Boolean amendMode = amendCheck.selectedProperty().getValue();
+    final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();

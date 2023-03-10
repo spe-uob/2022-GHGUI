@@ -77,22 +77,31 @@ public class TabController implements Initializable, Refreshable {
         });
   }
 
-  /** TODO: Link with JGitUtil. */
+  /**
+   * TODO: Link with JGitUtil.
+   *
+   * @param event The event that caused this function to fire.
+   */
   @FXML
-  private void push(Event event) {
+  private void push(final Event event) {
     log.info(event.getEventType().getName());
     log.info("Push was requested - feature not implemented.");
   }
 
-  /** TODO: Link with JGitUtil. */
+  /**
+   * TODO: Link with JGitUtil.
+   *
+   * @param event The event that caused this function to fire.
+   */
   @FXML
-  private void pull(Event event) {
+  private void pull(final Event event) {
     log.info(event.getEventType().getName());
     log.info("Pull was requested - feature not implemented.");
   }
 
+  /** Open the commit dialog. */
   @FXML
-  private void commit(Event event) {
+  private void commit() {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         () -> CommitControllerFactory.build(eventBus, gitInfo),
