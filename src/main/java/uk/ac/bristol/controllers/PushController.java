@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -10,13 +9,12 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
 /** The FXML class to handle the Push pop-up window. */
-public class PushController implements Initializable, Refreshable {
+public class PushController implements Initializable {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -46,18 +44,6 @@ public class PushController implements Initializable, Refreshable {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void refresh() {
-    // Nothing to be done.
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onRefreshEvent(RefreshEvent event) {
-    // Nothing to be done.
   }
 
   /** {@inheritDoc} */
