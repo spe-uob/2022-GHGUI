@@ -170,11 +170,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     hoverbox.setFill(Color.TRANSPARENT);
     currentRow.lines.getChildren().add(hoverbox);
 
-     String desc =
+    String desc =
         String.format(
             "Commit ID: %s\n Author: %s",
-            currentRow.commit.getId().getName(),
-            currentRow.commit.getAuthorIdent().getName());
+            currentRow.commit.getId().getName(), currentRow.commit.getAuthorIdent().getName());
     final String email = currentRow.commit.getAuthorIdent().getEmailAddress();
     if (!email.isEmpty()) {
       desc += " (" + email + ")";
