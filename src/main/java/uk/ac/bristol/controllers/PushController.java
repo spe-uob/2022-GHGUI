@@ -40,7 +40,7 @@ public class PushController implements Initializable {
    * @param eventBus
    * @param gitInfo
    */
-  public PushController(EventBus eventBus, final GitInfo gitInfo) {
+  public PushController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
@@ -48,9 +48,9 @@ public class PushController implements Initializable {
 
   /** {@inheritDoc} */
   @Override
-  public void initialize(URL location, ResourceBundle resources) {
+  public void initialize(final URL location, ResourceBundle resources) {
     // set the default text for the repository based on current branch
-    Set<String> remotes = gitInfo.getRepo().getRemoteNames();
+    final Set<String> remotes = gitInfo.getRepo().getRemoteNames();
     if (!remotes.isEmpty()) {
       remoteTextBox.setText(remotes.iterator().next());
     }
@@ -62,10 +62,10 @@ public class PushController implements Initializable {
    */
   @FXML
   public void confirmPush() {
-    String remoteText = remoteTextBox.getText();
-    Boolean allFlag = allCheck.selectedProperty().getValue();
-    Boolean forceFlag = forceCheck.selectedProperty().getValue();
-    Boolean tagsFlag = tagsCheck.selectedProperty().getValue();
+    final String remoteText = remoteTextBox.getText();
+    final Boolean allFlag = allCheck.selectedProperty().getValue();
+    final Boolean forceFlag = forceCheck.selectedProperty().getValue();
+    final Boolean tagsFlag = tagsCheck.selectedProperty().getValue();
     JgitUtil.push(gitInfo, remoteText, allFlag, forceFlag, tagsFlag);
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
