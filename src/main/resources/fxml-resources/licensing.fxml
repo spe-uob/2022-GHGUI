@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.LicenceController">
+   <items>
+      <VBox maxWidth="200.0" minWidth="100.0">
+         <children>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="GHGUI" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="JavaFX" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="JGit" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="Slf4J" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="Logback" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="Lombok" />
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#select" text="TerminalFX" />
+         </children>
+      </VBox>
+      <StackPane fx:id="infoPane" prefHeight="150.0" prefWidth="200.0">
+         <children>
+            <VBox fx:id="GHGUI" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" translateZ="1.0">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="GHGUI" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="GHGUI is our GUI for git, written in Java." wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="uk.ac.bristol" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ghgui" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1.0-SNAPSHOT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="Apache-2.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="JavaFX" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JavaFX" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JavaFX is a software platform for developing GUI applications in Java, that we have used for this entire project" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="80.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="org.openjfx" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="javafx-controls" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="javafx-fxml" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="javafx-graphics" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="javafx-web" />
+                           </children>
+                        </VBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="21-ea+5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="GPLv2+CE" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="JGit" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="JGit" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="JGit is a pure Java implementation of the git version control system. It is developed and maintained by The Eclipse Foundation" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="org.eclipse.jgit" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="org.eclipse.jgit" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="6.4.0.202211300538-r" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="EDL-1.0 (BSD-3-Clause)" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="Slf4J" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Slf4J" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Slf4J is a frontend for logging frameworks in Java such as Log4j2 and Logback" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="org.slf4j" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="slf4j-api" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2.0.6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="Logback" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Logback" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Logback is the logging framework that we're using as the backend for Slf4J" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="50.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ch.qos.logback" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="logback-classic" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1.4.5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <VBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Hyperlink onMouseClicked="#license" text="EPL-1.0" />
+                              <Hyperlink onMouseClicked="#license" text="LGPL-2.1" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="Lombok" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Lombok" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Lombok provides an annotations preprocessor for Java with plenty of annotations that implement common patterns in Java code, making code more readable and streamlined" wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="org.projectlombok" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="lombok" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1.18.26" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+            <VBox fx:id="TerminalFX" alignment="TOP_CENTER" disable="true" prefHeight="200.0" prefWidth="100.0" visible="false">
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="TerminalFX" />
+                  <TextArea editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="TerminalFX is a terminal emulator that combines Pty4J with hterm.js on top of JavaFX's WebView to provide a functioning embedded terminal in our app." wrapText="true" VBox.vgrow="ALWAYS" />
+                  <GridPane gridLinesVisible="true">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Group ID" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Artifact ID" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Version" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="License" GridPane.rowIndex="3" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="com.kodedu.terminalfx" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="terminalfx" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="5.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1.2.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="3.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Hyperlink onMouseClicked="#license" text="MIT" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </items>
+</SplitPane>

@@ -43,7 +43,13 @@ mvn javafx:run
 
 Note: If you do not have maven installed, you can replace `mvn` with `.\mvnw.cmd` on Windows or `./mvnw` on MacOS/Linux.
 
-## Building a Custom Runtime (temporarily deprecated, [see here](/../../issues/66))
+-----
+## Building a Custom Runtime
+
+Unfortunately due to many dependencies containing automatic modules, or not respecting the module system at all, this method is indefinitely deprecated.
+
+<details>
+<summary> DEPRECATED INSTRUCTIONS </summary>
 
 Since Java 9, the JRE has introduced the Java Platform Module System (JPMS). Jlink is a tool that allows us to compile our project alongside a custom runtime image that contains *only* the exact modules and runtime dependencies needed to create a functioning program. To create a custom runtime image, run:
 ```
@@ -55,11 +61,40 @@ This runtime image can also be used to create an installer using jpackage with:
 mvn jpackage:jpackage
 ```
 This installer can be found at `./target/dist`, and will be native to whatever machine the command was run on. In the case of Windows, it will create a `.exe` or `.msi` file that should install ghgui when run. Building the installer may also depend on other programs being installed (Wix Toolset in the case of Windows)
+</details>
+<br />
 
+-----
 ## Compiling to native executable
+
+Unfortunately, this method has also had to be deprecated, for two main reasons:
+- The sshd-sftp library from Apache throws lots of confusing errors when compiled with Graal. I've spent three days trying to figure out why and I'm about ready to bludgeon myself with a cup of coffee.
+- Reflection in Graal is a very hard thing to configure, and since JavaFX is internally about 95% reflection... That's gonna be far more pain than it's worth.
+
+<details>
+<summary> DEPRECATED INSTRUCTIONS </summary>
 
 Leveraging GraalVM's native-image technology, it is possible to compile Java ahead-of-time into a native executable (providing the code does not rely on reflection). Gluon have created a Maven plugin and a custom JVM that allows us to apply this to JavaFX applications. We can create this native image with:
 ```
 mvn gluonfx:build
 ```
 In order for this build to work, a recent build of [Gluon GraalVM must be installed](https://github.com/gluonhq/graal/releases), with the `GRAALVM_HOME` environment variable set. This build process also appears to conflict with the `_JAVA_OPTIONS` environment variable, so unsetting this variable is necessary.
+</details>
+<br />
+
+-----
+## Creating a fat jar (**EXTRA THICC**)
+
+This method is strongly not recommended, and JavaFX goes so far as to crash if it detects that you're trying to do this.\
+<br />
+### **So let's do it anyways!**
+<br />
+Using the maven-shade-plugin, we can package our .jar file with all of the JavaFX runtime components needed to make this application work. To create the fat jar it's as simple as running:
+
+```
+mvn package
+```
+
+And the output should be located at `target/shade/ghgui.jar`\
+Since we want to make this be cross-platform, it contains the GUI components for Windows, Linux and MacOS all bundled in here.
+
