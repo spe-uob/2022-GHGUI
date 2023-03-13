@@ -161,8 +161,8 @@ public final class JgitUtil {
   }
 
   /**
-   * Push to a remote repository.
-   * Frequently used flags only are accepted.
+   * Push to a remote repository. Frequently used flags only are accepted.
+   *
    * @param gitInfo GitInfo object for the repository
    * @param remote Name of the remote to push to
    * @param all Flag to push all branches. == -all
