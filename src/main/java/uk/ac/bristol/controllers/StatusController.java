@@ -5,11 +5,16 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.Status;
+
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
@@ -29,13 +34,22 @@ public final class StatusController implements Initializable, Refreshable {
 
   /** Panes for displaying status information. */
   @FXML
-  private GridPane addedGridPane,
-      changedGridPane,
-      conflictingGridPane,
-      missingGridPane,
-      modifiedGridPane,
-      removedGridPane,
-      untrackedGridPane;
+  private TitledPane addedPane,
+      changedPane,
+      conflictingPane,
+      missingPane,
+      modifiedPane,
+      removedPane,
+      untrackedPane;
+
+  @FXML
+  private VBox addedBox,
+      changedBox,
+      conflictingBox,
+      missingBox,
+      modifiedBox,
+      removedBox,
+      untrackedBox;
 
   /**
    * Construct a new StatusController and register it on the EventBus.
@@ -62,15 +76,17 @@ public final class StatusController implements Initializable, Refreshable {
 
     ErrorHandler.tryWith(
         gitInfo.command(Git::status)::call,
-        status -> {
-          updateGridPane(addedGridPane, status.getAdded());
-          updateGridPane(changedGridPane, status.getChanged());
-          updateGridPane(conflictingGridPane, status.getConflicting());
-          updateGridPane(missingGridPane, status.getMissing());
-          updateGridPane(modifiedGridPane, status.getModified());
-          updateGridPane(removedGridPane, status.getRemoved());
-          updateGridPane(untrackedGridPane, status.getUntracked());
-        });
+        status -> {updateStatusView(status);});
+  }
+
+  private void updateStatusView(Status status) {
+    updateBox(addedPane, addedBox, status.getAdded());
+    updateBox(changedPane, changedBox, status.getChanged());
+    updateBox(conflictingPane, conflictingBox, status.getConflicting());
+    updateBox(missingPane, missingBox, status.getMissing());
+    updateBox(modifiedPane, modifiedBox, status.getModified());
+    updateBox(removedPane, removedBox, status.getRemoved());
+    updateBox(untrackedPane, untrackedBox, status.getUntracked());
   }
 
   /**
@@ -79,13 +95,15 @@ public final class StatusController implements Initializable, Refreshable {
    * @param pane The pane to update
    * @param contents A set of strings to add to the pane as Labels
    */
-  private void updateGridPane(final GridPane pane, final Set<String> contents) {
-    pane.getChildren().clear();
+  private void updateBox(final TitledPane pane, final VBox box, final Set<String> contents) {
+    box.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
-      pane.add(new Label(filename), 0, i);
+      box.getChildren().add(new Label(filename));
       i++;
     }
+    pane.setOpacity(i == 0? 0.5: 1);
+    pane.setCollapsible(i == 0? false : true);
   }
 
   /** {@inheritDoc} */

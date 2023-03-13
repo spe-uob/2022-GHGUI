@@ -91,6 +91,10 @@ table {
   -fx-border-color: #330036;
   -fx-margin: 0 0 0 0;
   -fx-border: 0 0 0 0;
+  
+}
+.titled-pane > .content{
+  -fx-border-width: 0;
 }
 
 .titled-pane > .title 
@@ -110,29 +114,39 @@ table {
   -fx-background-color: #330036;
 }
 
-.topMenuBar {
-  -fx-background-color: #38182F;
-}
-
 .menu-bar {
   -fx-background-color: #38182F;
-  -fx-border-width: 2.0;
 }
 
 .menu-button {
   -fx-background-color: #38182F;
 }
+
+.menu-button:hover {
+  -fx-background-color: #48639C;
+}
 .menu-bar .label {
-  -fx-font-size: 14.0 pt;
-  -fx-font-family: "Bookman Old Style";
+  -fx-font-size: 12 pt;
   -fx-text-fill: white;
-  -fx-font-weight: bold; 
-  -fx-padding: 10.0px;
+  -fx-padding: 5.0px;
 }
 
 .combo-box {
   -fx-background-color: #38182F;
+}
+.combo-box > .list-view > .list-cell, .combo-box > .list-cell {
   -fx-text-fill: white;
+  -fx-padding: 2px;
+  -fx-background-color: #38182F;
+}
+
+.combo-box > .combo-box-popup > .list-view{
+  -fx-background-color: #38182F;
+  -fx-border-radius: 5px
+}
+
+.combo-box > .arrow-button {
+  -fx-background-color: #38182F;
 }
 
 Label {
