@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers.factories;
 
-import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -9,10 +8,10 @@ import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.RemoteController;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building RemoteController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class RemoteControllerFactory {
   /** The filename of the fxml file for building the RemoteController. */

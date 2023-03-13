@@ -1,0 +1,3 @@
+[submodule "src/main/resources/META-INF/native-image"]
+	path = src/main/resources/META-INF/native-image
+	url = https://github.com/Foxinatel/GHGUI-Graal-Metadata

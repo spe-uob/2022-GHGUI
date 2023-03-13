@@ -67,10 +67,9 @@ documentation.
   </module>
 
   <module name="TreeWalker">
-
-    <module name="SuppressionCommentFilter">
-      <property name="messageFormat" value="CHECKSTYLE:IGNORE ([^ ]+)" />
-      <property name="checkFormat" value="$1" />
+    <module name="SuppressionXpathSingleFilter">
+      <property name="checks" value="HideUtilityClassConstructor" />
+      <property name="query" value="//CLASS_DEF[.//ANNOTATION/IDENT[@text='UtilityClass']]" />
     </module>
 
     <module name="SuppressWithNearbyCommentFilter">

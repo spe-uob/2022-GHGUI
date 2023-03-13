@@ -1,21 +1,16 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 
-/** The FXML class to handle the Commit pop-up window. */
-public class CommitController implements Initializable, Refreshable {
+/** The FXML controller for the popup window for creating commits. */
+public class CommitController {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -28,52 +23,31 @@ public class CommitController implements Initializable, Refreshable {
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;
-  /** CheckBox to enable amend mode. */
+
+  /** Whether this commit should amend the last commit. */
   @FXML private CheckBox amendCheck;
-  /** TextArea in which to input the commit message. */
+
+  /** Area for creating commit messages. */
   @FXML private TextArea textBox;
 
   /**
-   * Constructor for the CommitController. Registers obect to the EventBus.
+   * Construct a new CommitController.
    *
-   * @param eventBus
-   * @param gitInfo
+   * @param eventBus The event bus used for refresh events for this tab
+   * @param gitInfo Information about the git object assigned to this tab
    */
-  public CommitController(EventBus eventBus, final GitInfo gitInfo) {
+  public CommitController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public void refresh() {
-    // Nothing to be done.
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void onRefreshEvent(RefreshEvent event) {
-    // Nothing to be done.
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void initialize(URL location, ResourceBundle resources) {
-    // Nothing to be done.
-  }
-
-  /**
-   * Called when the Commit button is pressed on the window. Calls nevessary JGit utilities and
-   * closes the window.
-   */
+  /** The function to call when the user clicks the confirm button. */
   @FXML
-  public void confirmCommit() {
-    // Get values from the pop-up.
-    String messageString = textBox.getText();
-    Boolean amendMode = amendCheck.selectedProperty().getValue();
-    Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
-    // JGit sets the flags and options on the CommitCommand and calls it.
+  public final void confirmCommit() {
+    final String messageString = textBox.getText();
+    final Boolean amendMode = amendCheck.selectedProperty().getValue();
+    final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
     // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();

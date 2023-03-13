@@ -6,6 +6,20 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lombok.experimental.UtilityClass;
+
+/** Shim class for building fat jars. */
+@UtilityClass
+class Shim {
+  /**
+   * Entry point for shaded jars.
+   *
+   * @param args Command-line arguments
+   */
+  public static void main(final String[] args) {
+    App.main(args);
+  }
+}
 
 /** Base class to start JavaFX application. */
 public class App extends Application {
