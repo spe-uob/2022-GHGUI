@@ -89,7 +89,6 @@ public class TabController implements Initializable, Refreshable {
           newWindow.setScene(new Scene(root));
           newWindow.showAndWait();
         });
-
   }
 
   /**
