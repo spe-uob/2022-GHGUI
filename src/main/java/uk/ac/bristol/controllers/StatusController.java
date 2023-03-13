@@ -5,16 +5,12 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.Status;
-
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
@@ -76,7 +72,9 @@ public final class StatusController implements Initializable, Refreshable {
 
     ErrorHandler.tryWith(
         gitInfo.command(Git::status)::call,
-        status -> {updateStatusView(status);});
+        status -> {
+          updateStatusView(status);
+        });
   }
 
   private void updateStatusView(Status status) {
@@ -102,8 +100,8 @@ public final class StatusController implements Initializable, Refreshable {
       box.getChildren().add(new Label(filename));
       i++;
     }
-    pane.setOpacity(i == 0? 0.5: 1);
-    pane.setCollapsible(i == 0? false : true);
+    pane.setOpacity(i == 0 ? 0.5 : 1);
+    pane.setCollapsible(i == 0 ? false : true);
   }
 
   /** {@inheritDoc} */
