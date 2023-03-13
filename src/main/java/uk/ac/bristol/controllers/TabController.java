@@ -81,7 +81,7 @@ public class TabController implements Initializable, Refreshable {
    * @param event The event that caused this function to fire.
    */
   @FXML
-  private void push(Event event) {
+  private void push(final Event event) {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         () -> PushControllerFactory.build(eventBus, gitInfo),

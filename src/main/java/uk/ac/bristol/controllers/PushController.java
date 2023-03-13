@@ -48,7 +48,7 @@ public class PushController implements Initializable {
 
   /** {@inheritDoc} */
   @Override
-  public void initialize(final URL location, ResourceBundle resources) {
+  public void initialize(final URL location, final ResourceBundle resources) {
     // set the default text for the repository based on current branch
     final Set<String> remotes = gitInfo.getRepo().getRemoteNames();
     if (!remotes.isEmpty()) {
