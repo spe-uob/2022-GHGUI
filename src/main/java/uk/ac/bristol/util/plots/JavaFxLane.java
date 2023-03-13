@@ -12,6 +12,6 @@ public class JavaFxLane extends PlotLane {
   /** Colour mappings for each lane. */
   @Getter
   private static Color[] colors = {
-    Color.RED, Color.ORANGE, Color.YELLOWGREEN, Color.GREEN, Color.BLUE, Color.INDIGO, Color.VIOLET
+    Color.RED, Color.ORANGE, Color.YELLOWGREEN, Color.GREEN, Color.BLUE, Color.VIOLET
   };
 }
