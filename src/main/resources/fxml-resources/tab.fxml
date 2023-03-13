@@ -26,10 +26,6 @@
                <opaqueInsets>
                   <Insets top="10.0" />
                </opaqueInsets></Button>
-            <Button mnemonicParsing="false" onMouseClicked="#checkout" styleClass="main-title-box" text="Checkout">
-               <HBox.margin>
-                  <Insets />
-               </HBox.margin></Button>
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>
