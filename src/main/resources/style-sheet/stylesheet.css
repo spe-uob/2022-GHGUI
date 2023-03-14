@@ -149,6 +149,22 @@ table {
   -fx-background-color: #38182F;
 }
 
+.combo-box-base > .arrow-button > .arrow, 
+.titled-pane > .title > .arrow-button > .arrow {
+  -fx-background-color: white;
+}
+
+.titled-pane > .content {
+  -fx-padding: 0px;
+}
+
+.titled-pane > .content > .titled-pane {
+  -fx-padding: 2px 2px 2px 10px;
+}
+.titled-pane > .content > * {
+  -fx-padding: 2px 2px 2px 20px;
+}
+
 Label {
   -fx-text-fill: white;
 }
