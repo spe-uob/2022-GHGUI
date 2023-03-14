@@ -73,6 +73,8 @@ public final class StatusBarController implements Initializable, Refreshable {
       } else {
         statusLabel = new Label("...no remote detected.");
       }
+      // shhhhhh
+      // CHECKSTYLE:IGNORE MagicNumberCheck 1
       statusLabel.setPadding(new Insets(5, 5, 5, 10));
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {

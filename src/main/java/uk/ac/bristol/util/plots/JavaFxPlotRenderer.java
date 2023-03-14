@@ -124,6 +124,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       refName = refName.substring(Constants.R_TAGS.length(), refName.length());
     }
     final Text text = new Text(refName);
+    // CHECKSTYLE:IGNORE MagicNumberCheck 1
     text.setFill(Color.rgb(0x48, 0x63, 0x9C));
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);

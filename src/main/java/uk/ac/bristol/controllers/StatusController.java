@@ -38,6 +38,7 @@ public final class StatusController implements Initializable, Refreshable {
       removedPane,
       untrackedPane;
 
+  /** Boxes within the panes displaying status information. */
   @FXML
   private VBox addedBox,
       changedBox,
@@ -77,6 +78,9 @@ public final class StatusController implements Initializable, Refreshable {
         });
   }
 
+  /** Update each filebox using a provided status object.
+   * @param status Status object to use.
+   */
   private void updateStatusView(Status status) {
     updateBox(addedPane, addedBox, status.getAdded());
     updateBox(changedPane, changedBox, status.getChanged());
@@ -91,15 +95,19 @@ public final class StatusController implements Initializable, Refreshable {
    * Clear labels from the grid pane and replace them with updated labels.
    *
    * @param pane The pane to update
+   * @param box The box contained within the pane
    * @param contents A set of strings to add to the pane as Labels
    */
   private void updateBox(final TitledPane pane, final VBox box, final Set<String> contents) {
+    // Yes, yes, I know the pane + box combo seems redundant but it was the easiest way.
     box.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
       box.getChildren().add(new Label(filename));
       i++;
     }
+    // aint no way half is a magic number
+    // CHECKSTYLE:IGNORE MagicNumberCheck 1
     pane.setOpacity(i == 0 ? 0.5 : 1);
     pane.setCollapsible(i == 0 ? false : true);
   }
