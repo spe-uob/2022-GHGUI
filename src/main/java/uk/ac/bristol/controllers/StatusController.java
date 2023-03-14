@@ -78,7 +78,9 @@ public final class StatusController implements Initializable, Refreshable {
         });
   }
 
-  /** Update each filebox using a provided status object.
+  /**
+   * Update each filebox using a provided status object.
+   *
    * @param status Status object to use.
    */
   private void updateStatusView(Status status) {
