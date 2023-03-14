@@ -2,23 +2,20 @@ package uk.ac.bristol.util;
 
 import java.io.File;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.RefSpec;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.eclipse.jgit.util.StringUtils;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** Utility class containing static methods for interfacing with JGit. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
-@Slf4j
 public final class JgitUtil {
 
   /**
@@ -47,20 +44,32 @@ public final class JgitUtil {
    * Checkout branch.
    *
    * @param gitInfo Shared git information
-   * @param branchName Branch to checkout
+   * @param ref Branch to checkout
    */
-  public static void checkoutBranch(final GitInfo gitInfo, final String branchName) {
-    ErrorHandler.mightFail(
-        gitInfo.command(Git::checkout).setCreateBranch(false).setName(branchName)::call);
-    // gitInfo.getGit().pull().setCredentialsProvider(gitInfo.getAuth()).call();
+  public static void checkoutBranch(final GitInfo gitInfo, final Ref ref) {
+    try {
+      gitInfo.command(Git::checkout).setName(ref.getName()).call();
+    } catch (CheckoutConflictException e) {
+      AlertBuilder.warn("Conflicts detected!").show();
+    } catch (GitAPIException e) {
+      ErrorHandler.handle(e);
+    }
   }
 
+  /**
+   * Create a commit.
+   *
+   * @param gitInfo Shared git information
+   * @param message Message for the commit
+   * @param amendMode Whether to amend the current commit
+   * @param stagedOnly Whether to only commit staged files
+   */
   public static void commit(
       final GitInfo gitInfo,
       final String message,
       final Boolean amendMode,
       final Boolean stagedOnly) {
-    CommitCommand commitCommand = gitInfo.command(Git::commit);
+    final CommitCommand commitCommand = gitInfo.command(Git::commit);
     commitCommand.setMessage(message);
     commitCommand.setAllowEmpty(false);
     commitCommand.setAll(!stagedOnly);
@@ -126,24 +135,6 @@ public final class JgitUtil {
         ref -> {
           gitInfo.command(Git::push).add(ref).call();
         });
-  }
-
-  /**
-   * Get credentials provider. TODO: Add support for ssh login and passwords
-   *
-   * @param gitUser git account
-   * @param getPassword git password
-   * @return UsernamePasswordCredentialsProvider
-   */
-  public static UsernamePasswordCredentialsProvider getCredentialsProvider(
-      final String gitUser, final String getPassword) {
-    log.info("get credentials provider user:{},password:{}", gitUser, getPassword);
-    UsernamePasswordCredentialsProvider credentialsProvider = null;
-    // check parameters is not null or not empty
-    if (StringUtils.isEmptyOrNull(gitUser) && StringUtils.isEmptyOrNull(getPassword)) {
-      credentialsProvider = new UsernamePasswordCredentialsProvider(gitUser, getPassword);
-    }
-    return credentialsProvider;
   }
 
   /**

@@ -8,7 +8,6 @@ import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.LoginController;
 
 /** A class for building LoginController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public class LoginControllerFactory {
 

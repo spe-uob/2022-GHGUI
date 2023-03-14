@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 import lombok.experimental.UtilityClass;
 
 /** Class for default terminal themes. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public class TerminalConfigThemes {
   /** Dark theme. */

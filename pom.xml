@@ -21,7 +21,6 @@
     <jgit.version>6.4.0.202211300538-r</jgit.version>
     <slf4j.version>2.0.6</slf4j.version>
     <logback.version>1.4.5</logback.version>
-    <guava.version>31.1-jre</guava.version>
     <lombok.version>1.18.26</lombok.version>
     <terminalfx.version>1.2.0</terminalfx.version>
   </properties>
@@ -139,11 +138,16 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
     </dependency>
-    <!-- We use this for the EventBus -->
+    <!-- Logging framework -->
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
     </dependency>
     <!-- Terminal emulator for JavaFX -->
     <dependency>
