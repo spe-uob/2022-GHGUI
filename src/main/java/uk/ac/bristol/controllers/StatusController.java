@@ -78,10 +78,12 @@ public final class StatusController implements Initializable, Refreshable {
         });
   }
 
-  /** Update each filebox using a provided status object.
+  /**
+   * Update each filebox using a provided status object.
+   *
    * @param status Status object to use.
    */
-  private void updateStatusView(Status status) {
+  private void updateStatusView(final Status status) {
     updateBox(addedPane, addedBox, status.getAdded());
     updateBox(changedPane, changedBox, status.getChanged());
     updateBox(conflictingPane, conflictingBox, status.getConflicting());
