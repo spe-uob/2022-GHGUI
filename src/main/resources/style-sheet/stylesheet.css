@@ -164,6 +164,11 @@ table {
 .titled-pane > .content > * {
   -fx-padding: 2px 2px 2px 20px;
 }
+.split-pane {
+  -fx-padding: 0px;
+  -fx-border-width: 0px;
+
+}
 
 Label {
   -fx-text-fill: white;
