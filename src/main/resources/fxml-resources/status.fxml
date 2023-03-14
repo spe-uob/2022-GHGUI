@@ -12,7 +12,7 @@
                   <VBox fx:id="addedBox" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane fx:id="changedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Changed">
+            <TitledPane fx:id="changedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="flex-use-item-title" text="Staged">
                <content>
                   <VBox fx:id="changedBox" styleClass="generic-background-pane" />
                </content>
