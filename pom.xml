@@ -157,6 +157,30 @@
     </dependency>
   </dependencies>
 
+  <profiles>
+    <profile>
+      <id>logging</id>
+      <activation>
+        <property>
+          <name>!release</name>
+        </property>
+      </activation>
+      <dependencies>
+        <!-- Logging framework -->
+        <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>ch.qos.logback</groupId>
+          <artifactId>logback-classic</artifactId>
+          <version>${logback.version}</version>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
+
   <build>
     <plugins>
       <plugin>
