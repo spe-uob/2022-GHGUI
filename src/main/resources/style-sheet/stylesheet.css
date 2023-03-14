@@ -13,23 +13,28 @@ code,
 kbd,
 pre,
 samp {
+  font-family: couriernew, courier, monospace;
   -fx-font-family: couriernew, courier, monospace;
 }
 
 small {
+  font-size: 12px;
   -fx-font-size: 12px;
 }
 
 ul,
 ol {
+  list-style: none;
   -fx-list-style: none;
 }
 
 a {
+  text-decoration: none;
   -fx-text-decoration: none;
 }
 
 a:hover {
+  text-decoration: underline;
   -fx-text-decoration: underline;
 }
 
@@ -42,24 +47,32 @@ sub {
 }
 
 legend {
+  color: #000;
   -fx-color: #000;
 }
 
 fieldset,
 img {
+  border: 0;
   -fx-border: 0;
 }
 
 .generic-background-pane {
+  background-color: #330036;
   -fx-background-color: #330036;
 }
 
 .root {
+  font: 12px/1.5tahoma, arial, \5b8b\4f53;
+  background-color: #38182F;
   -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
   -fx-background-color: #38182F;
 } 
 
 Button {
+  background-color: #38182F;
+  cursor: pointer;
+  font-size: 14px;
   -fx-background-color: #38182F;
   -fx-cursor: pointer;
   -fx-font-size: 14px;
@@ -67,6 +80,8 @@ Button {
 }
 
 Button:hover {
+  background-color: #330036;
+  transition: all .5s;
   -fx-background-color: #330036;
   -fx-transition: all .5s;
 }
@@ -74,98 +89,127 @@ Button:hover {
 input,
 select,
 TextArea {
+  font-size: 100%;
   -fx-font-size: 100%;
   -fx-text-fill: white;
+  border-color: #38182F;
   -fx-border-color: #38182F;
 }
 
 table {
+  border-collapse: collapse;
+  border-spacing: 0;
   -fx-border-collapse: collapse;
   -fx-border-spacing: 0;
 }
 
 .titled-pane {
   -fx-spacing: 3px;
+  background-color: #330036;
   -fx-background-color: #330036;
   -fx-text-fill: white;
+  border-color: #330036;
+  margin: 0 0 0 0;
+  border: 0 0 0 0;
   -fx-border-color: #330036;
   -fx-margin: 0 0 0 0;
   -fx-border: 0 0 0 0;
   
 }
 .titled-pane > .content{
+  border-width: 0;
   -fx-border-width: 0;
 }
 
 .titled-pane > .title 
 {
--fx-background-color: #330036;
--fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
--fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
- /* 2 10 3 10 */
+  background-color: #330036;
+  -fx-background-color: #330036;
+  -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+  padding: 0.166667em 0.833333em 0.25em 0.833333em;
+  -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
 }
 
 .tab-header-background {
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 
 .tab-pane .tab
 {
+  background-color: #330036;
   -fx-background-color: #330036;
 }
 
 .menu-bar {
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 
 .menu-button {
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 
 .menu-button:hover {
+  background-color: #48639C;
   -fx-background-color: #48639C;
 }
 .menu-bar .label {
+  font-size: 12pt;
   -fx-font-size: 12 pt;
   -fx-text-fill: white;
-  -fx-padding: 5.0px;
+  padding: 5px;
+  -fx-padding: 5px;
 }
 
 .combo-box {
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 .combo-box > .list-view > .list-cell, .combo-box > .list-cell {
   -fx-text-fill: white;
+  padding: 2px;
   -fx-padding: 2px;
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 
 .combo-box > .combo-box-popup > .list-view{
+  background-color: #38182F;
   -fx-background-color: #38182F;
-  -fx-border-radius: 5px
+  border-radius: 5px;
+  -fx-border-radius: 5px;
 }
 
 .combo-box > .arrow-button {
+  background-color: #38182F;
   -fx-background-color: #38182F;
 }
 
 .combo-box-base > .arrow-button > .arrow, 
 .titled-pane > .title > .arrow-button > .arrow {
+  background-color: white;
   -fx-background-color: white;
 }
 
 .titled-pane > .content {
+  padding: 0px;
   -fx-padding: 0px;
 }
 
 .titled-pane > .content > .titled-pane {
+  padding: 2px 2px 2px 10px;
   -fx-padding: 2px 2px 2px 10px;
 }
 .titled-pane > .content > * {
+  padding: 2px 2px 2px 20px;
   -fx-padding: 2px 2px 2px 20px;
 }
 .split-pane {
+  padding: 0px;
   -fx-padding: 0px;
+  border-width: 0px;
   -fx-border-width: 0px;
 
 }
