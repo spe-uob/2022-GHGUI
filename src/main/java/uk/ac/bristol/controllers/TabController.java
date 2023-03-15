@@ -192,6 +192,10 @@ public class TabController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public void refresh() {
-    eventBus.refresh(StatusController.class, RemoteController.class, StatusBarController.class, StatusController.class);
+    eventBus.refresh(
+        StatusController.class,
+        RemoteController.class,
+        StatusBarController.class,
+        StatusController.class);
   }
 }
