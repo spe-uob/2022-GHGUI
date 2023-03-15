@@ -124,7 +124,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       refName = refName.substring(Constants.R_TAGS.length(), refName.length());
     }
     final Text text = new Text(refName);
-    text.setFill(Color.RED);
+    // CHECKSTYLE:IGNORE MagicNumberCheck 1
+    text.setFill(Color.rgb(0x48, 0x63, 0x9C));
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
     currentRow.heads.getChildren().add(text);
@@ -170,16 +171,20 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     hoverbox.setFill(Color.TRANSPARENT);
     currentRow.lines.getChildren().add(hoverbox);
 
-    final String desc =
+    String desc =
         String.format(
-            "Commit ID: %s\n Author: %s (%s)",
-            currentRow.commit.getId().getName(),
-            currentRow.commit.getAuthorIdent().getName(),
-            currentRow.commit.getAuthorIdent().getEmailAddress());
+            "Commit ID: %s\n Author: %s",
+            currentRow.commit.getId().getName(), currentRow.commit.getAuthorIdent().getName());
+    final String email = currentRow.commit.getAuthorIdent().getEmailAddress();
+    if (!email.isEmpty()) {
+      desc += " (" + email + ")";
+    }
 
-    final Pane pane = new Pane(new Label(desc));
+    final Label descLabel = new Label(desc);
+    descLabel.setStyle("-fx-padding: 3px; -fx-text-fill: white;");
+    final Pane pane = new Pane(descLabel);
     pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
-    pane.setStyle("-fx-background-color: white;");
+    pane.setStyle("-fx-background-color: #38182F;");
     final Popup p = new Popup();
     p.getContent().add(pane);
 
@@ -216,6 +221,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** {@inheritDoc} */
   @Override
   protected final void drawText(final String msg, final int x, final int y) {
-    currentRow.message.getChildren().add(new Text(msg));
+    final Text message = new Text(msg);
+    message.setFill(Color.WHITE);
+    currentRow.message.getChildren().add(message);
   }
 }

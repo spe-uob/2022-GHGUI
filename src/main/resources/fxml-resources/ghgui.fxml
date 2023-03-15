@@ -19,7 +19,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
   <children>
-    <MenuBar prefWidth="453.0" GridPane.columnSpan="2">
+    <MenuBar prefWidth="453.0" style="-fx-border-color: 000000;" GridPane.columnSpan="2">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>

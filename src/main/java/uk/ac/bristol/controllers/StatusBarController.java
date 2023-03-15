@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -54,7 +55,6 @@ public final class StatusBarController implements Initializable, Refreshable {
     try {
       branchName = gitInfo.getRepo().getBranch();
       final Label nameLabel = new Label("Checked-out: " + branchName);
-      nameLabel.setId("genericlabel");
       root.getChildren().add(nameLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);
@@ -73,7 +73,9 @@ public final class StatusBarController implements Initializable, Refreshable {
       } else {
         statusLabel = new Label("...no remote detected.");
       }
-      statusLabel.setId("genericlabel");
+      // shhhhhh
+      // CHECKSTYLE:IGNORE MagicNumberCheck 1
+      statusLabel.setPadding(new Insets(5, 5, 5, 10));
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);

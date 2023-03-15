@@ -11,17 +11,34 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="681.0" prefWidth="936.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
+<VBox prefHeight="681.0" prefWidth="936.0" styleClass="generic-background-pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <children>
-      <HBox alignment="CENTER" spacing="10.0" styleClass="tab-pane">
+      <HBox alignment="CENTER" spacing="10.0" styleClass="generic-background-pane">
          <children>
-            <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="menuButton" text="Push" />
-            <Button mnemonicParsing="false" onAction="#pull" onMouseClicked="#pull" styleClass="menuButton" text="Pull" />
-            <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="menuButton" text="Commit" />
+            <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin></Button>
+            <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="main-title-box" text="Commit">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <opaqueInsets>
+                  <Insets top="10.0" />
+               </opaqueInsets></Button>
             <Separator visible="false" HBox.hgrow="ALWAYS" />
-            <Label text="HTTPS:" />
-            <ComboBox fx:id="HttpsCredentials" onAction="#updateCredentials" onShowing="#populateCredentials" promptText="Select credentials:" />
-            <Label text="SSH:" />
+            <Label text="HTTPS:">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" top="5.0" />
+               </HBox.margin></Label>
+            <ComboBox fx:id="HttpsCredentials" onAction="#updateCredentials" onShowing="#populateCredentials" promptText="Select credentials:">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" top="5.0" />
+               </HBox.margin></ComboBox>
+            <Label text="SSH:">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Label>
             <ComboBox fx:id="SshCredentials" onAction="#updateCredentials" onShowing="#populateCredentials" promptText="Select credentials:" />
             <Button mnemonicParsing="false" onAction="#loginClick" text="+" />
          </children>
@@ -32,18 +49,21 @@
             <Insets />
          </VBox.margin>
       </HBox>
-      <SplitPane dividerPositions="0.2, 0.8" VBox.vgrow="ALWAYS">
+      <SplitPane dividerPositions="0.1997863247863248, 0.7980769230769231" VBox.vgrow="ALWAYS">
          <items>
-            <AnchorPane fx:id="informationPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
+            <AnchorPane fx:id="informationPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
             <SplitPane dividerPositions="0.7" orientation="VERTICAL">
               <items>
-                  <ScrollPane fx:id="treePane" />
-                <AnchorPane fx:id="terminalPane" SplitPane.resizableWithParent="false" />
+                  <ScrollPane fx:id="treePane" styleClass="generic-background-pane" />
+                <AnchorPane fx:id="terminalPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
-            <AnchorPane fx:id="statusPane" styleClass="tab-pane" SplitPane.resizableWithParent="false" />
+            <AnchorPane fx:id="statusPane" styleClass="generic-background-pane" SplitPane.resizableWithParent="false" />
          </items>
       </SplitPane>
-      <HBox fx:id="statusBarHBox" alignment="CENTER" styleClass="tab-pane" />
+      <HBox fx:id="statusBarHBox" alignment="CENTER_LEFT" styleClass="generic-background-pane" VBox.vgrow="NEVER">
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding></HBox>
    </children>
 </VBox>
