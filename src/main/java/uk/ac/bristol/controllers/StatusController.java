@@ -105,7 +105,9 @@ public final class StatusController implements Initializable, Refreshable {
     box.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
-      box.getChildren().add(new Label(filename));
+      Label label = new Label(filename);
+      label.setMaxWidth(box.getMaxWidth());;
+      box.getChildren().add(label);
       i++;
     }
     // aint no way half is a magic number
