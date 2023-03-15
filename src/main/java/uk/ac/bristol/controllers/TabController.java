@@ -23,6 +23,7 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
+import uk.ac.bristol.controllers.factories.PushControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
@@ -81,8 +82,13 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void push(final Event event) {
-    log.info(event.getEventType().getName());
-    log.info("Push was requested - feature not implemented.");
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> PushControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
   }
 
   /**

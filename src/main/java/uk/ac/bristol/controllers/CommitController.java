@@ -18,8 +18,6 @@ public class CommitController {
   /** Information about the git object assigned to this tab. */
   private GitInfo gitInfo;
 
-  /** Own stage, so that the window can close itself once a commit is done */
-
   /** The root pane for this controller. */
   @FXML private TitledPane root;
 
@@ -40,6 +38,7 @@ public class CommitController {
    */
   public CommitController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
+    eventBus.register(this);
     this.gitInfo = gitInfo;
   }
 
@@ -50,6 +49,7 @@ public class CommitController {
     final Boolean amendMode = amendCheck.selectedProperty().getValue();
     final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+    // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }

@@ -4,6 +4,7 @@ import java.io.File;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
@@ -157,5 +158,36 @@ public final class JgitUtil {
       }
     }
     return dirFile.delete();
+  }
+
+  /**
+   * Push to a remote repository. Frequently used flags only are accepted.
+   *
+   * @param gitInfo GitInfo object for the repository
+   * @param remote Name of the remote to push to
+   * @param all Flag to push all branches. == -all
+   * @param force Flag to force push. == -force
+   * @param tags Flag to push tags. == -tags
+   */
+  public static void push(
+      final GitInfo gitInfo,
+      final String remote,
+      final boolean all,
+      final boolean force,
+      final boolean tags) {
+    final PushCommand pushCommand = gitInfo.command(Git::push);
+    pushCommand.setRemote(remote);
+    pushCommand.setForce(force);
+    if (all) {
+      pushCommand.setPushAll();
+    }
+    if (tags) {
+      pushCommand.setPushTags();
+    }
+    try {
+      pushCommand.call();
+    } catch (Exception e) {
+      ErrorHandler.handle(e);
+    }
   }
 }
