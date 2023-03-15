@@ -111,7 +111,6 @@ public final class StatusController implements Initializable, Refreshable {
     // aint no way half is a magic number
     // CHECKSTYLE:IGNORE MagicNumberCheck 1
     pane.setOpacity(i == 0 ? 0.5 : 1);
-    pane.setCollapsible(i == 0 ? false : true);
   }
 
   /** {@inheritDoc} */
