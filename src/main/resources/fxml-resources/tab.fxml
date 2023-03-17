@@ -12,13 +12,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <bottom>
-      <HBox fx:id="statusBarHBox" alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding>
+      <HBox fx:id="statusBarHBox" alignment="CENTER_LEFT" maxHeight="30.0" BorderPane.alignment="CENTER">
          <styleClass>
             <String fx:value="generic-background-pane" />
             <String fx:value="status-bar" />
