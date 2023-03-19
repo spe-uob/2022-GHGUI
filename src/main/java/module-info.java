@@ -14,7 +14,6 @@ module uk.ac.bristol {
   requires com.kodedu.terminalfx;
   requires com.fasterxml.jackson.databind;
 
-
   exports uk.ac.bristol;
 
   opens uk.ac.bristol.controllers to
