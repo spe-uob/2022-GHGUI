@@ -12,6 +12,8 @@ module uk.ac.bristol {
   requires lombok;
   requires org.slf4j;
   requires com.kodedu.terminalfx;
+  requires com.fasterxml.jackson.databind;
+
 
   exports uk.ac.bristol;
 
