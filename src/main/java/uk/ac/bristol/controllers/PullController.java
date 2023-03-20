@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
+import org.eclipse.jgit.api.PullCommand;
+import org.eclipse.jgit.api.PullResult;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import uk.ac.bristol.controllers.events.EventBus;
@@ -37,11 +39,11 @@ public class PullController implements Initializable, Refreshable {
   /** The root pane for this controller. */
   @FXML private TitledPane root;
 
-  /** branchCombox. */
-  @FXML private ComboBox<String> branchCombox;
+  /** Source branch name selection. */
+  @FXML private ComboBox<String> sourceComboBox;
 
-  /** remotesComBox. */
-  @FXML private ComboBox<String> remotesComBox;
+  /** Remote name selection. */
+  @FXML private ComboBox<String> remoteComboBox;
 
   /**
    * Constructor for the CommitController. Registers obect to the EventBus.
@@ -73,25 +75,26 @@ public class PullController implements Initializable, Refreshable {
     try {
       String remote = null;
       String branch = null;
-      if (branchCombox.getValue() != null) {
-        branch = branchCombox.getValue();
+      if (sourceComboBox.getValue() != null) {
+        branch = sourceComboBox.getValue();
       } else {
-        branch = branchCombox.getPromptText();
+        branch = sourceComboBox.getPromptText();
       }
 
-      if (remotesComBox.getValue() != null) {
-        remote = remotesComBox.getValue();
+      if (remoteComboBox.getValue() != null) {
+        remote = sourceComboBox.getValue();
       } else {
-        remote = remotesComBox.getPromptText();
+        remote = sourceComboBox.getPromptText();
       }
-
-      gitInfo.command(Git::pull).setRemote(remote).setRemoteBranchName(branch).call();
+      final PullCommand pullCommand = gitInfo.command(Git::pull);
+      final PullResult pullResult =
+          pullCommand.setRemote(remote).setRemoteBranchName(branch).call();
 
       final Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setResizable(true);
-      alert.setTitle("pull status");
+      alert.setTitle("Pull Outcome");
       alert.setHeaderText(null);
-      final TextArea tx = new TextArea("pull success");
+      final TextArea tx = new TextArea(pullResult.toString());
       alert.getDialogPane().setContent(tx);
       alert.showAndWait();
     } catch (Exception e) {
@@ -122,7 +125,7 @@ public class PullController implements Initializable, Refreshable {
             remoteOptions.add(remotes.get(i).getName());
           }
         });
-    remotesComBox.setItems(remoteOptions);
+    remoteComboBox.setItems(remoteOptions);
     // 2.set branchComBox option
     final ObservableList<String> remoteBranchOptions = FXCollections.observableArrayList();
 
@@ -146,12 +149,12 @@ public class PullController implements Initializable, Refreshable {
     // set branchCombox  defaultValue
     try {
       if (gitInfo.command(Git::branchList).call().size() != 0) {
-        branchCombox.setPromptText(
+        sourceComboBox.setPromptText(
             gitInfo.command(Git::branchList).call().get(0).getName().replace("refs/heads/", ""));
       }
     } catch (GitAPIException e) {
       throw new RuntimeException(e);
     }
-    branchCombox.setItems(remoteBranchOptions);
+    sourceComboBox.setItems(remoteBranchOptions);
   }
 }
