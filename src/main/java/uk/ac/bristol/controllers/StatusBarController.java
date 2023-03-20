@@ -1,18 +1,16 @@
 package uk.ac.bristol.controllers;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import org.eclipse.jgit.lib.BranchTrackingStatus;
-import uk.ac.bristol.controllers.events.RefreshEvent;
-import uk.ac.bristol.controllers.events.RefreshEventTypes;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -57,7 +55,8 @@ public final class StatusBarController implements Initializable, Refreshable {
     try {
       branchName = gitInfo.getRepo().getBranch();
       final Label nameLabel = new Label("Checked-out: " + branchName);
-      nameLabel.setId("genericlabel");
+      // CHECKSTYLE:IGNORE MagicNumberCheck 1
+      nameLabel.setPadding(new Insets(0, 0, 0, 10));
       root.getChildren().add(nameLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);
@@ -76,20 +75,12 @@ public final class StatusBarController implements Initializable, Refreshable {
       } else {
         statusLabel = new Label("...no remote detected.");
       }
-      statusLabel.setId("genericlabel");
+      // shhhhhh
+      // CHECKSTYLE:IGNORE MagicNumberCheck 1
+      statusLabel.setPadding(new Insets(0, 0, 0, 20));
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);
-    }
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  @Subscribe
-  public void onRefreshEvent(final RefreshEvent event) {
-    if (event.contains(RefreshEventTypes.RefreshStatus)) {
-      refresh();
-      System.out.println("Refreshed status pane");
     }
   }
 }

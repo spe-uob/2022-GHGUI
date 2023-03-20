@@ -19,21 +19,16 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
   <children>
-    <MenuBar prefWidth="453.0" GridPane.columnSpan="2">
+    <MenuBar prefWidth="453.0" style="-fx-border-color: 000000;" GridPane.columnSpan="2">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#selectDirectory" text="Open" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Help">
           <items>
-            <MenuItem mnemonicParsing="false" text="About" />
+            <MenuItem mnemonicParsing="false" onAction="#licensing" text="Licensing" />
           </items>
         </Menu>
       </menus>

@@ -1,19 +1,18 @@
 package uk.ac.bristol.controllers.factories;
 
-import com.google.common.eventbus.EventBus;
 import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.CommitController;
+import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 
 /** A class for building InformationController. */
-// CHECKSTYLE:IGNORE HideUtilityClassConstructorCheck 1
 @UtilityClass
 public final class CommitControllerFactory {
-  /** The filename of the fxml file for building the InformationController. */
+  /** The filename of the fxml file for building the CommitController. */
   private static final String FILE_PATH = "fxml-resources/commit.fxml";
 
   /** The loaded resource for use in an FXMLLoader. */

@@ -11,20 +11,20 @@
    <content>
       <VBox maxHeight="300.0" maxWidth="600.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0">
          <children>
-            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0">
+            <HBox alignment="CENTER" prefHeight="200.0" prefWidth="600.0" styleClass="generic-background-pane">
                <children>
                   <TextArea fx:id="textBox" blendMode="DARKEN" maxHeight="150.0" maxWidth="550.0" prefHeight="150.0" prefWidth="550.0" promptText="Add a commit message" text="Commit made with GHGUI™" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <VBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0">
+                  <VBox alignment="CENTER" prefHeight="300.0" prefWidth="300.0" styleClass="generic-background-pane">
                      <children>
                         <CheckBox fx:id="stagedOnlyCheck" mnemonicParsing="false" selected="true" text="Commit staged files only" />
                         <CheckBox fx:id="amendCheck" mnemonicParsing="false" text="Amend previous commit" />
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0">
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="300.0" styleClass="generic-background-pane">
                      <children>
                         <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#confirmCommit" text="Commit" />
                      </children>

@@ -1,111 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TitledPane fx:id="root" collapsible="false" text="Project Status" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusController">
+<TitledPane fx:id="root" collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" styleClass="main-title-box" text="Project Status" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusController">
    <content>
-      <VBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane">
          <children>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Added">
+            <TitledPane fx:id="addedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Added" textFill="#430d0d" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="addedGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="addedBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Changed">
+            <TitledPane fx:id="changedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Staged" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="changedGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="changedBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Conflicting">
+            <TitledPane fx:id="modifiedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Modified" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="conflictingGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="modifiedBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Missing">
+            <TitledPane fx:id="conflictingPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Conflicting" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="missingGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="conflictingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Modified">
+            <TitledPane fx:id="missingPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Missing" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="modifiedGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="missingBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Removed">
+            <TitledPane fx:id="removedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Removed" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="removedGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="removedBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
-            <TitledPane expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" text="Untracked">
+            <TitledPane fx:id="untrackedPane" expanded="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="0.0" styleClass="flex-use-item-title" text="Untracked" VBox.vgrow="NEVER">
                <content>
-                  <GridPane fx:id="untrackedGridPane">
-                     <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                     </rowConstraints>
-                  </GridPane>
+                  <VBox fx:id="untrackedBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="generic-background-pane" />
                </content>
             </TitledPane>
          </children>
