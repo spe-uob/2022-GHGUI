@@ -105,9 +105,8 @@ public final class StatusController implements Initializable, Refreshable {
     box.getChildren().clear();
     int i = 0;
     for (String filename : contents) {
-      Label label = new Label(filename);
+      final Label label = new Label(filename);
       label.setMaxWidth(box.getMaxWidth());
-      ;
       box.getChildren().add(label);
       i++;
     }
