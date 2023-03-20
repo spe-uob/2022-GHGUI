@@ -192,6 +192,12 @@ public class TabController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public void refresh() {
-    eventBus.refresh(StatusController.class, InformationController.class);
+    eventBus.refresh(
+        StatusController.class,
+        RemoteController.class,
+        StatusBarController.class,
+        StatusController.class);
+    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 }

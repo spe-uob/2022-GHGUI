@@ -15,6 +15,7 @@
    <children>
       <HBox alignment="CENTER" spacing="10.0" styleClass="generic-background-pane">
          <children>
+            <Button mnemonicParsing="false" onAction="#refresh" text="🗘" />
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
                <HBox.margin>
                   <Insets />
