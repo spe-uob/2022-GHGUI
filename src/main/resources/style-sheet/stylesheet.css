@@ -2,11 +2,22 @@
 rather than defining size, colour, style etc. all on one single line.*/
 
 /*
-#330036 Russian Violet
-#38182F Dark Purple
+#171717 Russian Violet
+#262626 Dark Purple
 #48639C Lapis Lazuli
 #9AC6C5 Light Blue
 #938274 Beaver
+*/
+
+/* New colours 
+Primary background 171717
+Darker Background 000000
+Lighter Background 2c2c2c
+Accent Background 262626
+Accent Purple 270c57
+Button Purple 380E7E
+Icon Light 816F9D
+Icon Dark 4F298F
 */
 
 code,
@@ -58,31 +69,31 @@ img {
 }
 
 .generic-background-pane {
-  background-color: #330036;
-  -fx-background-color: #330036;
+  background-color: #171717;
+  -fx-background-color: #171717;
 }
 
 .root {
   font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  background-color: #38182F;
+  background-color: #262626;
   -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: #38182F;
+  -fx-background-color: #262626;
 } 
 
 Button {
-  background-color: #38182F;
+  background-color: #262626;
   cursor: pointer;
   font-size: 14px;
-  -fx-background-color: #38182F;
+  -fx-background-color: #262626;
   -fx-cursor: pointer;
   -fx-font-size: 14px;
   -fx-text-fill: white;
 }
 
 Button:hover {
-  background-color: #330036;
+  background-color: #171717;
   transition: all .5s;
-  -fx-background-color: #330036;
+  -fx-background-color: #171717;
   -fx-transition: all .5s;
 }
 
@@ -92,8 +103,8 @@ TextArea {
   font-size: 100%;
   -fx-font-size: 100%;
   -fx-text-fill: white;
-  border-color: #38182F;
-  -fx-border-color: #38182F;
+  border-color: #262626;
+  -fx-border-color: #262626;
 }
 
 table {
@@ -105,13 +116,13 @@ table {
 
 .titled-pane {
   -fx-spacing: 3px;
-  background-color: #330036;
-  -fx-background-color: #330036;
+  background-color: #171717;
+  -fx-background-color: #171717;
   -fx-text-fill: white;
-  border-color: #330036;
+  border-color: #171717;
   margin: 0 0 0 0;
   border: 0 0 0 0;
-  -fx-border-color: #330036;
+  -fx-border-color: #171717;
   -fx-margin: 0 0 0 0;
   -fx-border: 0 0 0 0;
   
@@ -123,37 +134,37 @@ table {
 
 .titled-pane > .title 
 {
-  background-color: #330036;
-  -fx-background-color: #330036;
+  background-color: #171717;
+  -fx-background-color: #171717;
   -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
   padding: 0.166667em 0.833333em 0.25em 0.833333em;
   -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
 }
 
 .tab-header-background {
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 
 .tab-pane .tab
 {
-  background-color: #330036;
-  -fx-background-color: #330036;
+  background-color: #171717;
+  -fx-background-color: #171717;
 }
 
 .menu-bar {
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 
 .menu-button {
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 
 .menu-button:hover {
-  background-color: #48639C;
-  -fx-background-color: #48639C;
+  background-color: #816F9D;
+  -fx-background-color: #816F9D;
 }
 .menu-bar .label {
   font-size: 12pt;
@@ -163,28 +174,47 @@ table {
   -fx-padding: 5px;
 }
 
+.context-menu {
+  -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
+  -fx-background-color: #816F9D ;
+  -fx-border-width: 0.2px;
+  -fx-border-color: black;
+  -fx-padding: 0; 
+  -fx-background-insets: 0;
+  -fx-opacity: 1;
+  -fx-background-radius: 0;
+}
+
+.menu-item {
+  -fx-background-color: #262626;
+}
+
+.menu-item:hover {
+  -fx-background-color: #816F9D;
+}
+
 .combo-box {
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 .combo-box > .list-view > .list-cell, .combo-box > .list-cell {
   -fx-text-fill: white;
   padding: 2px;
   -fx-padding: 2px;
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 
 .combo-box > .combo-box-popup > .list-view{
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
   border-radius: 5px;
   -fx-border-radius: 5px;
 }
 
 .combo-box > .arrow-button {
-  background-color: #38182F;
-  -fx-background-color: #38182F;
+  background-color: #262626;
+  -fx-background-color: #262626;
 }
 
 .combo-box-base > .arrow-button > .arrow, 
@@ -212,6 +242,47 @@ table {
   border-width: 0px;
   -fx-border-width: 0px;
 
+}
+
+.status-bar {
+  -fx-border-width: 2px 0px 0px 0px;
+  -fx-border-color: #2c2c2c;
+  -fx-background-color: #270c57;
+}
+
+.tool-bar {
+  -fx-border-width: 0px 2px 2px 2px;
+  -fx-border-color: #2c2c2c;
+}
+
+.information-pane {
+  -fx-border-width: 0px 2px 0px 2px;
+  -fx-border-color: #2c2c2c;
+}
+
+.status-pane {
+  -fx-border-width: 0px 2px 0px 2px;
+  -fx-border-color: #2c2c2c;
+}
+
+.scroll-bar > .track {
+  -fx-background-color: #262626;
+  -fx-background-radius: 0px;
+}
+.scroll-bar > .thumb {
+  -fx-background-color: #816F9D;
+  -fx-background-radius: 0px;
+}
+.scroll-bar > .decrement-button,
+.scroll-bar > .increment-button{
+  -fx-background-color: #816F9D
+}
+.scroll-bar > .decrement-button > .decrement-arrow,
+.scroll-bar > .increment-button > .increment-arrow {
+  -fx-background-color: #4F298F;
+}
+.scroll-pane > .corner {
+  -fx-background-color: 171717;
 }
 
 Label {

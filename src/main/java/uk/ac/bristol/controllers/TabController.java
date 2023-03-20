@@ -13,7 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +42,7 @@ public class TabController implements Initializable, Refreshable {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private GridPane root;
+  @FXML private BorderPane root;
 
   /** The panes used for child FXML controllers. */
   @FXML private AnchorPane statusPane, informationPane, terminalPane;

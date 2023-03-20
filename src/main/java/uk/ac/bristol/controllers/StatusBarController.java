@@ -55,6 +55,8 @@ public final class StatusBarController implements Initializable, Refreshable {
     try {
       branchName = gitInfo.getRepo().getBranch();
       final Label nameLabel = new Label("Checked-out: " + branchName);
+      // CHECKSTYLE:IGNORE MagicNumberCheck 1
+      nameLabel.setPadding(new Insets(0, 0, 0, 10));
       root.getChildren().add(nameLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);
@@ -75,7 +77,7 @@ public final class StatusBarController implements Initializable, Refreshable {
       }
       // shhhhhh
       // CHECKSTYLE:IGNORE MagicNumberCheck 1
-      statusLabel.setPadding(new Insets(5, 5, 5, 10));
+      statusLabel.setPadding(new Insets(0, 0, 0, 20));
       root.getChildren().add(statusLabel);
     } catch (IOException ex) {
       ErrorHandler.handle(ex);
