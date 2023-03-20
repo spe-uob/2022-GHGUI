@@ -71,7 +71,7 @@ public class TabController implements Initializable, Refreshable {
         (new LoginControllerFactory())::build,
         root -> {
           newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
+          newWindow.show();
         });
   }
 
@@ -87,7 +87,7 @@ public class TabController implements Initializable, Refreshable {
         new PushControllerFactory(eventBus, gitInfo)::build,
         root -> {
           newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
+          newWindow.show();
         });
   }
 
@@ -110,7 +110,7 @@ public class TabController implements Initializable, Refreshable {
         (new CommitControllerFactory(eventBus, gitInfo))::build,
         root -> {
           newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
+          newWindow.show();
         });
   }
 

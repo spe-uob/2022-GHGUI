@@ -43,7 +43,7 @@ public class MainController {
     final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory == null) {
-      AlertBuilder.warn("The directory you selected is not a valid git repository!").showAndWait();
+      AlertBuilder.warn("The directory you selected is not a valid git repository!").show();
       return;
     }
 
