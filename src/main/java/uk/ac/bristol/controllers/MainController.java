@@ -49,7 +49,7 @@ public class MainController {
 
     final Tab tab = new Tab(gitDirectory.getParentFile().getName());
     tab.setContent(
-        TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
+        (new TabControllerFactory(new Git(repositoryBuilder.readEnvironment().build()))).build());
     tabs.getTabs().add(tab);
   }
 
@@ -57,7 +57,7 @@ public class MainController {
   @FXML
   private void licensing() {
     ErrorHandler.tryWith(
-        LicenseControllerFactory::build,
+        (new LicenseControllerFactory())::build,
         root -> {
           final Scene scene = new Scene(root);
           final Stage stage = new Stage();

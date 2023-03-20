@@ -68,7 +68,7 @@ public class TabController implements Initializable, Refreshable {
   final void loginClick() {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        LoginControllerFactory::build,
+        (new LoginControllerFactory())::build,
         root -> {
           newWindow.setScene(new Scene(root));
           newWindow.showAndWait();
@@ -84,7 +84,7 @@ public class TabController implements Initializable, Refreshable {
   private void push(final Event event) {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> PushControllerFactory.build(eventBus, gitInfo),
+        new PushControllerFactory(eventBus, gitInfo)::build,
         root -> {
           newWindow.setScene(new Scene(root));
           newWindow.showAndWait();
@@ -107,7 +107,7 @@ public class TabController implements Initializable, Refreshable {
   private void commit() {
     final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> CommitControllerFactory.build(eventBus, gitInfo),
+        (new CommitControllerFactory(eventBus, gitInfo))::build,
         root -> {
           newWindow.setScene(new Scene(root));
           newWindow.showAndWait();
@@ -158,12 +158,12 @@ public class TabController implements Initializable, Refreshable {
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
     ErrorHandler.tryWith(
-        () -> StatusControllerFactory.build(eventBus, gitInfo), statusPane.getChildren()::add);
+        (new StatusControllerFactory(eventBus, gitInfo))::build, statusPane.getChildren()::add);
     ErrorHandler.tryWith(
-        () -> InformationControllerFactory.build(eventBus, gitInfo),
+        (new InformationControllerFactory(eventBus, gitInfo))::build,
         informationPane.getChildren()::add);
     ErrorHandler.tryWith(
-        () -> StatusBarControllerFactory.build(eventBus, gitInfo),
+        (new StatusBarControllerFactory(eventBus, gitInfo))::build,
         statusBarHBox.getChildren()::add);
 
     final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
