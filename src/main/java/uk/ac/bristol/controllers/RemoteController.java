@@ -2,8 +2,7 @@ package uk.ac.bristol.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
-import javafx.collections.FXCollections;
+import java.util.function.Predicate;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -80,22 +79,17 @@ public class RemoteController implements Initializable, Refreshable {
     final Button button = new Button(branchName);
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(
-        event -> {
-          JgitUtil.checkoutBranch(gitInfo, ref);
-        });
+    button.setOnMouseClicked(event -> JgitUtil.checkoutBranch(gitInfo, ref));
     return button;
   }
 
   /** Generate all the buttons for every branch of every repo. */
   private void generateButtons() {
+    final var children = container.getChildren();
+    final Predicate<Object> notNull = (obj) -> obj != null;
     ErrorHandler.tryWith(
-        () ->
-            gitInfo.command(Git::branchList).setListMode(ListMode.REMOTE).call().stream()
-                .map(this::btnFromRef)
-                .filter(button -> button != null)
-                .collect(Collectors.toCollection(FXCollections::observableArrayList)),
-        container.getChildren()::addAll);
+        gitInfo.command(Git::branchList).setListMode(ListMode.REMOTE)::call,
+        res -> children.addAll(res.stream().map(this::btnFromRef).filter(notNull).toList()));
   }
 
   /** Function to fetch from the remote repo. */
@@ -113,7 +107,8 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    ErrorHandler.tryWith(() -> new GC((FileRepository) gitInfo.getRepo()), gc -> gc.prune(null));
+    final var repo = (FileRepository) gitInfo.getRepo();
+    ErrorHandler.mightFail(() -> new GC(repo).prune(null));
     refresh();
   }
 
