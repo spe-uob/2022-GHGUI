@@ -42,7 +42,7 @@ public final class RemoteControllerFactory extends ControllerFactory {
       throws IOException {
     final Parent[] parents = new Parent[remotes.size()];
     for (int i = 0; i < parents.length; ++i) {
-      parents[i] = (new RemoteControllerFactory(eventBus, gitInfo, remotes.get(i))).build();
+      parents[i] = new RemoteControllerFactory(eventBus, gitInfo, remotes.get(i)).build();
     }
     return parents;
   }

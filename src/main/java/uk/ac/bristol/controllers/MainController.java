@@ -64,7 +64,7 @@ public class MainController {
   @FXML
   private void licensing() {
     ErrorHandler.tryWith(
-        (new LicenseControllerFactory())::build,
+        new LicenseControllerFactory()::build,
         root -> new WindowBuilder().root(root).build().show());
   }
 }

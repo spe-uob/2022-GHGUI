@@ -66,8 +66,7 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     ErrorHandler.tryWith(
-        (new LoginControllerFactory())::build,
-        root -> new WindowBuilder().root(root).build().show());
+        new LoginControllerFactory()::build, root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
@@ -97,7 +96,7 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   private void commit() {
     ErrorHandler.tryWith(
-        (new CommitControllerFactory(eventBus, gitInfo))::build,
+        new CommitControllerFactory(eventBus, gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
   }
 
