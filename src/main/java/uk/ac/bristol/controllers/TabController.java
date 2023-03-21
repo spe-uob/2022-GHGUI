@@ -8,14 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
@@ -28,6 +26,7 @@ import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
+import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
@@ -66,12 +65,10 @@ public class TabController implements Initializable, Refreshable {
   /** Function to active when the login button is clicked. */
   @FXML
   final void loginClick() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         (new LoginControllerFactory())::build,
         root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.show();
+          new WindowBuilder().root(root).build().show();
         });
   }
 
@@ -82,12 +79,10 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void push(final Event event) {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         new PushControllerFactory(eventBus, gitInfo)::build,
         root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.show();
+          new WindowBuilder().root(root).build().show();
         });
   }
 
@@ -105,12 +100,10 @@ public class TabController implements Initializable, Refreshable {
   /** Open the commit dialog. */
   @FXML
   private void commit() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
         (new CommitControllerFactory(eventBus, gitInfo))::build,
         root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.show();
+          new WindowBuilder().root(root).build().show();
         });
   }
 
