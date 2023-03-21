@@ -39,48 +39,44 @@ public final class StatusBarController implements Initializable, Refreshable {
     this.gitInfo = gitInfo;
   }
 
+  /**
+   * Generate informational labels.
+   *
+   * @throws IOException
+   */
+  private void generateLabels() throws IOException {
+    final String branchName = gitInfo.getRepo().getBranch();
+    final Label nameLabel = new Label("Checked-out: " + branchName);
+    // CHECKSTYLE:IGNORE MagicNumberCheck 1
+    nameLabel.setPadding(new Insets(0, 0, 0, 10));
+    root.getChildren().add(nameLabel);
+
+    final BranchTrackingStatus statusComparison =
+        BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
+
+    final Label statusLabel =
+        statusComparison == null
+            ? new Label("...no remote detected.")
+            : new Label(
+                "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
+    // shhhhhh
+    // CHECKSTYLE:IGNORE MagicNumberCheck 1
+    statusLabel.setPadding(new Insets(0, 0, 0, 20));
+    root.getChildren().add(statusLabel);
+  }
+
   /** {@inheritDoc} */
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
-    refresh();
+    ErrorHandler.mightFail(this::generateLabels);
   }
 
   /** {@inheritDoc} */
   @Override
   public void refresh() {
     root.getChildren().clear();
-    final String branchName;
-    try {
-      branchName = gitInfo.getRepo().getBranch();
-      final Label nameLabel = new Label("Checked-out: " + branchName);
-      // CHECKSTYLE:IGNORE MagicNumberCheck 1
-      nameLabel.setPadding(new Insets(0, 0, 0, 10));
-      root.getChildren().add(nameLabel);
-    } catch (IOException ex) {
-      ErrorHandler.handle(ex);
-      return;
-    }
-
-    try {
-      final BranchTrackingStatus statusComparison =
-          BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
-
-      final Label statusLabel;
-      if (statusComparison != null) {
-        statusLabel =
-            new Label(
-                "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
-      } else {
-        statusLabel = new Label("...no remote detected.");
-      }
-      // shhhhhh
-      // CHECKSTYLE:IGNORE MagicNumberCheck 1
-      statusLabel.setPadding(new Insets(0, 0, 0, 20));
-      root.getChildren().add(statusLabel);
-    } catch (IOException ex) {
-      ErrorHandler.handle(ex);
-    }
+    ErrorHandler.mightFail(this::generateLabels);
   }
 }

@@ -48,16 +48,10 @@ public class LoginController {
   private void addCredentials(final Event e) {
     final Button source = (Button) e.getSource();
     switch (source.getId()) {
-      case "TokenLogin":
-        GitInfo.addToken(tokenID.getText(), token.getText());
-        break;
-      case "SSHLogin":
-        GitInfo.addSSH(sshID.getText(), keyPath.getText(), passphrase.getText());
-        break;
-      case "HTTPSLogin":
-        GitInfo.addHTTPS(httpsID.getText(), username.getText(), passphrase.getText());
-        break;
-      default:
+      case "TokenLogin" -> GitInfo.addToken(tokenID.getText(), token.getText());
+      case "SSHLogin" -> GitInfo.addSSH(sshID.getText(), keyPath.getText(), passphrase.getText());
+      case "HTTPSLogin" -> GitInfo.addHTTPS(
+          httpsID.getText(), username.getText(), passphrase.getText());
     }
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();

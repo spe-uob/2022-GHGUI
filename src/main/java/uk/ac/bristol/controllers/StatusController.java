@@ -70,12 +70,7 @@ public final class StatusController implements Initializable, Refreshable {
 
   /** Refresh the contents of all status information grid panes. */
   private void updateStatus() {
-
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::status)::call,
-        status -> {
-          updateStatusView(status);
-        });
+    ErrorHandler.tryWith(gitInfo.command(Git::status)::call, this::updateStatusView);
   }
 
   /**
@@ -103,16 +98,14 @@ public final class StatusController implements Initializable, Refreshable {
   private void updateBox(final TitledPane pane, final VBox box, final Set<String> contents) {
     // Yes, yes, I know the pane + box combo seems redundant but it was the easiest way.
     box.getChildren().clear();
-    int i = 0;
     for (String filename : contents) {
       final Label label = new Label(filename);
       label.setMaxWidth(box.getMaxWidth());
       box.getChildren().add(label);
-      i++;
     }
     // aint no way half is a magic number
     // CHECKSTYLE:IGNORE MagicNumberCheck 1
-    pane.setOpacity(i == 0 ? 0.5 : 1);
+    pane.setOpacity(contents.size() == 0 ? 0.5 : 1);
   }
 
   /** {@inheritDoc} */

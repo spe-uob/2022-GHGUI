@@ -30,15 +30,16 @@ public class MainController {
    * @throws IOException
    */
   @FXML
-  private void selectDirectory() throws IOException {
+  private void selectDirectory() {
     final DirectoryChooser directoryChooser = new DirectoryChooser();
     final File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
       return;
     }
 
-    final RepositoryBuilder repositoryBuilder =
-        new RepositoryBuilder().findGitDir(selectedDirectory);
+    final RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
+    repositoryBuilder.findGitDir(selectedDirectory);
+
     final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory == null) {
@@ -47,9 +48,16 @@ public class MainController {
     }
 
     final Tab tab = new Tab(gitDirectory.getParentFile().getName());
-    tab.setContent(
-        (new TabControllerFactory(new Git(repositoryBuilder.readEnvironment().build()))).build());
-    tabs.getTabs().add(tab);
+
+    ErrorHandler.tryWith(
+        () -> {
+          final Git git = new Git(repositoryBuilder.readEnvironment().build());
+          return new TabControllerFactory(git).build();
+        },
+        content -> {
+          tab.setContent(content);
+          tabs.getTabs().add(tab);
+        });
   }
 
   /** Event to start the window containing licensing. */
@@ -57,8 +65,6 @@ public class MainController {
   private void licensing() {
     ErrorHandler.tryWith(
         (new LicenseControllerFactory())::build,
-        root -> {
-          new WindowBuilder().root(root).build().show();
-        });
+        root -> new WindowBuilder().root(root).build().show());
   }
 }
