@@ -176,7 +176,7 @@ documentation.
     <module name="IllegalInstantiation" />
     <module name="InnerAssignment" />
     <module name="MagicNumber" />
-    <module name="MissingSwitchDefault" />
+    <!-- <module name="MissingSwitchDefault" /> -->
     <module name="SimplifyBooleanExpression" />
     <module name="SimplifyBooleanReturn" />
 

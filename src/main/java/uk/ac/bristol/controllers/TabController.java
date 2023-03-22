@@ -8,15 +8,12 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -29,11 +26,11 @@ import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
+import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
-@Slf4j
 public class TabController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -67,13 +64,8 @@ public class TabController implements Initializable, Refreshable {
   /** Function to active when the login button is clicked. */
   @FXML
   final void loginClick() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        LoginControllerFactory::build,
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new LoginControllerFactory()::build, root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
@@ -83,13 +75,9 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void push(final Event event) {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> PushControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new PushControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
@@ -99,25 +87,17 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void pull(final Event event) {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> PullControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new PullControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /** Open the commit dialog. */
   @FXML
   private void commit() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> CommitControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new CommitControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
@@ -129,14 +109,11 @@ public class TabController implements Initializable, Refreshable {
   private void populateCredentials(final Event e) {
     @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
+    final var sshLogins = FXCollections.observableArrayList(GitInfo.getSshAuth().keySet());
+    final var httpLogins = FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet());
     switch (source.getId()) {
-      case "SshCredentials":
-        source.setItems(FXCollections.observableArrayList(GitInfo.getSshAuth().keySet()));
-        break;
-      case "HttpsCredentials":
-        source.setItems(FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet()));
-        break;
-      default:
+      case "SshCredentials" -> source.setItems(sshLogins);
+      case "HttpsCredentials" -> source.setItems(httpLogins);
     }
   }
 
@@ -150,38 +127,30 @@ public class TabController implements Initializable, Refreshable {
     @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
     switch (source.getId()) {
-      case "SshCredentials":
-        gitInfo.setSshAuthKey(source.getValue());
-        break;
-      case "HttpsCredentials":
-        gitInfo.setHttpAuthKey(source.getValue());
-        break;
-      default:
+      case "SshCredentials" -> gitInfo.setSshAuthKey(source.getValue());
+      case "HttpsCredentials" -> gitInfo.setHttpAuthKey(source.getValue());
     }
   }
 
   /** {@inheritDoc} */
   @Override
   public final void initialize(final URL location, final ResourceBundle resources) {
-    ErrorHandler.tryWith(
-        () -> StatusControllerFactory.build(eventBus, gitInfo), statusPane.getChildren()::add);
-    ErrorHandler.tryWith(
-        () -> InformationControllerFactory.build(eventBus, gitInfo),
-        informationPane.getChildren()::add);
-    ErrorHandler.tryWith(
-        () -> StatusBarControllerFactory.build(eventBus, gitInfo),
-        statusBarHBox.getChildren()::add);
+    var children = statusPane.getChildren();
+    ErrorHandler.tryWith(new StatusControllerFactory(eventBus, gitInfo)::build, children::add);
+
+    children = informationPane.getChildren();
+    ErrorHandler.tryWith(new InformationControllerFactory(eventBus, gitInfo)::build, children::add);
+
+    children = statusBarHBox.getChildren();
+    ErrorHandler.tryWith(new StatusBarControllerFactory(eventBus, gitInfo)::build, children::add);
 
     final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
     final TerminalTab terminal = terminalBuilder.newTerminal();
-    terminal.onTerminalFxReady(
-        () -> {
-          terminal
-              .getTerminal()
-              .command(
-                  String.format(
-                      "cd \"%s\"\rclear\r", gitInfo.getRepo().getDirectory().getParent()));
-        });
+    final var repo = gitInfo.getRepo();
+    final String cmd = String.format("cd \"%s\"\rclear\r", repo.getDirectory().getParent());
+    terminal.onTerminalFxReady(() -> terminal.getTerminal().command(cmd));
+
+    // TODO: Figure out if it's possible to cut down on these
     final TabPane tabPane = new TabPane();
     tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
     AnchorPane.setLeftAnchor(tabPane, 0.0);

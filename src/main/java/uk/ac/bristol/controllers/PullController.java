@@ -51,7 +51,7 @@ public class PullController implements Initializable, Refreshable {
    * @param eventBus
    * @param gitInfo
    */
-  public PullController(final EventBus eventBus, final GitInfo gitInfo) throws GitAPIException {
+  public PullController(final EventBus eventBus, final GitInfo gitInfo) {
     this.eventBus = eventBus;
     eventBus.register(this);
     this.gitInfo = gitInfo;

@@ -71,29 +71,10 @@ public final class JgitUtil {
       final Boolean amendMode,
       final Boolean stagedOnly) {
     final CommitCommand commitCommand = gitInfo.command(Git::commit);
-    commitCommand.setMessage(message);
-    commitCommand.setAllowEmpty(false);
-    commitCommand.setAll(!stagedOnly);
-    commitCommand.setAmend(amendMode);
+    commitCommand.setMessage(message).setAllowEmpty(false).setAll(!stagedOnly).setAmend(amendMode);
     // It may be a better idea to throw this exception further up in the chain, or at least
     // handle it slightly better down here. A problem for anyone but present me.
-    try {
-      commitCommand.call();
-    } catch (Exception e) {
-      ErrorHandler.handle(e);
-    }
-  }
-
-  /**
-   * Commit and push on the current branch.
-   *
-   * @param gitInfo Shared git information
-   * @param pushMessage Message for commit
-   */
-  public static void commitAndPush(final GitInfo gitInfo, final String pushMessage) {
-    ErrorHandler.mightFail(gitInfo.command(Git::commit).setMessage(pushMessage)::call);
-
-    // gitInfo.getGit().push().setCredentialsProvider(gitInfo.getAuth()).call();
+    ErrorHandler.mightFail(commitCommand::call);
   }
 
   /**
@@ -103,10 +84,9 @@ public final class JgitUtil {
    * @param branchName name of new branch to make
    */
   public static void newBranch(final GitInfo gitInfo, final String branchName) {
-    // Check whether the new branch already exists, if so, delete the existing branch forcibly and
-    // create a new branch
-    // users?
-    // Probably best we instead prompt the user if they want to overwrite
+    // TODO: Figure out what to do with this. It's in need of serious redesign.
+    // Currently this is designed to forcibly overwrite branches with no warning.
+    // Also, pushing doesn't seem entirely necessary just for creating a branch.
     ErrorHandler.tryWith(
         gitInfo.command(Git::branchList)::call,
         refs -> {
@@ -133,31 +113,7 @@ public final class JgitUtil {
     // new branch
     ErrorHandler.tryWith(
         gitInfo.command(Git::branchCreate).setName(branchName)::call,
-        ref -> {
-          gitInfo.command(Git::push).add(ref).call();
-        });
-  }
-
-  /**
-   * Traverse recursively delete folders.
-   *
-   * @param dirFile file or directory to be deleted
-   * @return Delete successfully returned true, otherwise return false
-   */
-  public static boolean deleteFile(final File dirFile) {
-    // If the file corresponding to dir does not exist, exit
-    if (!dirFile.exists()) {
-      return false;
-    }
-
-    if (dirFile.isFile()) {
-      return dirFile.delete();
-    } else {
-      for (File file : dirFile.listFiles()) {
-        deleteFile(file);
-      }
-    }
-    return dirFile.delete();
+        ref -> gitInfo.command(Git::push).add(ref).call());
   }
 
   /**
@@ -175,19 +131,13 @@ public final class JgitUtil {
       final boolean all,
       final boolean force,
       final boolean tags) {
-    final PushCommand pushCommand = gitInfo.command(Git::push);
-    pushCommand.setRemote(remote);
-    pushCommand.setForce(force);
+    final PushCommand pushCommand = gitInfo.command(Git::push).setRemote(remote).setForce(force);
     if (all) {
       pushCommand.setPushAll();
     }
     if (tags) {
       pushCommand.setPushTags();
     }
-    try {
-      pushCommand.call();
-    } catch (Exception e) {
-      ErrorHandler.handle(e);
-    }
+    ErrorHandler.mightFail(pushCommand::call);
   }
 }

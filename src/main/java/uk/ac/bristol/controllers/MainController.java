@@ -3,16 +3,15 @@ package uk.ac.bristol.controllers;
 import java.io.File;
 import java.io.IOException;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
 import uk.ac.bristol.controllers.factories.LicenseControllerFactory;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
+import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
@@ -31,38 +30,41 @@ public class MainController {
    * @throws IOException
    */
   @FXML
-  private void selectDirectory() throws IOException {
+  private void selectDirectory() {
     final DirectoryChooser directoryChooser = new DirectoryChooser();
     final File selectedDirectory = directoryChooser.showDialog(root.getScene().getWindow());
     if (selectedDirectory == null) {
       return;
     }
 
-    final RepositoryBuilder repositoryBuilder =
-        new RepositoryBuilder().findGitDir(selectedDirectory);
+    final RepositoryBuilder repositoryBuilder = new RepositoryBuilder();
+    repositoryBuilder.findGitDir(selectedDirectory);
+
     final File gitDirectory = repositoryBuilder.getGitDir();
 
     if (gitDirectory == null) {
-      AlertBuilder.warn("The directory you selected is not a valid git repository!").showAndWait();
+      AlertBuilder.warn("The directory you selected is not a valid git repository!").show();
       return;
     }
 
     final Tab tab = new Tab(gitDirectory.getParentFile().getName());
-    tab.setContent(
-        TabControllerFactory.build(new Git(repositoryBuilder.readEnvironment().build())));
-    tabs.getTabs().add(tab);
+
+    ErrorHandler.tryWith(
+        () -> {
+          final Git git = new Git(repositoryBuilder.readEnvironment().build());
+          return new TabControllerFactory(git).build();
+        },
+        content -> {
+          tab.setContent(content);
+          tabs.getTabs().add(tab);
+        });
   }
 
   /** Event to start the window containing licensing. */
   @FXML
   private void licensing() {
     ErrorHandler.tryWith(
-        LicenseControllerFactory::build,
-        root -> {
-          final Scene scene = new Scene(root);
-          final Stage stage = new Stage();
-          stage.setScene(scene);
-          stage.show();
-        });
+        new LicenseControllerFactory()::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 }
