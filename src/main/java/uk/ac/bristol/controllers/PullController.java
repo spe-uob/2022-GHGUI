@@ -19,13 +19,12 @@ import org.eclipse.jgit.api.PullCommand;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.events.EventBus;
-import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Commit pop-up window. */
 @Slf4j
-public class PullController implements Initializable, Refreshable {
+public class PullController implements Initializable {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -90,12 +89,6 @@ public class PullController implements Initializable, Refreshable {
           alert.getDialogPane().setContent(tx);
           alert.showAndWait();
         });
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public void refresh() {
-    initComBox();
   }
 
   /** {@inheritDoc} */
