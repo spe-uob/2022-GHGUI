@@ -1,9 +1,12 @@
 package uk.ac.bristol.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
@@ -20,7 +23,7 @@ import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Commit pop-up window. */
-public class PullController {
+public class PullController implements Initializable {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -66,16 +69,10 @@ public class PullController {
    */
   @FXML
   void pull(final ActionEvent event) {
-    final String branchName =
-        remoteBranch.getValue() != null ? remoteBranch.getValue() : remoteBranch.getPromptText();
-
-    final String remoteName =
-        remote.getValue() != null ? remote.getValue() : remote.getPromptText();
-
     final PullCommand pullCommand = gitInfo.command(Git::pull);
     // Haven't tested this yet, but I'm absolutely certain it's just gonna print out a pointer
     ErrorHandler.tryWith(
-        pullCommand.setRemote(remoteName).setRemoteBranchName(branchName)::call,
+        pullCommand.setRemote(remote.getValue()).setRemoteBranchName(remoteBranch.getValue())::call,
         pullResult -> {
           final Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setResizable(true);
@@ -101,16 +98,14 @@ public class PullController {
   /** Populate remote branches. */
   @FXML
   private void populateRemoteBranches() {
-    final String remoteName =
-        remote.getValue() != null ? remote.getValue() : remote.getPromptText();
     ErrorHandler.tryWith(
         gitInfo.command(Git::branchList).setListMode(ListBranchCommand.ListMode.REMOTE)::call,
         refList -> {
           final ObservableList<String> branchOptions = FXCollections.observableArrayList();
           for (Ref ref : refList) {
             final String refName = ref.getName().substring(Constants.R_REMOTES.length());
-            if (refName.startsWith(remoteName)) {
-              final String branchName = refName.substring(remoteName.length() + 1);
+            if (refName.startsWith(remote.getValue())) {
+              final String branchName = refName.substring(remote.getValue().length() + 1);
               if (!branchName.equals("HEAD")) {
                 branchOptions.add(branchName);
               }
@@ -131,6 +126,19 @@ public class PullController {
                   .map(ref -> ref.getName().substring(Constants.R_HEADS.length()))
                   .toList();
           targetBranch.setItems(FXCollections.observableList(branches));
+        });
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void initialize(final URL location, final ResourceBundle resources) {
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::remoteList)::call,
+        remotes -> {
+          final var first = remotes.get(0);
+          if (first != null) {
+            remote.setValue(first.getName());
+          }
         });
   }
 }

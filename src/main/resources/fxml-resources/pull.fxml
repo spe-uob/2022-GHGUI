@@ -16,7 +16,7 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Label text="Remote" />
-                  <ComboBox fx:id="remote" onShowing="#populateRemotes" prefHeight="26.0" prefWidth="103.0" promptText="origin" />
+                  <ComboBox fx:id="remote" onShowing="#populateRemotes" prefHeight="26.0" prefWidth="103.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
