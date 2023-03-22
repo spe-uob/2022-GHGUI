@@ -16,20 +16,20 @@
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Label text="Remote" />
-                  <ComboBox fx:id="remoteComboBox" prefHeight="26.0" prefWidth="103.0" promptText="origin" />
+                  <ComboBox fx:id="remote" onShowing="#populateRemotes" prefHeight="26.0" prefWidth="103.0" promptText="origin" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Label text="Remote Branch" />
-                  <ComboBox fx:id="sourceComboBox" prefHeight="26.0" prefWidth="205.0" />
+                  <ComboBox fx:id="remoteBranch" onShowing="#populateRemoteBranches" prefHeight="26.0" prefWidth="205.0" />
                </children>
             </HBox>
             <CheckBox fx:id="branchCheckBox" mnemonicParsing="false" selected="true" text="Pull to &quot;&lt;target&gt;&quot;" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <Label text="Target Branch" />
-                  <ComboBox fx:id="targetComboBox" prefHeight="26.0" prefWidth="205.0" />
+                  <ComboBox fx:id="targetBranch" onShowing="#populateTargetBranches" prefHeight="26.0" prefWidth="205.0" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
