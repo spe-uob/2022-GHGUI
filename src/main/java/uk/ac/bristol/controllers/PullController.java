@@ -1,7 +1,6 @@
 package uk.ac.bristol.controllers;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,13 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.PullCommand;
-import org.eclipse.jgit.api.PullResult;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.transport.RemoteConfig;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Commit pop-up window. */
@@ -60,7 +57,6 @@ public class PullController implements Initializable, Refreshable {
   /** Close the window once finished with the commit. */
   @FXML
   final void cancel() {
-
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }
@@ -72,34 +68,28 @@ public class PullController implements Initializable, Refreshable {
    */
   @FXML
   void pull(final ActionEvent event) {
-    try {
-      String remote = null;
-      String branch = null;
-      if (sourceComboBox.getValue() != null) {
-        branch = sourceComboBox.getValue();
-      } else {
-        branch = sourceComboBox.getPromptText();
-      }
+    final String branch =
+        sourceComboBox.getValue() != null
+            ? sourceComboBox.getValue()
+            : sourceComboBox.getPromptText();
 
-      if (remoteComboBox.getValue() != null) {
-        remote = sourceComboBox.getValue();
-      } else {
-        remote = sourceComboBox.getPromptText();
-      }
-      final PullCommand pullCommand = gitInfo.command(Git::pull);
-      final PullResult pullResult =
-          pullCommand.setRemote(remote).setRemoteBranchName(branch).call();
+    final String remote =
+        remoteComboBox.getValue() != null
+            ? remoteComboBox.getValue()
+            : remoteComboBox.getPromptText();
 
-      final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setResizable(true);
-      alert.setTitle("Pull Outcome");
-      alert.setHeaderText(null);
-      final TextArea tx = new TextArea(pullResult.toString());
-      alert.getDialogPane().setContent(tx);
-      alert.showAndWait();
-    } catch (Exception e) {
-      AlertBuilder.fromException(e).showAndWait();
-    }
+    final PullCommand pullCommand = gitInfo.command(Git::pull);
+    ErrorHandler.tryWith(
+        pullCommand.setRemote(remote).setRemoteBranchName(branch)::call,
+        pullResult -> {
+          final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+          alert.setResizable(true);
+          alert.setTitle("Pull Outcome");
+          alert.setHeaderText(null);
+          final TextArea tx = new TextArea(pullResult.toString());
+          alert.getDialogPane().setContent(tx);
+          alert.showAndWait();
+        });
   }
 
   /** {@inheritDoc} */
@@ -117,44 +107,36 @@ public class PullController implements Initializable, Refreshable {
   /** set comBox value. */
   public void initComBox() {
     // 1.set remotesComBox option
-    final ObservableList<String> remoteOptions = FXCollections.observableArrayList();
     ErrorHandler.tryWith(
         gitInfo.command(Git::remoteList)::call,
         remotes -> {
-          for (int i = 0; i < remotes.size(); i++) {
-            remoteOptions.add(remotes.get(i).getName());
+          final var items = remotes.stream().map(RemoteConfig::getName).toList();
+          remoteComboBox.setItems(FXCollections.observableList(items));
+        });
+
+    // 2.set branchComBox option
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::branchList).setListMode(ListBranchCommand.ListMode.REMOTE)::call,
+        refList -> {
+          final ObservableList<String> remoteBranchOptions = FXCollections.observableArrayList();
+          for (Ref ref : refList) {
+            final String refName = ref.getName();
+            if (refName.startsWith("refs/remotes/origin/")) {
+              final String branchName = refName.replace("refs/remotes/origin/", "");
+              if (!branchName.equals("HEAD")) {
+                remoteBranchOptions.add(branchName);
+              }
+            }
+          }
+          sourceComboBox.setItems(remoteBranchOptions);
+        });
+
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::branchList)::call,
+        branches -> {
+          if (branches.size() != 0) {
+            sourceComboBox.setPromptText(branches.get(0).getName().replace("refs/heads/", ""));
           }
         });
-    remoteComboBox.setItems(remoteOptions);
-    // 2.set branchComBox option
-    final ObservableList<String> remoteBranchOptions = FXCollections.observableArrayList();
-
-    List<Ref> refList = null;
-    try {
-      refList =
-          gitInfo.command(Git::branchList).setListMode(ListBranchCommand.ListMode.REMOTE).call();
-    } catch (GitAPIException e) {
-      throw new RuntimeException(e);
-    }
-    for (Ref ref : refList) {
-
-      final String refName = ref.getName();
-      if (refName.startsWith("refs/remotes/origin/")) {
-        final String branchName = refName.replace("refs/remotes/origin/", "");
-        if (!branchName.equals("HEAD")) {
-          remoteBranchOptions.add(branchName);
-        }
-      }
-    }
-    // set branchCombox  defaultValue
-    try {
-      if (gitInfo.command(Git::branchList).call().size() != 0) {
-        sourceComboBox.setPromptText(
-            gitInfo.command(Git::branchList).call().get(0).getName().replace("refs/heads/", ""));
-      }
-    } catch (GitAPIException e) {
-      throw new RuntimeException(e);
-    }
-    sourceComboBox.setItems(remoteBranchOptions);
   }
 }
