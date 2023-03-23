@@ -7,8 +7,7 @@ import java.io.IOException;
 
 public class ConfigUtil {
 
-  private static final String CONFIG_FILE =
-      "/Users/ming/Desktop/untitled/src/main/resources/config.json";
+  private static final String CONFIG_FILE = "src/main/resources/config.json";
   private static final ObjectMapper objectMapper = new ObjectMapper();
 
   private ConfigUtil() {}
@@ -22,7 +21,7 @@ public class ConfigUtil {
 
   public static void resetPreferencesToDefault() throws IOException {
     ObjectNode defaultConfig = objectMapper.createObjectNode();
-
+    // Add default configuration
     defaultConfig.put("gitPath", "/usr/bin/git");
     defaultConfig.put("darkMode", false);
     defaultConfig.put("shortcut", "Ctrl+Shift+G");
@@ -34,6 +33,7 @@ public class ConfigUtil {
     ObjectNode config = getConfig();
     ObjectNode stringOptions = objectMapper.createObjectNode();
 
+    // Add string configuration options that need to be returned
     stringOptions.put("gitPath", config.get("gitPath").asText());
     stringOptions.put("shortcut", config.get("shortcut").asText());
     return stringOptions;
@@ -43,6 +43,7 @@ public class ConfigUtil {
     ObjectNode config = getConfig();
     ObjectNode booleanOptions = objectMapper.createObjectNode();
 
+    // Add a boolean configuration option that needs to be returned
     booleanOptions.put("darkMode", config.get("darkMode").asBoolean());
 
     return booleanOptions;
