@@ -23,7 +23,7 @@ public class ConfigUtil {
 
     public static void resetPreferencesToDefault() throws IOException {
         ObjectNode defaultConfig = objectMapper.createObjectNode();
-        // 添加默认配置
+
         defaultConfig.put("gitPath", "/usr/bin/git");
         defaultConfig.put("darkMode", false);
         defaultConfig.put("shortcut", "Ctrl+Shift+G");
@@ -36,7 +36,7 @@ public class ConfigUtil {
         ObjectNode config = getConfig();
         ObjectNode stringOptions = objectMapper.createObjectNode();
 
-        // 添加需要返回的字符串配置选项
+
         stringOptions.put("gitPath", config.get("gitPath").asText());
         stringOptions.put("shortcut", config.get("shortcut").asText());
         return stringOptions;
@@ -46,7 +46,7 @@ public class ConfigUtil {
         ObjectNode config = getConfig();
         ObjectNode booleanOptions = objectMapper.createObjectNode();
 
-        // 添加需要返回的布尔值配置选项
+
         booleanOptions.put("darkMode", config.get("darkMode").asBoolean());
 
         return booleanOptions;
