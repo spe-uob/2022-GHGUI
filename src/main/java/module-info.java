@@ -14,14 +14,11 @@ module uk.ac.bristol {
   requires com.kodedu.terminalfx;
   requires com.fasterxml.jackson.databind;
 
-
-
   exports uk.ac.bristol;
 
-
-
   opens uk.ac.bristol.controllers to
-      javafx.fxml, uk.ac.bristol.controllers;
+      javafx.fxml,
+      uk.ac.bristol.controllers;
   opens uk.ac.bristol.controllers.events to
-          uk.ac.bristol.controllers.events;
+      uk.ac.bristol.controllers.events;
 }
