@@ -15,11 +15,13 @@ module uk.ac.bristol {
   requires com.fasterxml.jackson.databind;
 
 
+
   exports uk.ac.bristol;
 
+
+
   opens uk.ac.bristol.controllers to
-      javafx.fxml,
-      com.google.common;
+      javafx.fxml, uk.ac.bristol.controllers;
   opens uk.ac.bristol.controllers.events to
-      com.google.common;
+          uk.ac.bristol.controllers.events;
 }

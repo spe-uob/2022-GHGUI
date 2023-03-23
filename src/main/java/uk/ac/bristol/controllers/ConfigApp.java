@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers;
 
-
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.application.Application;
 import javafx.geometry.Insets;
