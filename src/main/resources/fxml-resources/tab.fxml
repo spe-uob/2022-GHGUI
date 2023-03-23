@@ -30,6 +30,7 @@
                   <Insets />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#pull" text="Pull" />
             <Button mnemonicParsing="false" onMouseClicked="#commit" styleClass="main-title-box" text="Commit">
                <HBox.margin>
                   <Insets />

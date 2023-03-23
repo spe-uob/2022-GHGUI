@@ -14,13 +14,13 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
+import uk.ac.bristol.controllers.factories.PullControllerFactory;
 import uk.ac.bristol.controllers.factories.PushControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
@@ -31,7 +31,6 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
-@Slf4j
 public class TabController implements Initializable, Refreshable {
 
   /** The event bus used for refresh events for this tab. */
@@ -88,8 +87,9 @@ public class TabController implements Initializable, Refreshable {
    */
   @FXML
   private void pull(final Event event) {
-    log.info(event.getEventType().getName());
-    log.info("Pull was requested - feature not implemented.");
+    ErrorHandler.tryWith(
+        new PullControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /** Open the commit dialog. */

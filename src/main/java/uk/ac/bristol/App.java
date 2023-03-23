@@ -3,7 +3,9 @@ package uk.ac.bristol;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.util.WindowBuilder;
@@ -28,9 +30,6 @@ public class App extends Application {
   /** Location of main FXML file. */
   private static final String FXML_FILE_PATH = "fxml-resources/ghgui.fxml";
 
-  /** Initial dimensions of the window. */
-  private static final Size SIZE = new Size(1000, 800);
-
   /**
    * Entry point for java, only serves to launch the gui.
    *
@@ -52,6 +51,17 @@ public class App extends Application {
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
 
-    new WindowBuilder().root(root).stage(primaryStage).size(SIZE).build().show();
+    final Screen screen = Screen.getPrimary();
+
+    // get window Screen range
+    final Rectangle2D bounds = screen.getVisualBounds();
+
+    // get screen width and height
+    final double screenWidth = bounds.getWidth();
+    final double screenHeight = bounds.getHeight();
+    // set scene in  Perfect size
+    final Size size = new Size(screenWidth - 5, screenHeight - 50);
+
+    new WindowBuilder().root(root).stage(primaryStage).size(size).build().show();
   }
 }
