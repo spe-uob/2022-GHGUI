@@ -1,5 +1,6 @@
 package uk.ac.bristol.controllers;
 
+
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,7 +10,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import uk.ac.bristol.util.ConfigUtil;
 
 import java.io.IOException;
 
@@ -22,27 +22,27 @@ public class ConfigApp extends Application {
         VBox root = new VBox();
         root.setSpacing(10);
         root.setPadding(new Insets(10, 10, 10, 10));
-
+        // 将列表框添加到VBox中
         root = new VBox();
-
+        // 获取所有配置选项
         final ObjectNode[] stringOptions = {ConfigUtil.getStringConfigOptions()};
         final ObjectNode[] booleanOptions = {ConfigUtil.getBooleanConfigOptions()};
 
-
+        // Git行为设置
         Label gitPathLabel = new Label("Git Path:");
         TextField gitPathField = new TextField(stringOptions[0].get("gitPath").asText());
         HBox gitPathBox = new HBox(gitPathLabel, gitPathField);
         gitPathBox.setSpacing(10);
         gitPathBox.setAlignment(Pos.CENTER_LEFT);
 
-
+        // 键盘快捷键设置
         Label shortcutLabel = new Label("Shortcut:");
         TextField shortcutField = new TextField(stringOptions[0].get("shortcut").asText());
         HBox shortcutBox = new HBox(shortcutLabel, shortcutField);
         shortcutBox.setSpacing(10);
         shortcutBox.setAlignment(Pos.CENTER_LEFT);
 
-
+        // 外观设置
         Label darkModeLabel = new Label("Dark Mode:");
         CheckBox darkModeCheckBox = new CheckBox();
         darkModeCheckBox.setSelected(booleanOptions[0].get("darkMode").asBoolean());
@@ -50,7 +50,7 @@ public class ConfigApp extends Application {
         darkModeBox.setSpacing(10);
         darkModeBox.setAlignment(Pos.CENTER_LEFT);
 
-
+        // 添加一个保存按钮和重置按钮
         Button saveButton = new Button("Save");
         Button resetButton = new Button("Reset to Default");
         HBox buttonBox = new HBox(saveButton, resetButton);
@@ -82,7 +82,7 @@ public class ConfigApp extends Application {
 
         root.getChildren().addAll(gitPathBox, shortcutBox, darkModeBox, buttonBox);
 
-
+        //添组件
         VBox gitBox = new VBox(gitPathLabel,gitPathBox,shortcutLabel,shortcutBox,darkModeBox);
         VBox buttonBoxVBox = new VBox(buttonBox);
         Accordion accordion = new Accordion();
