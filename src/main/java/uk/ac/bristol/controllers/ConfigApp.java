@@ -1,6 +1,7 @@
 package uk.ac.bristol.controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -10,92 +11,92 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class ConfigApp extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        ConfigUtil.ensureConfigFileExists();
+  @Override
+  public void start(Stage primaryStage) throws IOException {
+    ConfigUtil.ensureConfigFileExists();
 
-        VBox root = new VBox();
-        root.setSpacing(10);
-        root.setPadding(new Insets(10, 10, 10, 10));
-        // 将列表框添加到VBox中
-        root = new VBox();
-        // 获取所有配置选项
-        final ObjectNode[] stringOptions = {ConfigUtil.getStringConfigOptions()};
-        final ObjectNode[] booleanOptions = {ConfigUtil.getBooleanConfigOptions()};
+    VBox root = new VBox();
+    root.setSpacing(10);
+    root.setPadding(new Insets(10, 10, 10, 10));
+    // 将列表框添加到VBox中
+    root = new VBox();
+    // 获取所有配置选项
+    final ObjectNode[] stringOptions = {ConfigUtil.getStringConfigOptions()};
+    final ObjectNode[] booleanOptions = {ConfigUtil.getBooleanConfigOptions()};
 
-        // Git行为设置
-        Label gitPathLabel = new Label("Git Path:");
-        TextField gitPathField = new TextField(stringOptions[0].get("gitPath").asText());
-        HBox gitPathBox = new HBox(gitPathLabel, gitPathField);
-        gitPathBox.setSpacing(10);
-        gitPathBox.setAlignment(Pos.CENTER_LEFT);
+    // Git行为设置
+    Label gitPathLabel = new Label("Git Path:");
+    TextField gitPathField = new TextField(stringOptions[0].get("gitPath").asText());
+    HBox gitPathBox = new HBox(gitPathLabel, gitPathField);
+    gitPathBox.setSpacing(10);
+    gitPathBox.setAlignment(Pos.CENTER_LEFT);
 
-        // 键盘快捷键设置
-        Label shortcutLabel = new Label("Shortcut:");
-        TextField shortcutField = new TextField(stringOptions[0].get("shortcut").asText());
-        HBox shortcutBox = new HBox(shortcutLabel, shortcutField);
-        shortcutBox.setSpacing(10);
-        shortcutBox.setAlignment(Pos.CENTER_LEFT);
+    // 键盘快捷键设置
+    Label shortcutLabel = new Label("Shortcut:");
+    TextField shortcutField = new TextField(stringOptions[0].get("shortcut").asText());
+    HBox shortcutBox = new HBox(shortcutLabel, shortcutField);
+    shortcutBox.setSpacing(10);
+    shortcutBox.setAlignment(Pos.CENTER_LEFT);
 
-        // 外观设置
-        Label darkModeLabel = new Label("Dark Mode:");
-        CheckBox darkModeCheckBox = new CheckBox();
-        darkModeCheckBox.setSelected(booleanOptions[0].get("darkMode").asBoolean());
-        HBox darkModeBox = new HBox(darkModeLabel, darkModeCheckBox);
-        darkModeBox.setSpacing(10);
-        darkModeBox.setAlignment(Pos.CENTER_LEFT);
+    // 外观设置
+    Label darkModeLabel = new Label("Dark Mode:");
+    CheckBox darkModeCheckBox = new CheckBox();
+    darkModeCheckBox.setSelected(booleanOptions[0].get("darkMode").asBoolean());
+    HBox darkModeBox = new HBox(darkModeLabel, darkModeCheckBox);
+    darkModeBox.setSpacing(10);
+    darkModeBox.setAlignment(Pos.CENTER_LEFT);
 
-        // 添加一个保存按钮和重置按钮
-        Button saveButton = new Button("Save");
-        Button resetButton = new Button("Reset to Default");
-        HBox buttonBox = new HBox(saveButton, resetButton);
-        buttonBox.setSpacing(10);
-        buttonBox.setAlignment(Pos.CENTER_LEFT);
+    // 添加一个保存按钮和重置按钮
+    Button saveButton = new Button("Save");
+    Button resetButton = new Button("Reset to Default");
+    HBox buttonBox = new HBox(saveButton, resetButton);
+    buttonBox.setSpacing(10);
+    buttonBox.setAlignment(Pos.CENTER_LEFT);
 
-        saveButton.setOnAction(event -> {
-            try {
-                ConfigUtil.updateStringConfigOption("gitPath", gitPathField.getText());
-                ConfigUtil.updateStringConfigOption("shortcut", shortcutField.getText());
-                ConfigUtil.updateBooleanConfigOption("darkMode", darkModeCheckBox.isSelected());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    saveButton.setOnAction(
+        event -> {
+          try {
+            ConfigUtil.updateStringConfigOption("gitPath", gitPathField.getText());
+            ConfigUtil.updateStringConfigOption("shortcut", shortcutField.getText());
+            ConfigUtil.updateBooleanConfigOption("darkMode", darkModeCheckBox.isSelected());
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
         });
 
-        resetButton.setOnAction(event -> {
-            try {
-                ConfigUtil.resetPreferencesToDefault();
-                stringOptions[0] = ConfigUtil.getStringConfigOptions();
-                booleanOptions[0] = ConfigUtil.getBooleanConfigOptions();
-                gitPathField.setText(stringOptions[0].get("gitPath").asText());
-                shortcutField.setText(stringOptions[0].get("shortcut").asText());
-                darkModeCheckBox.setSelected(booleanOptions[0].get("darkMode").asBoolean());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    resetButton.setOnAction(
+        event -> {
+          try {
+            ConfigUtil.resetPreferencesToDefault();
+            stringOptions[0] = ConfigUtil.getStringConfigOptions();
+            booleanOptions[0] = ConfigUtil.getBooleanConfigOptions();
+            gitPathField.setText(stringOptions[0].get("gitPath").asText());
+            shortcutField.setText(stringOptions[0].get("shortcut").asText());
+            darkModeCheckBox.setSelected(booleanOptions[0].get("darkMode").asBoolean());
+          } catch (IOException e) {
+            e.printStackTrace();
+          }
         });
 
-        root.getChildren().addAll(gitPathBox, shortcutBox, darkModeBox, buttonBox);
+    root.getChildren().addAll(gitPathBox, shortcutBox, darkModeBox, buttonBox);
 
-        //添组件
-        VBox gitBox = new VBox(gitPathLabel,gitPathBox,shortcutLabel,shortcutBox,darkModeBox);
-        VBox buttonBoxVBox = new VBox(buttonBox);
-        Accordion accordion = new Accordion();
-        TitledPane gitPane = new TitledPane("Preferences", gitBox);
-        accordion.getPanes().addAll(gitPane);
-        accordion.setExpandedPane(gitPane);
-        root.getChildren().addAll(accordion, buttonBoxVBox);
-        Scene scene = new Scene(root, 400, 240);
-        primaryStage.setTitle("Config App");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+    // 添组件
+    VBox gitBox = new VBox(gitPathLabel, gitPathBox, shortcutLabel, shortcutBox, darkModeBox);
+    VBox buttonBoxVBox = new VBox(buttonBox);
+    Accordion accordion = new Accordion();
+    TitledPane gitPane = new TitledPane("Preferences", gitBox);
+    accordion.getPanes().addAll(gitPane);
+    accordion.setExpandedPane(gitPane);
+    root.getChildren().addAll(accordion, buttonBoxVBox);
+    Scene scene = new Scene(root, 400, 240);
+    primaryStage.setTitle("Config App");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+  }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
+  public static void main(String[] args) {
+    launch(args);
+  }
 }
