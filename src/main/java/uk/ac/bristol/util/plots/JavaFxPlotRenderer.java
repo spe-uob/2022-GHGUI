@@ -2,13 +2,13 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
-import javafx.geometry.Orientation;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -37,10 +37,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   private static final int ROW_HEIGHT = 50;
 
   /** This class represents one row (and therefore one commit) in the commit tree. */
-  class CurrentRow extends HBox {
-    /** The space between items in this HBox. */
-    private static final double SPACING = 10;
-
+  class CurrentRow {
     /** This represents the commit that we're currently working on. */
     private final PlotCommit<JavaFxLane> commit;
     /** This group contains all the lines and squares that graphically respresent the tree. */
@@ -56,12 +53,13 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
      * @param commit The commit that this row will be built upon.
      */
     CurrentRow(final PlotCommit<JavaFxLane> commit) {
-      super();
       this.commit = commit;
-      setSpacing(SPACING);
       heads.setAlignment(Pos.CENTER_LEFT);
       message.setAlignment(Pos.CENTER_LEFT);
-      getChildren().addAll(lines, heads, message);
+    }
+
+    Node[] getComponents() {
+      return new Node[] {lines, heads, message};
     }
   }
 
@@ -86,7 +84,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @throws IncorrectObjectTypeException
    * @throws MissingObjectException
    */
-  public final VBox draw()
+  public final Parent draw()
       throws MissingObjectException, IncorrectObjectTypeException, IOException {
 
     final PlotWalk plotWalk = new PlotWalk(repo);
@@ -96,16 +94,20 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       ErrorHandler.mightFail(() -> plotWalk.markStart(plotWalk.parseCommit(ref.getObjectId())));
     }
 
-    final VBox treeView = new VBox();
+    final GridPane treeView = new GridPane();
+    treeView.setHgap(10);
+
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
     pcl.fillTo(Integer.MAX_VALUE);
+    int i = 0;
     for (var commit : pcl) {
       currentRow = new CurrentRow(commit);
       paintCommit(commit, ROW_HEIGHT);
-      treeView.getChildren().add(currentRow);
-      treeView.getChildren().add(new Separator(Orientation.HORIZONTAL));
+      treeView.addRow(i++, currentRow.getComponents());
+      // treeView.addRow(i++, new Separator(Orientation.HORIZONTAL));
     }
+
     treeView.layout();
     return treeView;
   }
