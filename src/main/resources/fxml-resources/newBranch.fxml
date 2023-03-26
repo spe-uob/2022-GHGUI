@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<TitledPane fx:id="root" animated="false" collapsible="false" prefHeight="169.0" prefWidth="442.0" text="New Branch" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.PullController">
+<TitledPane fx:id="root" animated="false" collapsible="false" prefHeight="169.0" prefWidth="442.0" text="New Branch" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.NewBranchController">
    <content>
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
