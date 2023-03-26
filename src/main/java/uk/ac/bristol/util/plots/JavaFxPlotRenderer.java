@@ -2,6 +2,7 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -57,10 +58,33 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       this.commit = commit;
       heads.setAlignment(Pos.CENTER_LEFT);
       message.setAlignment(Pos.CENTER_LEFT);
+      lines.setOpacity(0.8);
+      heads.setOpacity(0.8);
+      message.setOpacity(0.8);
       final ContextMenu ctx = new ContextMenu();
       ctx.getItems().addAll(new MenuItem("Create new branch here"));
       addContext(ctx, getComponents());
+      highlightOnHover();
       lines.setOnMouseEntered(null);
+    }
+
+    /** Highlight this row on mouse hover. */
+    void highlightOnHover() {
+      final var components = getComponents();
+      for (Node node : components) {
+        node.setOnMouseEntered(
+            e -> {
+              for (Node elem : components) {
+                elem.setOpacity(1);
+              }
+            });
+        node.setOnMouseExited(
+            e -> {
+              for (Node elem : components) {
+                elem.setOpacity(0.8);
+              }
+            });
+      }
     }
 
     /**
@@ -212,17 +236,17 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final Popup p = new Popup();
     p.getContent().add(pane);
 
-    // hoverbox
-    //     .hoverProperty()
-    //     .addListener(
-    //         (observable, oldValue, newValue) -> {
-    //           if (newValue) {
-    //             final Point2D bnds = circle.localToScreen(x + w, y + w);
-    //             p.show(currentRow.lines, bnds.getX(), bnds.getY());
-    //           } else {
-    //             p.hide();
-    //           }
-    //         });
+    hoverbox
+        .hoverProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (newValue) {
+                final Point2D bnds = circle.localToScreen(x + w, y + w);
+                p.show(currentRow.lines, bnds.getX(), bnds.getY());
+              } else {
+                p.hide();
+              }
+            });
   }
 
   /** {@inheritDoc} */
