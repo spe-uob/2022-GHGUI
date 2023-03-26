@@ -2,22 +2,20 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
+import javafx.util.Duration;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
@@ -153,7 +151,6 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       currentRow = new CurrentRow(commit);
       paintCommit(commit, ROW_HEIGHT);
       treeView.addRow(i++, currentRow.getComponents());
-      // treeView.addRow(i++, new Separator(Orientation.HORIZONTAL));
     }
 
     treeView.layout();
@@ -164,23 +161,21 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   @Override
   protected final int drawLabel(final int x, final int y, final Ref ref) {
     String refName = ref.getName();
-    if (refName.contains(Constants.R_HEADS)) {
-      refName = refName.substring(Constants.R_HEADS.length(), refName.length());
+    for (var prefix : new String[] {Constants.R_HEADS, Constants.R_REMOTES, Constants.R_TAGS}) {
+      if (refName.startsWith(prefix)) {
+        refName = refName.substring(prefix.length(), refName.length());
+      }
     }
-    if (refName.contains(Constants.R_REMOTES)) {
-      refName = refName.substring(Constants.R_REMOTES.length(), refName.length());
-    }
-    if (refName.contains(Constants.R_TAGS)) {
-      refName = refName.substring(Constants.R_TAGS.length(), refName.length());
-    }
+
     final Text text = new Text(refName);
     // CHECKSTYLE:IGNORE MagicNumberCheck 1
     text.setFill(Color.rgb(0x48, 0x63, 0x9C));
+    currentRow.heads.getChildren().add(text);
+
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
-    currentRow.heads.getChildren().add(text);
     final int offset = 10;
-    return (int) Math.floor(offset + width);
+    return offset + width;
   }
 
   /** {@inheritDoc} */
@@ -190,66 +185,39 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final Line path = new Line(x1, y1, x2, y2);
     path.setStrokeWidth(width);
     path.setStroke(color);
-    final Circle placeHolder = new Circle();
-    currentRow.lines.getChildren().add(placeHolder);
     currentRow.lines.getChildren().add(path);
   }
 
   /** {@inheritDoc} */
   @Override
   protected final void drawCommitDot(final int x, final int y, final int w, final int h) {
-    final Circle circle = new Circle();
-    circle.setCenterX(Math.floor(x + w / 2) + 1);
-    circle.setCenterY(Math.floor(y + h / 2));
-    circle.setRadius(Math.floor(w / 2));
-
+    final Circle circle = new Circle(x + w / 2, y + h / 2, w);
     circle.setFill(avatarResolver.getAvatar(currentRow.commit.getAuthorIdent()));
-
     currentRow.lines.getChildren().add(circle);
 
+    // Necessary for left-side padding. No touchy.
+    currentRow.lines.getChildren().add(new Circle());
+
+    final var commit = currentRow.commit;
+    final var author = commit.getAuthorIdent();
     String desc =
-        String.format(
-            "Commit ID: %s\n Author: %s",
-            currentRow.commit.getId().getName(), currentRow.commit.getAuthorIdent().getName());
-    final String email = currentRow.commit.getAuthorIdent().getEmailAddress();
+        String.format("Commit ID: %s\nAuthor: %s", commit.getId().getName(), author.getName());
+    final String email = author.getEmailAddress();
     if (!email.isEmpty()) {
       desc += " (" + email + ")";
     }
 
-    final Label descLabel = new Label(desc);
-    descLabel.setStyle("-fx-padding: 3px; -fx-text-fill: white;");
-    final Pane pane = new Pane(descLabel);
-    pane.setPrefSize(Pane.USE_COMPUTED_SIZE, Pane.USE_COMPUTED_SIZE);
-    pane.setStyle("-fx-background-color: #38182F;");
-    final Popup p = new Popup();
-    p.getContent().add(pane);
-
-    circle
-        .hoverProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue) {
-                final Point2D bnds = circle.localToScreen(x + w, y + w);
-                p.show(currentRow.lines, bnds.getX(), bnds.getY());
-              } else {
-                p.hide();
-              }
-            });
+    final Tooltip tooltip = new Tooltip(desc);
+    tooltip.setShowDelay(Duration.ZERO);
+    Tooltip.install(circle, tooltip);
   }
 
   /** {@inheritDoc} */
   @Override
   protected final void drawBoundaryDot(final int x, final int y, final int w, final int h) {
-    final Circle circle = new Circle();
-    circle.setCenterX(x + w / 2);
-    circle.setCenterY(y + h / 2);
-    circle.setRadius(h / 2);
-    circle.setFill(Color.GRAY);
-    final Circle innerCircle = new Circle();
-    innerCircle.setCenterX(Math.floor(x + w / 2 + 1));
-    innerCircle.setCenterY(Math.floor(y + h / 2));
-    innerCircle.setRadius(Math.floor(w / 2 - 2));
-    innerCircle.setFill(Color.LIGHTGRAY);
+    final Circle circle = new Circle(x + w / 2, y + h / 2, h / 2, Color.GRAY);
+    final Circle innerCircle = new Circle(x + w / 2, y + h / 2, w / 4, Color.LIGHTGRAY);
+
     currentRow.lines.getChildren().add(circle);
     currentRow.lines.getChildren().add(innerCircle);
   }
