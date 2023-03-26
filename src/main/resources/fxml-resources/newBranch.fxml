@@ -12,9 +12,9 @@
       <Pane prefHeight="200.0" prefWidth="200.0">
          <children>
             <Text layoutX="14.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Branch Name：" />
-            <TextField layoutX="15.0" layoutY="41.0" prefHeight="23.0" prefWidth="399.0" />
-            <Button layoutX="106.0" layoutY="109.0" mnemonicParsing="false" text="Create" />
-            <Button layoutX="247.0" layoutY="109.0" mnemonicParsing="false" text="Cancel" />
+            <TextField fx:id="branchText" layoutX="15.0" layoutY="41.0" prefHeight="23.0" prefWidth="399.0" />
+            <Button layoutX="106.0" layoutY="109.0" mnemonicParsing="false" onAction="#create" text="Create" />
+            <Button layoutX="247.0" layoutY="109.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
          </children>
       </Pane>
    </content>
