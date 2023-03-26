@@ -1,6 +1,8 @@
 package uk.ac.bristol.util;
 
 import java.io.File;
+import javafx.scene.control.Alert;
+import javafx.scene.control.TextArea;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -11,7 +13,6 @@ import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.RefSpec;
 import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
@@ -84,39 +85,29 @@ public final class JgitUtil {
    * @param branchName name of new branch to make
    */
   public static void newBranch(final GitInfo gitInfo, final String branchName) {
-    // TODO: Figure out what to do with this. It's in need of serious redesign.
-    // Currently this is designed to forcibly overwrite branches with no warning.
-    // Also, pushing doesn't seem entirely necessary just for creating a branch.
+
     ErrorHandler.tryWith(
         gitInfo.command(Git::branchList)::call,
         refs -> {
           for (Ref ref : refs) {
             final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
             if (bName.equals(branchName)) {
-              // log.info("The branch already exists, delete it and create a new
-              // one;{}", baranchName);
-              // delete local branch
-              ErrorHandler.mightFail(
-                  gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
-
-              // delete remote branch
-
-              final RefSpec refSpec3 =
-                  new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
-
-              ErrorHandler.mightFail(
-                  gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
-              break;
+              //  The branch alrady exists, delete it and create a new
+              final Alert alert = new Alert(Alert.AlertType.WARNING);
+              alert.setResizable(true);
+              alert.setTitle("Tip");
+              alert.setHeaderText(null);
+              final TextArea tx =
+                  new TextArea("The branch alrady exists, delete it and create a new!");
+              alert.getDialogPane().setContent(tx);
+              alert.show();
+              return;
             }
           }
+
+          // add branch
+          ErrorHandler.mightFail(gitInfo.command(Git::branchCreate).setName(branchName)::call);
         });
-    // new branch
-    ErrorHandler.mightFail(
-        () ->
-            gitInfo
-                .command(Git::push)
-                .add(gitInfo.command(Git::branchCreate).setName(branchName).call())
-                .call());
   }
 
   /**
