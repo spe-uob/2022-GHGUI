@@ -37,6 +37,8 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
+  /** Resolver for user avatars. */
+  private final AvatarResolver avatarResolver = new AvatarResolver();
 
   /** This class represents one row (and therefore one commit) in the commit tree. */
   class CurrentRow {
@@ -200,24 +202,10 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     circle.setCenterX(Math.floor(x + w / 2) + 1);
     circle.setCenterY(Math.floor(y + h / 2));
     circle.setRadius(Math.floor(w / 2));
-    circle.setFill(Color.DARKGRAY);
 
-    final Circle innerCircle = new Circle();
-    innerCircle.setCenterX(Math.floor(x + w / 2 + 1));
-    innerCircle.setCenterY(Math.floor(y + h / 2));
-    innerCircle.setRadius(Math.floor(w / 2 - 2));
-    innerCircle.setFill(Color.WHITE);
+    circle.setFill(avatarResolver.getAvatar(currentRow.commit.getAuthorIdent()));
 
     currentRow.lines.getChildren().add(circle);
-    currentRow.lines.getChildren().add(innerCircle);
-
-    final int radiusOverdraw = 5;
-    final Circle hoverbox = new Circle();
-    hoverbox.setCenterX(Math.floor(x + w / 2) + 1);
-    hoverbox.setCenterY(Math.floor(y + h / 2));
-    hoverbox.setRadius(Math.floor(w / 2 + radiusOverdraw));
-    hoverbox.setFill(Color.TRANSPARENT);
-    currentRow.lines.getChildren().add(hoverbox);
 
     String desc =
         String.format(
@@ -236,7 +224,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final Popup p = new Popup();
     p.getContent().add(pane);
 
-    hoverbox
+    circle
         .hoverProperty()
         .addListener(
             (observable, oldValue, newValue) -> {
