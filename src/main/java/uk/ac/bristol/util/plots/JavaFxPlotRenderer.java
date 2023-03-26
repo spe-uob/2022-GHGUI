@@ -2,12 +2,13 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -56,8 +57,29 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       this.commit = commit;
       heads.setAlignment(Pos.CENTER_LEFT);
       message.setAlignment(Pos.CENTER_LEFT);
+      final ContextMenu ctx = new ContextMenu();
+      ctx.getItems().addAll(new MenuItem("Create new branch here"));
+      addContext(ctx, getComponents());
+      lines.setOnMouseEntered(null);
     }
 
+    /**
+     * Add context menu to components.
+     *
+     * @param nodes The nodes to add the context menu to
+     * @param ctx The context menu
+     */
+    void addContext(final ContextMenu ctx, final Node... nodes) {
+      for (Node node : nodes) {
+        node.setOnContextMenuRequested(e -> ctx.show(node, e.getScreenX(), e.getScreenY()));
+      }
+    }
+
+    /**
+     * Get the components associated with this row.
+     *
+     * @return The components associated with this row
+     */
     Node[] getComponents() {
       return new Node[] {lines, heads, message};
     }
@@ -190,17 +212,17 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     final Popup p = new Popup();
     p.getContent().add(pane);
 
-    hoverbox
-        .hoverProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue) {
-                final Point2D bnds = circle.localToScreen(x + w, y + w);
-                p.show(currentRow.lines, bnds.getX(), bnds.getY());
-              } else {
-                p.hide();
-              }
-            });
+    // hoverbox
+    //     .hoverProperty()
+    //     .addListener(
+    //         (observable, oldValue, newValue) -> {
+    //           if (newValue) {
+    //             final Point2D bnds = circle.localToScreen(x + w, y + w);
+    //             p.show(currentRow.lines, bnds.getX(), bnds.getY());
+    //           } else {
+    //             p.hide();
+    //           }
+    //         });
   }
 
   /** {@inheritDoc} */
