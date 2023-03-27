@@ -191,15 +191,16 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** {@inheritDoc} */
   @Override
   protected final void drawCommitDot(final int x, final int y, final int w, final int h) {
+    final var commit = currentRow.commit;
+    final var author = commit.getAuthorIdent();
+
     final Circle circle = new Circle(x + w / 2, y + h / 2, w);
-    circle.setFill(avatarResolver.getAvatar(currentRow.commit.getAuthorIdent()));
+    circle.setFill(avatarResolver.getAvatar(author));
     currentRow.lines.getChildren().add(circle);
 
     // Necessary for left-side padding. No touchy.
     currentRow.lines.getChildren().add(new Circle());
 
-    final var commit = currentRow.commit;
-    final var author = commit.getAuthorIdent();
     String desc =
         String.format("Commit ID: %s\nAuthor: %s", commit.getId().getName(), author.getName());
     final String email = author.getEmailAddress();
