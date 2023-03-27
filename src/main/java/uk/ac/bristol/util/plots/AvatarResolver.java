@@ -5,9 +5,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
@@ -37,23 +36,21 @@ public class AvatarResolver {
     Label letter = new Label(author.getName().substring(0, 1).toUpperCase());
     // Render the font much larger, so it doesn't look awful when scaled
     letter.setFont(new Font(letter.getFont().getSize() * 10));
-    letter.setBackground(Background.fill(Color.CYAN));
+    letter.setAlignment(Pos.CENTER);
 
     final Pane pane = new StackPane(letter);
     Scene scene = new Scene(pane);
+
     pane.applyCss();
     pane.layout();
-    WritableImage img =
-        new WritableImage(
-            (int) letter.getBoundsInLocal().getWidth(),
-            (int) letter.getBoundsInLocal().getHeight());
+
+    // We use height twice to maintain the correct ratio.
+    final int height = (int) letter.getBoundsInLocal().getHeight();
+    pane.setMinSize(height, height);
+    pane.setBackground(Background.fill(Color.LIGHTBLUE));
+
+    WritableImage img = new WritableImage(height, height);
     scene.snapshot(img);
-
-    final Canvas canvas = new Canvas();
-    final GraphicsContext gc = canvas.getGraphicsContext2D();
-    gc.setFill(new ImagePattern(img));
-    gc.scale(10, 10);
-
     return new ImagePattern(img);
   }
 
