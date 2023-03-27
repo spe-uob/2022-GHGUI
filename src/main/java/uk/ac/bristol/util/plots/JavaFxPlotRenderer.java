@@ -35,19 +35,17 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   /** The height of each row in the plot render. */
   private static final int ROW_HEIGHT = 50;
-  /** Resolver for user avatars. */
-  private final AvatarResolver avatarResolver = new AvatarResolver();
 
   /** This class represents one row (and therefore one commit) in the commit tree. */
   class CurrentRow {
     /** This represents the commit that we're currently working on. */
-    private final PlotCommit<JavaFxLane> commit;
+    protected final PlotCommit<JavaFxLane> commit;
     /** This group contains all the lines and squares that graphically respresent the tree. */
-    private final Group lines = new Group();
+    protected final Group lines = new Group();
     /** This shows which branches currently have the active commit as their head. */
-    private final VBox heads = new VBox();
+    protected final VBox heads = new VBox();
     /** This shows the message attached to the current commit. */
-    private final VBox message = new VBox();
+    protected final VBox message = new VBox();
 
     /**
      * Construct an empty CurrentRow.
@@ -113,7 +111,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   private Repository repo;
 
   /** The row that we're currently working on. */
-  private CurrentRow currentRow;
+  protected CurrentRow currentRow;
 
   /**
    * Construct a new JavaFxPlotRenderer.
@@ -190,13 +188,15 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
 
   /** {@inheritDoc} */
   @Override
-  protected final void drawCommitDot(final int x, final int y, final int w, final int h) {
+  protected void drawCommitDot(final int x, final int y, final int w, final int h) {
     final var commit = currentRow.commit;
     final var author = commit.getAuthorIdent();
 
-    final Circle circle = new Circle(x + w / 2, y + h / 2, w);
-    circle.setFill(avatarResolver.getAvatar(author));
+    final Circle circle = new Circle(x + w / 2, y + h / 2, w, Color.GRAY);
     currentRow.lines.getChildren().add(circle);
+    final Circle innercircle = new Circle(x + w / 2, y + h / 2, w * 3 / 4, Color.LIGHTGRAY);
+    innercircle.setMouseTransparent(true);
+    currentRow.lines.getChildren().add(innercircle);
 
     // Necessary for left-side padding. No touchy.
     currentRow.lines.getChildren().add(new Circle());
