@@ -3,6 +3,8 @@ package uk.ac.bristol.util.plots;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -57,10 +59,13 @@ public class AvatarResolver {
     final String email = author.getEmailAddress();
     System.out.println("Trying to locate avatar for: " + name);
     try {
-      if (name.equals("github-actions") || email.endsWith("@users.noreply.github.com")) {
+      if (name.equals("github-actions")) {
         return GITHUB_LOGO;
       } else {
-        final URL url = new URL(String.format("https://api.github.com/users/%s", name));
+        Pattern noReplyEmailPattern = Pattern.compile("\\d*\\+(.+)@users\\.noreply\\.github\\.com");
+        Matcher match = noReplyEmailPattern.matcher(email);
+        final String _name = match.find() ? match.group(1) : name;
+        final URL url = new URL(String.format("https://api.github.com/users/%s", _name));
         final ObjectNode node = new ObjectMapper().readValue(url, ObjectNode.class);
         return new ImagePattern(new Image(node.get("avatar_url").asText()));
       }
