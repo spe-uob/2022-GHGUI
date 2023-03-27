@@ -28,6 +28,7 @@ import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
+import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
@@ -160,7 +161,7 @@ public class TabController implements Initializable, Refreshable {
     tabPane.getTabs().add(terminal);
     terminalPane.getChildren().add(tabPane);
 
-    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
@@ -172,7 +173,7 @@ public class TabController implements Initializable, Refreshable {
         RemoteController.class,
         StatusBarController.class,
         StatusController.class);
-    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 }

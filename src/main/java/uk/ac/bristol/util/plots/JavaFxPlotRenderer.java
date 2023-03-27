@@ -128,8 +128,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @throws IncorrectObjectTypeException
    * @throws MissingObjectException
    */
-  public final Parent draw()
-      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+  public Parent draw() throws MissingObjectException, IncorrectObjectTypeException, IOException {
 
     final PlotWalk plotWalk = new PlotWalk(repo);
     final List<Ref> allRefs = repo.getRefDatabase().getRefs();
