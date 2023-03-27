@@ -57,7 +57,6 @@ public class AvatarResolver {
   static final Paint resolve(final PersonIdent author) {
     final String name = author.getName();
     final String email = author.getEmailAddress();
-    System.out.println("Trying to locate avatar for: " + name);
     try {
       if (name.equals("github-actions")) {
         return GITHUB_LOGO;
@@ -70,7 +69,6 @@ public class AvatarResolver {
         return new ImagePattern(new Image(node.get("avatar_url").asText()));
       }
     } catch (Exception e) {
-      System.err.println("Failed to resolve avatar for: " + name);
       return generateFallback(author);
     }
   }

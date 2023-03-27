@@ -68,8 +68,10 @@ public class InformationController implements Initializable, Refreshable {
 
     final var children = remote.getChildren();
     ErrorHandler.tryWith(
-        gitInfo.command(Git::remoteList)::call,
-        remotes -> children.addAll(RemoteControllerFactory.buildAll(eventBus, gitInfo, remotes)));
+        () ->
+            RemoteControllerFactory.buildAll(
+                eventBus, gitInfo, gitInfo.command(Git::remoteList).call()),
+        children::addAll);
   }
 
   /** {@inheritDoc} */
