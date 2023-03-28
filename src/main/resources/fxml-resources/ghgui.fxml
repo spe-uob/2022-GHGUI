@@ -24,6 +24,7 @@
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#selectDirectory" text="Open" />
+                  <MenuItem mnemonicParsing="false" onAction="#openSettings" text="Settings" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

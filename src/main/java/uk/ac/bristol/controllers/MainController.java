@@ -9,6 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.DirectoryChooser;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import uk.ac.bristol.controllers.factories.ConfigControllerFactory;
 import uk.ac.bristol.controllers.factories.LicenseControllerFactory;
 import uk.ac.bristol.controllers.factories.TabControllerFactory;
 import uk.ac.bristol.util.WindowBuilder;
@@ -65,6 +66,13 @@ public class MainController {
   private void licensing() {
     ErrorHandler.tryWith(
         new LicenseControllerFactory()::build,
+        root -> new WindowBuilder().root(root).build().show());
+  }
+
+  @FXML
+  private void openSettings() {
+    ErrorHandler.tryWith(
+        new ConfigControllerFactory()::build,
         root -> new WindowBuilder().root(root).build().show());
   }
 }
