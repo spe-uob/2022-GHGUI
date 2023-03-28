@@ -39,6 +39,7 @@
                   <Insets top="10.0" />
                </opaqueInsets>
             </Button>
+            <Button mnemonicParsing="false" onAction="#newBranch" text="New Branch" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>

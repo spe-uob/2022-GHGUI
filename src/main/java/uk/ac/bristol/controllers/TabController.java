@@ -21,6 +21,7 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
+import uk.ac.bristol.controllers.factories.NewBranchControllerFactory;
 import uk.ac.bristol.controllers.factories.PullControllerFactory;
 import uk.ac.bristol.controllers.factories.PushControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
@@ -99,6 +100,14 @@ public class TabController implements Initializable, Refreshable {
   private void commit() {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
+  }
+
+  /** Open the newBranch dialog. */
+  @FXML
+  void newBranch() {
+    ErrorHandler.tryWith(
+        new NewBranchControllerFactory(gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
   }
 
