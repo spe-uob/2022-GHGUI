@@ -4,6 +4,7 @@ import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -28,6 +29,7 @@ import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
+import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
 
 /** The FXML controller for each tab. */
@@ -144,23 +146,27 @@ public class TabController implements Initializable, Refreshable {
     children = statusBarHBox.getChildren();
     ErrorHandler.tryWith(new StatusBarControllerFactory(eventBus, gitInfo)::build, children::add);
 
-    final TerminalBuilder terminalBuilder = new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
-    final TerminalTab terminal = terminalBuilder.newTerminal();
-    final var repo = gitInfo.getRepo();
-    final String cmd = String.format("cd \"%s\"\rclear\r", repo.getDirectory().getParent());
-    terminal.onTerminalFxReady(() -> terminal.getTerminal().command(cmd));
+    Platform.runLater(
+        () -> {
+          final TerminalBuilder terminalBuilder =
+              new TerminalBuilder(TerminalConfigThemes.DARK_CONFIG);
+          final TerminalTab terminal = terminalBuilder.newTerminal();
+          final var repo = gitInfo.getRepo();
+          final String cmd = String.format("cd \"%s\"\rclear\r", repo.getDirectory().getParent());
+          terminal.onTerminalFxReady(() -> terminal.getTerminal().command(cmd));
 
-    // TODO: Figure out if it's possible to cut down on these
-    final TabPane tabPane = new TabPane();
-    tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
-    AnchorPane.setLeftAnchor(tabPane, 0.0);
-    AnchorPane.setRightAnchor(tabPane, 0.0);
-    AnchorPane.setTopAnchor(tabPane, 0.0);
-    AnchorPane.setBottomAnchor(tabPane, 0.0);
-    tabPane.getTabs().add(terminal);
-    terminalPane.getChildren().add(tabPane);
+          // TODO: Figure out if it's possible to cut down on these
+          final TabPane tabPane = new TabPane();
+          tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
+          AnchorPane.setLeftAnchor(tabPane, 0.0);
+          AnchorPane.setRightAnchor(tabPane, 0.0);
+          AnchorPane.setTopAnchor(tabPane, 0.0);
+          AnchorPane.setBottomAnchor(tabPane, 0.0);
+          tabPane.getTabs().add(terminal);
+          terminalPane.getChildren().add(tabPane);
+        });
 
-    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
@@ -172,7 +178,7 @@ public class TabController implements Initializable, Refreshable {
         RemoteController.class,
         StatusBarController.class,
         StatusController.class);
-    final JavaFxPlotRenderer plotRenderer = new JavaFxPlotRenderer(gitInfo);
+    final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 }

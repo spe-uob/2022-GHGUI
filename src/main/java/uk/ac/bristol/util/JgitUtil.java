@@ -111,9 +111,12 @@ public final class JgitUtil {
           }
         });
     // new branch
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::branchCreate).setName(branchName)::call,
-        ref -> gitInfo.command(Git::push).add(ref).call());
+    ErrorHandler.mightFail(
+        () ->
+            gitInfo
+                .command(Git::push)
+                .add(gitInfo.command(Git::branchCreate).setName(branchName).call())
+                .call());
   }
 
   /**

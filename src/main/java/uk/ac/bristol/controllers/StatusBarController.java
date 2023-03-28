@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +26,9 @@ public final class StatusBarController implements Initializable, Refreshable {
   /** The root pane for this controller. */
   @FXML private HBox root;
 
+  /** The root pane for this controller. */
+  @FXML private Label nameLabel, statusLabel;
+
   /**
    * Construct a new StatusBarController and register it on the EventBus.
    *
@@ -44,25 +46,17 @@ public final class StatusBarController implements Initializable, Refreshable {
    *
    * @throws IOException
    */
-  private void generateLabels() throws IOException {
+  private void populateLabels() throws IOException {
     final String branchName = gitInfo.getRepo().getBranch();
-    final Label nameLabel = new Label("Checked-out: " + branchName);
-    // CHECKSTYLE:IGNORE MagicNumberCheck 1
-    nameLabel.setPadding(new Insets(0, 0, 0, 10));
-    root.getChildren().add(nameLabel);
+    nameLabel.setText("Checked-out: " + branchName);
 
     final BranchTrackingStatus statusComparison =
         BranchTrackingStatus.of(gitInfo.getRepo(), branchName);
 
-    final Label statusLabel =
+    statusLabel.setText(
         statusComparison == null
-            ? new Label("...no remote detected.")
-            : new Label(
-                "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
-    // shhhhhh
-    // CHECKSTYLE:IGNORE MagicNumberCheck 1
-    statusLabel.setPadding(new Insets(0, 0, 0, 20));
-    root.getChildren().add(statusLabel);
+            ? "...no remote detected."
+            : "↑" + statusComparison.getAheadCount() + " ↓" + statusComparison.getBehindCount());
   }
 
   /** {@inheritDoc} */
@@ -70,13 +64,12 @@ public final class StatusBarController implements Initializable, Refreshable {
   public void initialize(final URL location, final ResourceBundle resources) {
     AnchorPane.setLeftAnchor(root, 0.0);
     AnchorPane.setRightAnchor(root, 0.0);
-    ErrorHandler.mightFail(this::generateLabels);
+    ErrorHandler.mightFail(this::populateLabels);
   }
 
   /** {@inheritDoc} */
   @Override
   public void refresh() {
-    root.getChildren().clear();
-    ErrorHandler.mightFail(this::generateLabels);
+    ErrorHandler.mightFail(this::populateLabels);
   }
 }
