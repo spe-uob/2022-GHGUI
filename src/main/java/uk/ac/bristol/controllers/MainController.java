@@ -69,6 +69,7 @@ public class MainController {
         root -> new WindowBuilder().root(root).build().show());
   }
 
+  /** Event to start the window containing user preferences. */
   @FXML
   private void openSettings() {
     ErrorHandler.tryWith(
