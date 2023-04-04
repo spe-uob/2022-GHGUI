@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -21,12 +22,12 @@ import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
-import uk.ac.bristol.controllers.factories.NewBranchControllerFactory;
 import uk.ac.bristol.controllers.factories.PullControllerFactory;
 import uk.ac.bristol.controllers.factories.PushControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -106,9 +107,11 @@ public class TabController implements Initializable, Refreshable {
   /** Open the newBranch dialog. */
   @FXML
   void newBranch() {
-    ErrorHandler.tryWith(
-        new NewBranchControllerFactory(gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+    final TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("New branch!");
+    dialog.setHeaderText("Name of new branch: ");
+    dialog.setGraphic(null);
+    dialog.showAndWait().ifPresent(res -> JgitUtil.newBranch(gitInfo, res));
   }
 
   /**
