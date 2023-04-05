@@ -12,12 +12,10 @@ module uk.ac.bristol {
   requires lombok;
   requires org.slf4j;
   requires com.kodedu.terminalfx;
+  requires com.fasterxml.jackson.databind;
 
   exports uk.ac.bristol;
 
   opens uk.ac.bristol.controllers to
-      javafx.fxml,
-      com.google.common;
-  opens uk.ac.bristol.controllers.events to
-      com.google.common;
+      javafx.fxml;
 }

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
 
-<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusBarController" />
+<HBox fx:id="root" alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="30.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.StatusBarController">
+   <children>
+      <Label fx:id="nameLabel">
+         <padding>
+            <Insets left="10.0" />
+         </padding>
+      </Label>
+      <Label fx:id="statusLabel">
+         <padding>
+            <Insets left="20.0" />
+         </padding>
+      </Label>
+   </children>
+</HBox>

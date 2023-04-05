@@ -56,10 +56,7 @@ public class InformationController implements Initializable, Refreshable {
     final Button button = new Button(ref.getName().substring(Constants.R_HEADS.length()));
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(
-        event -> {
-          JgitUtil.checkoutBranch(gitInfo, ref);
-        });
+    button.setOnMouseClicked(event -> JgitUtil.checkoutBranch(gitInfo, ref));
     return button;
   }
 
@@ -67,15 +64,14 @@ public class InformationController implements Initializable, Refreshable {
   private void generateComponents() {
     ErrorHandler.tryWith(
         gitInfo.command(Git::branchList)::call,
-        refs -> {
-          local.getChildren().addAll(refs.stream().map(this::buttonFromRef).toArray(Button[]::new));
-        });
+        refs -> local.getChildren().addAll(refs.stream().map(this::buttonFromRef).toList()));
 
+    final var children = remote.getChildren();
     ErrorHandler.tryWith(
-        gitInfo.command(Git::remoteList)::call,
-        remotes -> {
-          remote.getChildren().addAll(RemoteControllerFactory.buildAll(eventBus, gitInfo, remotes));
-        });
+        () ->
+            RemoteControllerFactory.buildAll(
+                eventBus, gitInfo, gitInfo.command(Git::remoteList).call()),
+        children::addAll);
   }
 
   /** {@inheritDoc} */
