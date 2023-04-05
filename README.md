@@ -98,3 +98,19 @@ mvn package
 And the output should be located at `target/shade/ghgui.jar`\
 Since we want to make this be cross-platform, it contains the GUI components for Windows, Linux and MacOS all bundled in here.
 
+# Contributing
+
+## Creating a PR
+
+If you want to submit a PR, it's important that it's of good quality, so here's some guidelines:
+- Give your PR a short, informative title so we can immediately see what you're submitting.
+- Write a comment with your PR. Ideally you should explain both what you have done *and why.*
+- Make sure your code passes the Checkstyle CI. "`TODO:`" comments are acceptable, but ideally nothing else should get flagged.
+- Make sure your branch history is tidy. Ideally, it should follow these rules:
+  - Always try to rebase instead of merging, as the branch history is much easier to follow this way
+  - All files should end with LF, instead of CRLF, as git can spew unhelpful data if this changes
+  - If a commit contains a change that doesn't make an impact (such as adding empty lines), these changes should not be included in the commit
+  - All commits that introduce one or more files that quickly get deleted should be amended to no longer introduce those files
+  - Conversely, any commit that removed a file introduced in an earlier commit should no longer remove that file
+  - If a commit ends up empty in accordance with the rules above, delete the commit from the branch history
+  - If a commit ends up with ~3 or fewer lines in accordance with the rules above, squash the commit
