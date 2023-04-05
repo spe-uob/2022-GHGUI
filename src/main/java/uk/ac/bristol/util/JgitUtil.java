@@ -7,7 +7,10 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.CredentialsProvider;
@@ -81,26 +84,20 @@ public final class JgitUtil {
    *
    * @param gitInfo shared git information
    * @param branchName name of new branch to make
+   * @throws GitAPIException
+   * @throws InvalidRefNameException
+   * @throws RefNotFoundException
    */
-  public static void newBranch(final GitInfo gitInfo, final String branchName) {
-
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::branchList)::call,
-        refs -> {
-          for (Ref ref : refs) {
-            final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
-            if (bName.equals(branchName)) {
-              AlertBuilder.warn(
-                      "A branch with this name already exists. If you want to overwrite it, please"
-                          + " delete it manually first!")
-                  .show();
-              return;
-            }
-          }
-
-          // add branch
-          ErrorHandler.mightFail(gitInfo.command(Git::branchCreate).setName(branchName)::call);
-        });
+  public static void newBranch(final GitInfo gitInfo, final String branchName)
+      throws RefNotFoundException, InvalidRefNameException, GitAPIException {
+    try {
+      gitInfo.command(Git::branchCreate).setName(branchName).call();
+    } catch (RefAlreadyExistsException e) {
+      final String msg =
+          "A branch with this name already exists. If you want to overwrite it, please delete it"
+              + " manually first!";
+      AlertBuilder.warn(msg).show();
+    }
   }
 
   /**

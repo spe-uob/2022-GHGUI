@@ -111,7 +111,9 @@ public class TabController implements Initializable, Refreshable {
     dialog.setTitle("New branch!");
     dialog.setHeaderText("Name of new branch: ");
     dialog.setGraphic(null);
-    dialog.showAndWait().ifPresent(res -> JgitUtil.newBranch(gitInfo, res));
+    dialog
+        .showAndWait()
+        .ifPresent(res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res)));
   }
 
   /**
