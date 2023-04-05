@@ -1,8 +1,6 @@
 package uk.ac.bristol.util;
 
 import java.io.File;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TextArea;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -92,15 +90,10 @@ public final class JgitUtil {
           for (Ref ref : refs) {
             final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
             if (bName.equals(branchName)) {
-              //  The branch alrady exists, delete it and create a new
-              final Alert alert = new Alert(Alert.AlertType.WARNING);
-              alert.setResizable(true);
-              alert.setTitle("Tip");
-              alert.setHeaderText(null);
-              final TextArea tx =
-                  new TextArea("The branch alrady exists, delete it and create a new!");
-              alert.getDialogPane().setContent(tx);
-              alert.show();
+              AlertBuilder.warn(
+                      "A branch with this name already exists. If you want to overwrite it, please"
+                          + " delete it manually first!")
+                  .show();
               return;
             }
           }
