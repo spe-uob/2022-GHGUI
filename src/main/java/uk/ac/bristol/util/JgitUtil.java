@@ -1,6 +1,7 @@
 package uk.ac.bristol.util;
 
 import java.io.File;
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
@@ -13,6 +14,7 @@ import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
 import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
 import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -84,14 +86,18 @@ public final class JgitUtil {
    *
    * @param gitInfo shared git information
    * @param branchName name of new branch to make
+   * @param start whether to create the branch on a specific commit
    * @throws GitAPIException
    * @throws InvalidRefNameException
    * @throws RefNotFoundException
    */
-  public static void newBranch(final GitInfo gitInfo, final String branchName)
+  public static void newBranch(
+      final GitInfo gitInfo, final String branchName, final Optional<RevCommit> start)
       throws RefNotFoundException, InvalidRefNameException, GitAPIException {
+    final var createBranch = gitInfo.command(Git::branchCreate).setName(branchName);
+    start.ifPresent(commit -> createBranch.setStartPoint(commit));
     try {
-      gitInfo.command(Git::branchCreate).setName(branchName).call();
+      createBranch.call();
     } catch (RefAlreadyExistsException e) {
       final String msg =
           "A branch with this name already exists. If you want to overwrite it, please delete it"

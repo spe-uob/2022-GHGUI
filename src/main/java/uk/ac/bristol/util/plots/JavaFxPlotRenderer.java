@@ -2,12 +2,14 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /**
@@ -60,7 +63,21 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       heads.setOpacity(0.8);
       message.setOpacity(0.8);
       final ContextMenu ctx = new ContextMenu();
-      ctx.getItems().addAll(new MenuItem("Create new branch here"));
+      final MenuItem newBranch = new MenuItem("Create new branch here");
+      newBranch.setOnAction(
+          (e) -> {
+            final TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("New branch!");
+            dialog.setHeaderText(String.format("Create branch from commit %s:", commit.getName()));
+            dialog.setGraphic(null);
+            dialog
+                .showAndWait()
+                .ifPresent(
+                    res ->
+                        ErrorHandler.mightFail(
+                            () -> JgitUtil.newBranch(gitInfo, res, Optional.of(commit))));
+          });
+      ctx.getItems().addAll(newBranch);
       addContext(ctx, getComponents());
       highlightOnHover();
       lines.setOnMouseEntered(null);
@@ -108,7 +125,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
   }
 
   /** The reposity that we're using to build this commit tree. */
-  private Repository repo;
+  private GitInfo gitInfo;
 
   /** The row that we're currently working on. */
   protected CurrentRow currentRow;
@@ -119,7 +136,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @param gitInfo The reposity that we're using to build this commit tree
    */
   public JavaFxPlotRenderer(final GitInfo gitInfo) {
-    repo = gitInfo.getRepo();
+    this.gitInfo = gitInfo;
   }
 
   /**
@@ -129,7 +146,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @throws MissingObjectException
    */
   public Parent draw() throws MissingObjectException, IncorrectObjectTypeException, IOException {
-
+    final Repository repo = gitInfo.getRepo();
     final PlotWalk plotWalk = new PlotWalk(repo);
     final List<Ref> allRefs = repo.getRefDatabase().getRefs();
     for (Ref ref : allRefs) {
