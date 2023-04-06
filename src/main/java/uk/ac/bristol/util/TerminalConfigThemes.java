@@ -13,7 +13,6 @@ public class TerminalConfigThemes {
       build(
           () -> {
             final TerminalConfig conf = new TerminalConfig();
-            // CHECKSTYLE:IGNORE MagicNumberCheck 3
             conf.setBackgroundColor(Color.rgb(16, 16, 16));
             conf.setForegroundColor(Color.rgb(240, 240, 240));
             conf.setCursorColor(Color.rgb(255, 0, 0, 0.5));

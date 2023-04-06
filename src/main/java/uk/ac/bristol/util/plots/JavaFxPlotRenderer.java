@@ -46,9 +46,9 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     /** This group contains all the lines and squares that graphically respresent the tree. */
     protected final Group lines = new Group();
     /** This shows which branches currently have the active commit as their head. */
-    protected final VBox heads = new VBox();
+    private final VBox heads = new VBox();
     /** This shows the message attached to the current commit. */
-    protected final VBox message = new VBox();
+    private final VBox message = new VBox();
 
     /**
      * Construct an empty CurrentRow.
@@ -124,11 +124,11 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
   }
 
-  /** The reposity that we're using to build this commit tree. */
-  private GitInfo gitInfo;
-
   /** The row that we're currently working on. */
   protected CurrentRow currentRow;
+
+  /** The reposity that we're using to build this commit tree. */
+  private GitInfo gitInfo;
 
   /**
    * Construct a new JavaFxPlotRenderer.
@@ -182,7 +182,6 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
 
     final Text text = new Text(refName);
-    // CHECKSTYLE:IGNORE MagicNumberCheck 1
     text.setFill(Color.rgb(0x48, 0x63, 0x9C));
     currentRow.heads.getChildren().add(text);
 

@@ -74,7 +74,7 @@ public class TabController implements Initializable, Refreshable {
   }
 
   /**
-   * TODO: Link with JGitUtil.
+   * Open the Push Dialog.
    *
    * @param event The event that caused this function to fire.
    */
@@ -86,7 +86,7 @@ public class TabController implements Initializable, Refreshable {
   }
 
   /**
-   * TODO: Link with JGitUtil.
+   * Open the Pull Dialog.
    *
    * @param event The event that caused this function to fire.
    */
@@ -174,7 +174,7 @@ public class TabController implements Initializable, Refreshable {
 
           // TODO: Figure out if it's possible to cut down on these
           final TabPane tabPane = new TabPane();
-          tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
+          tabPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
           AnchorPane.setLeftAnchor(tabPane, 0.0);
           AnchorPane.setRightAnchor(tabPane, 0.0);
           AnchorPane.setTopAnchor(tabPane, 0.0);

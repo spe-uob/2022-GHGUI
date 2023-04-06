@@ -95,7 +95,10 @@ public class ErrorHandler {
     if (t instanceof Exception ex) {
       AlertBuilder.fromException(ex).show();
       log.error(ex.getLocalizedMessage(), ex);
+    } else {
+      final Exception ex = new RuntimeException(t);
+      AlertBuilder.fromException(ex).show();
+      log.error(ex.getLocalizedMessage(), ex);
     }
-    // TODO: else?
   }
 }

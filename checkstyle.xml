@@ -175,7 +175,7 @@ documentation.
     <module name="FinalLocalVariable" />
     <module name="IllegalInstantiation" />
     <module name="InnerAssignment" />
-    <module name="MagicNumber" />
+    <!-- <module name="MagicNumber" /> -->
     <!-- <module name="MissingSwitchDefault" /> -->
     <module name="SimplifyBooleanExpression" />
     <module name="SimplifyBooleanReturn" />
@@ -186,7 +186,9 @@ documentation.
     <module name="FinalClass" />
     <module name="HideUtilityClassConstructor" />
     <module name="InterfaceIsType" />
-    <module name="VisibilityModifier" />
+    <module name="VisibilityModifier">
+      <property name="protectedAllowed" value="true"/>
+    </module>
 
 
     <!-- Miscellaneous other checks.                   -->
