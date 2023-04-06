@@ -2,7 +2,6 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -73,9 +72,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
             dialog
                 .showAndWait()
                 .ifPresent(
-                    res ->
-                        ErrorHandler.mightFail(
-                            () -> JgitUtil.newBranch(gitInfo, res, Optional.of(commit))));
+                    res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res, commit)));
           });
       ctx.getItems().addAll(newBranch);
       addContext(ctx, getComponents());

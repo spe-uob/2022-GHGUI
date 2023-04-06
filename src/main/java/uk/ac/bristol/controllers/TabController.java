@@ -3,7 +3,6 @@ package uk.ac.bristol.controllers;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -114,9 +113,7 @@ public class TabController implements Initializable, Refreshable {
     dialog.setGraphic(null);
     dialog
         .showAndWait()
-        .ifPresent(
-            res ->
-                ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res, Optional.empty())));
+        .ifPresent(res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res)));
   }
 
   /**

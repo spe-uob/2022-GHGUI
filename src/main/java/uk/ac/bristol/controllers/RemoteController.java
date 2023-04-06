@@ -79,7 +79,8 @@ public class RemoteController implements Initializable, Refreshable {
     final Button button = new Button(branchName);
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(event -> JgitUtil.checkoutBranch(gitInfo, ref));
+    button.setOnMouseClicked(
+        __ -> ErrorHandler.mightFail(() -> JgitUtil.checkoutBranch(gitInfo, ref)));
     return button;
   }
 

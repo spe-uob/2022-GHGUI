@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for creating commits. */
 public class CommitController {
@@ -48,7 +49,8 @@ public class CommitController {
     final String messageString = textBox.getText();
     final Boolean amendMode = amendCheck.selectedProperty().getValue();
     final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
-    JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly);
+    ErrorHandler.mightFail(
+        () -> JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly));
     // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();

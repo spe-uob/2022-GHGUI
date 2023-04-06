@@ -91,7 +91,7 @@ public class ErrorHandler {
    *
    * @param t A Throwable to be handled
    */
-  public static void handle(final Throwable t) {
+  private static void handle(final Throwable t) {
     if (t instanceof Exception ex) {
       AlertBuilder.fromException(ex).show();
       log.error(ex.getLocalizedMessage(), ex);
