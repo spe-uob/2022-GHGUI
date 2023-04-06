@@ -46,14 +46,14 @@ public class TabController implements Initializable, Refreshable {
 
   /** The root pane for this controller. */
   @FXML private BorderPane root;
-
   /** The panes used for child FXML controllers. */
-  @FXML private AnchorPane statusPane, informationPane, terminalPane;
+  @FXML private AnchorPane statusPane, informationPane;
   /** The pane used for the bottom status brief. */
   @FXML private HBox statusBarHBox;
-
   /** The pane used for the central tree view. */
   @FXML private ScrollPane treePane;
+  /** The tab pane used for the embedded terminal. */
+  @FXML private TabPane terminalPane;
 
   /**
    * Construct a new TabController and register it on the EventBus.
@@ -172,15 +172,7 @@ public class TabController implements Initializable, Refreshable {
           final String cmd = String.format("cd \"%s\"\rclear\r", repo.getDirectory().getParent());
           terminal.onTerminalFxReady(() -> terminal.getTerminal().command(cmd));
 
-          // TODO: Figure out if it's possible to cut down on these
-          final TabPane tabPane = new TabPane();
-          tabPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-          AnchorPane.setLeftAnchor(tabPane, 0.0);
-          AnchorPane.setRightAnchor(tabPane, 0.0);
-          AnchorPane.setTopAnchor(tabPane, 0.0);
-          AnchorPane.setBottomAnchor(tabPane, 0.0);
-          tabPane.getTabs().add(terminal);
-          terminalPane.getChildren().add(tabPane);
+          terminalPane.getTabs().add(terminal);
         });
 
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
