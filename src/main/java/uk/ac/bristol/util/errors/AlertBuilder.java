@@ -3,6 +3,7 @@ package uk.ac.bristol.util.errors;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import lombok.experimental.UtilityClass;
 
 /** Provides methods for constructing JavaFX alerts from Exceptions. */
@@ -39,11 +40,12 @@ public final class AlertBuilder {
    */
   public static Alert fromException(final Exception ex) {
     final Alert alert = new Alert(AlertType.ERROR);
-    alert.setResizable(true);
+    alert.setResizable(false);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");
-    alert.setHeaderText(null);
+    alert.setHeaderText(ex.getMessage());
     final TextArea tx = new TextArea(conciseMessage(ex));
-    alert.getDialogPane().setContent(tx);
+    final TitledPane stackTrace = new TitledPane("See stack trace", tx);
+    alert.getDialogPane().setContent(stackTrace);
     return alert;
   }
 
