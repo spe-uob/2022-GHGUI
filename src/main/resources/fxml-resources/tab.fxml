@@ -24,7 +24,6 @@
    <top>
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#refresh" text="🗘" />
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
                <HBox.margin>
                   <Insets />
@@ -39,6 +38,7 @@
                   <Insets top="10.0" />
                </opaqueInsets>
             </Button>
+            <Button mnemonicParsing="false" onAction="#refresh" text="Merge" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>
