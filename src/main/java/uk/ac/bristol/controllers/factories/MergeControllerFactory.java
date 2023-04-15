@@ -1,5 +1,6 @@
 package uk.ac.bristol.controllers.factories;
 
+import uk.ac.bristol.controllers.MergeController;
 import uk.ac.bristol.controllers.PullController;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
@@ -13,7 +14,7 @@ public final class MergeControllerFactory extends ControllerFactory {
    * @param gitInfo Information about the git repo for this tab
    */
   public MergeControllerFactory(final EventBus eventBus, final GitInfo gitInfo) {
-    getLoader().setControllerFactory(__ -> new PullController(eventBus, gitInfo));
+    getLoader().setControllerFactory(__ -> new MergeController(eventBus, gitInfo));
   }
 
   /** {@inheritDoc} */

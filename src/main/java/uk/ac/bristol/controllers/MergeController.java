@@ -66,10 +66,9 @@ public class MergeController implements Initializable {
      * @param event
      */
     @FXML
-    void merge(ActionEvent event) {
+    void gitMerge(ActionEvent event) {
 
     }
-
 
     /**
      * Constructor for the CommitController. Registers obect to the EventBus.
@@ -83,13 +82,7 @@ public class MergeController implements Initializable {
         this.gitInfo = gitInfo;
     }
 
-    /**
-     * Close the window once finished with the commit.
-     */
-    @FXML
-    final void cancel() {
 
-    }
 
 
     /**
@@ -97,6 +90,7 @@ public class MergeController implements Initializable {
      */
     @Override
     public void initialize(final URL location, final ResourceBundle resources) {
+
 //        ErrorHandler.tryWith(
 //                gitInfo.command(Git::remoteList)::call,
 //                remotes -> {

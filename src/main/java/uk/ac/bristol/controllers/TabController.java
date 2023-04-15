@@ -18,13 +18,7 @@ import javafx.scene.layout.HBox;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
-import uk.ac.bristol.controllers.factories.CommitControllerFactory;
-import uk.ac.bristol.controllers.factories.InformationControllerFactory;
-import uk.ac.bristol.controllers.factories.LoginControllerFactory;
-import uk.ac.bristol.controllers.factories.PullControllerFactory;
-import uk.ac.bristol.controllers.factories.PushControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusControllerFactory;
+import uk.ac.bristol.controllers.factories.*;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
@@ -100,6 +94,15 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
+  }
+
+
+  /** Open the merge dialog. */
+  @FXML
+  private void merge() {
+    ErrorHandler.tryWith(
+            new MergeControllerFactory(eventBus, gitInfo)::build,
+            root -> new WindowBuilder().root(root).build().show());
   }
 
   /**

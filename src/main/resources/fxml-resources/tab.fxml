@@ -38,7 +38,7 @@
                   <Insets top="10.0" />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" onAction="#refresh" text="Merge" />
+            <Button mnemonicParsing="false" onMouseClicked="#merge" text="Merge" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>
