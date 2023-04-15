@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GitCleanController {
+public class CleanController {
     @FXML
     private CheckBox untrackedFilesCheckbox;
     @FXML

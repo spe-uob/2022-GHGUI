@@ -12,7 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.Controller;
-import uk.ac.bristol.controllers.GitCleanController;
+import uk.ac.bristol.controllers.CleanController;
 
 import java.io.IOException;
 
@@ -112,7 +112,7 @@ class Main extends Application {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/GitCleanDialog.fxml"));
       Parent root = loader.load();
-      GitCleanController controller = loader.getController();
+      CleanController controller = loader.getController();
       Stage dialogStage = new Stage();
       dialogStage.initOwner(parentStage);
       dialogStage.initModality(Modality.WINDOW_MODAL);
