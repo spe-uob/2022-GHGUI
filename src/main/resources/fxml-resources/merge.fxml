@@ -3,13 +3,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.MergeController">
    <children>
-      <Button layoutX="212.0" layoutY="115.0" mnemonicParsing="false" onAction="#merge" text="Merge" />
+      <Button layoutX="212.0" layoutY="115.0" mnemonicParsing="false" onAction="#gitMerge" text="Merge" />
       <Button layoutX="312.0" layoutY="115.0" mnemonicParsing="false" onAction="#cancle" text="Cancle" />
-      <Text layoutX="131.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="git-merge:" />
-      <ComboBox fx:id="pathComBox" layoutX="207.0" layoutY="56.0" prefHeight="23.0" prefWidth="224.0" />
+      <Text fill="WHITE" layoutX="131.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="git-merge:" />
+      <ComboBox fx:id="pathComBox" layoutX="207.0" layoutY="56.0" prefHeight="23.0" prefWidth="224.0" style="-fx-background-color: white;" />
+      <Pane layoutX="-18.0" layoutY="-1.0" prefHeight="30.0" prefWidth="638.0" style="-fx-border-color: black;">
+         <children>
+            <Text fill="WHITE" layoutX="25.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Merge" wrappingWidth="612.0000061035156" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
