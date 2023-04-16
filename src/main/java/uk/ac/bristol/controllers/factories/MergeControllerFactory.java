@@ -1,7 +1,6 @@
 package uk.ac.bristol.controllers.factories;
 
 import uk.ac.bristol.controllers.MergeController;
-import uk.ac.bristol.controllers.PullController;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 

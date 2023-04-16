@@ -96,13 +96,12 @@ public class TabController implements Initializable, Refreshable {
         root -> new WindowBuilder().root(root).build().show());
   }
 
-
   /** Open the merge dialog. */
   @FXML
   private void merge() {
     ErrorHandler.tryWith(
-            new MergeControllerFactory(eventBus, gitInfo)::build,
-            root -> new WindowBuilder().root(root).build().show());
+        new MergeControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
