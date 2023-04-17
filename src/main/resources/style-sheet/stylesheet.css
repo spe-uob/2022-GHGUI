@@ -1,7 +1,7 @@
 /* JavaFX documentation recommends that you put each attribute on it's own line, 
 rather than defining size, colour, style etc. all on one single line.*/
 
-/*
+/* Old colours
 #171717 Russian Violet
 #262626 Dark Purple
 #48639C Lapis Lazuli
@@ -68,6 +68,11 @@ img {
   -fx-border: 0;
 }
 
+
+.label {
+  -fx-text-fill: white;
+}
+
 .generic-background-pane {
   background-color: #171717;
   -fx-background-color: #171717;
@@ -80,7 +85,7 @@ img {
   -fx-background-color: #262626;
 } 
 
-Button {
+.button {
   background-color: #262626;
   cursor: pointer;
   font-size: 14px;
@@ -90,21 +95,11 @@ Button {
   -fx-text-fill: white;
 }
 
-Button:hover {
+.button:hover {
   background-color: #171717;
   transition: all .5s;
   -fx-background-color: #171717;
   -fx-transition: all .5s;
-}
-
-input,
-select,
-TextArea {
-  font-size: 100%;
-  -fx-font-size: 100%;
-  -fx-text-fill: white;
-  border-color: #262626;
-  -fx-border-color: #262626;
 }
 
 table {
@@ -152,6 +147,10 @@ table {
   -fx-background-color: #171717;
 }
 
+.tab-label {
+  -fx-text-fill: white;
+}
+
 .menu-bar {
   background-color: #262626;
   -fx-background-color: #262626;
@@ -175,14 +174,13 @@ table {
 }
 
 .context-menu {
-  -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
   -fx-background-color: #816F9D ;
   -fx-border-width: 0.2px;
   -fx-border-color: black;
   -fx-padding: 0; 
   -fx-background-insets: 0;
   -fx-opacity: 1;
-  -fx-background-radius: 0;
+  -fx-background-radius: 6px;
 }
 
 .menu-item {
@@ -285,6 +283,52 @@ table {
   -fx-background-color: 171717;
 }
 
-Label {
+.text-area,
+.text-field {
+  font-size: 100%;
+  -fx-font-size: 100%;
   -fx-text-fill: white;
+  -fx-prompt-text-fill: gray;
+  -fx-highlight-fill: #4F298F;
+  -fx-highlight-text-fill: white;
+  -fx-background-insets: 0;
+  -fx-background-color: #262626;
+}
+
+.text-area .content {
+  -fx-background-color: #262626;
+}
+
+.text-area:focused .content {
+  -fx-background-color: #262626;
+}
+
+.text-area:focused {
+  -fx-highlight-fill: #7ecfff;
+}
+
+.text-area .content {
+  -fx-padding: 5px;
+  -fx-text-fill: gray;
+  -fx-highlight-fill: #7ecfff;
+}
+
+.split-pane > .split-pane-divider {
+  -fx-background-color: #2c2c2c;
+  -fx-padding: 0px;
+  -fx-border-width: 3px;
+  -fx-border-color: #2c2c2c;
+}
+
+.split-pane > .split-pane-divider > .vertical-grabber, .split-pane > .split-pane-divider > .horizontal-grabber {
+  -fx-background-color: #816F9D;
+}
+
+.tooltip {
+    -fx-background: #816F9D;
+    -fx-text-fill: white;
+    -fx-background-color: #816F9D;
+    -fx-background-radius: 6px;
+    -fx-background-insets: 0;
+    -fx-padding: 5px;
 }
