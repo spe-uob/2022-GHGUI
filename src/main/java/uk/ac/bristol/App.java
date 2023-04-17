@@ -43,7 +43,7 @@ public class App extends Application {
   @Override
   public final void start(final Stage primaryStage) throws IOException {
 
-    primaryStage.setTitle("ghgui");
+    primaryStage.setTitle("GHGUI");
 
     // TODO: Update stylesheet so this line is no longer necessary:
     setUserAgentStylesheet(STYLESHEET_CASPIAN);

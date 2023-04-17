@@ -32,6 +32,8 @@ public class WindowBuilder {
   private Stage stage = null;
   /** The size for the window. */
   private Size size = null;
+  /** The title for the window. */
+  private String title = "";
 
   /**
    * Set root.
@@ -67,6 +69,18 @@ public class WindowBuilder {
   }
 
   /**
+   * Set title.
+   *
+   * @param title The name of the window.
+   * @return Modified this
+   */
+  public final WindowBuilder setTitle(final String title) {
+    this.title = title;
+    return this;
+  }
+
+
+  /**
    * Set size.
    *
    * @param size size to update with
@@ -89,6 +103,7 @@ public class WindowBuilder {
     if (scene == null) {
       scene = size != null ? new Scene(root, size.width, size.height) : new Scene(root);
     }
+    stage.setTitle(title);
     final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
     scene.getStylesheets().add(css.toExternalForm());
     stage.setScene(scene);

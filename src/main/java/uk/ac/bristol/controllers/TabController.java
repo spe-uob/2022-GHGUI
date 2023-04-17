@@ -67,7 +67,7 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     ErrorHandler.tryWith(
-        new LoginControllerFactory()::build, root -> new WindowBuilder().root(root).build().show());
+        new LoginControllerFactory()::build, root -> new WindowBuilder().setTitle("Add credentials").root(root).build().show());
   }
 
   /**
@@ -79,7 +79,7 @@ public class TabController implements Initializable, Refreshable {
   private void push(final Event event) {
     ErrorHandler.tryWith(
         new PushControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Push to remote").root(root).build().show());
   }
 
   /**
@@ -91,7 +91,7 @@ public class TabController implements Initializable, Refreshable {
   private void pull(final Event event) {
     ErrorHandler.tryWith(
         new PullControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Pull from remote").root(root).build().show());
   }
 
   /** Open the commit dialog. */
@@ -99,7 +99,7 @@ public class TabController implements Initializable, Refreshable {
   private void commit() {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Commit").root(root).build().show());
   }
 
   /**
