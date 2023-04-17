@@ -79,7 +79,6 @@ public class WindowBuilder {
     return this;
   }
 
-
   /**
    * Set size.
    *

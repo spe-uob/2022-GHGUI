@@ -67,7 +67,8 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     ErrorHandler.tryWith(
-        new LoginControllerFactory()::build, root -> new WindowBuilder().setTitle("Add credentials").root(root).build().show());
+        new LoginControllerFactory()::build,
+        root -> new WindowBuilder().setTitle("Add credentials").root(root).build().show());
   }
 
   /**
