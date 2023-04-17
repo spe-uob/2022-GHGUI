@@ -59,6 +59,23 @@ public final class AlertBuilder {
     alert.setTitle("Warning!");
     alert.setHeaderText(null);
     alert.setContentText(msg);
+
+    return alert;
+  }
+
+  /**
+   * Show a information with a message.
+   *
+   * @param msg The message to show to the user
+   * @return A string containing the message
+   */
+  public static Alert info(final String msg) {
+    final Alert alert = new Alert(AlertType.INFORMATION);
+    alert.setResizable(true);
+    alert.setTitle("Information:");
+    alert.setHeaderText(null);
+    alert.setContentText(msg);
+
     return alert;
   }
 }
