@@ -87,13 +87,13 @@
       </SplitPane>
    </center>
    <right>
-      <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="230.0" BorderPane.alignment="CENTER">
+      <ScrollPane hbarPolicy="NEVER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="230.0" prefHeight="0.0" prefWidth="230.0" BorderPane.alignment="CENTER">
          <styleClass>
             <String fx:value="generic-background-pane" />
             <String fx:value="information-pane" />
          </styleClass>
          <content>
-            <AnchorPane fx:id="statusPane" maxWidth="250.0" minWidth="250.0" prefWidth="250.0">
+            <AnchorPane fx:id="statusPane" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0">
                <styleClass>
                   <String fx:value="generic-background-pane" />
                   <String fx:value="status-pane" />

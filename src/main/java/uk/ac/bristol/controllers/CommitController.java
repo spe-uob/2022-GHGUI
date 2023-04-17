@@ -3,7 +3,7 @@ package uk.ac.bristol.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
@@ -19,7 +19,7 @@ public class CommitController {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private TitledPane root;
+  @FXML private VBox root;
 
   /** Elements that determine commit settings. */
   @FXML private CheckBox stagedOnlyCheck;

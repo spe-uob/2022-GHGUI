@@ -16,7 +16,7 @@
    <tabs>
       <Tab closable="false" text="Github Token">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -73,7 +73,7 @@
       </Tab>
       <Tab closable="false" text="SSH key">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -143,7 +143,7 @@
       </Tab>
       <Tab closable="false" text="HTTPS">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />

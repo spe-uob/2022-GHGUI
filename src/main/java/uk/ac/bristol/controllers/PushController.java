@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
@@ -23,7 +24,7 @@ public class PushController implements Initializable {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private TitledPane root;
+  @FXML private VBox root;
 
   /** The text box for the remote locator. */
   @FXML private TextField remoteTextBox;

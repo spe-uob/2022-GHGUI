@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
@@ -32,7 +33,7 @@ public class PullController implements Initializable {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private TitledPane root;
+  @FXML private VBox root;
 
   /** Remote name selection. */
   @FXML private ComboBox<String> remote;

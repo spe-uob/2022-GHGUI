@@ -6,6 +6,7 @@ import java.util.Set;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
@@ -100,6 +101,7 @@ public final class StatusController implements Initializable, Refreshable {
     box.getChildren().clear();
     for (String filename : contents) {
       final Label label = new Label(filename);
+      label.setTextOverrun(OverrunStyle.ELLIPSIS);
       label.setMaxWidth(box.getMaxWidth());
       box.getChildren().add(label);
     }

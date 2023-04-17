@@ -115,13 +115,14 @@ table {
   -fx-background-color: #171717;
   -fx-text-fill: white;
   border-color: #171717;
-  margin: 0 0 0 0;
-  border: 0 0 0 0;
+  margin: 0px;
+  border-width: 0px;
   -fx-border-color: #171717;
   -fx-margin: 0 0 0 0;
-  -fx-border: 0 0 0 0;
+  -fx-border-width: 0px;
   
 }
+
 .titled-pane > .content{
   border-width: 0;
   -fx-border-width: 0;
@@ -143,6 +144,11 @@ table {
 
 .tab-pane .tab
 {
+  background-color: #171717;
+  -fx-background-color: #171717;
+}
+
+.tab-descendant-pane {
   background-color: #171717;
   -fx-background-color: #171717;
 }
@@ -234,12 +240,12 @@ table {
   padding: 2px 2px 2px 20px;
   -fx-padding: 2px 2px 2px 20px;
 }
+
 .split-pane {
   padding: 0px;
   -fx-padding: 0px;
   border-width: 0px;
   -fx-border-width: 0px;
-
 }
 
 .status-bar {
@@ -280,37 +286,7 @@ table {
   -fx-background-color: #4F298F;
 }
 .scroll-pane > .corner {
-  -fx-background-color: 171717;
-}
-
-.text-area,
-.text-field {
-  font-size: 100%;
-  -fx-font-size: 100%;
-  -fx-text-fill: white;
-  -fx-prompt-text-fill: gray;
-  -fx-highlight-fill: #4F298F;
-  -fx-highlight-text-fill: white;
-  -fx-background-insets: 0;
-  -fx-background-color: #262626;
-}
-
-.text-area .content {
-  -fx-background-color: #262626;
-}
-
-.text-area:focused .content {
-  -fx-background-color: #262626;
-}
-
-.text-area:focused {
-  -fx-highlight-fill: #7ecfff;
-}
-
-.text-area .content {
-  -fx-padding: 5px;
-  -fx-text-fill: gray;
-  -fx-highlight-fill: #7ecfff;
+  -fx-background-color: #171717;
 }
 
 .split-pane > .split-pane-divider {
@@ -331,4 +307,19 @@ table {
     -fx-background-radius: 6px;
     -fx-background-insets: 0;
     -fx-padding: 5px;
+}
+
+.check-box {
+  -fx-text-fill: white;
+}
+
+.text-area {
+  /* WHY WONT YOU WORK????!?!?!??!? */
+  -fx-text-fill: #ffffff;
+  -fx-display-caret:true;
+}
+
+.text-area .content {
+  -fx-background-color: black;
+  -fx-text-fill: #ffffff;
 }
