@@ -12,14 +12,14 @@ import javafx.scene.layout.Priority;
  * An option which a user changes using a string value, for example a filepath or default branch
  * name.
  */
-public final class StringOption extends ConfigOption {
+public final class StringOption implements ConfigOption {
 
   /** Option node. */
   private final ObjectNode node;
   /** The HBox containing the configuration UI for this option. */
-  private final HBox configHBox;
+  private final HBox configHBox = new HBox();
   /** The TextField containing the configuration option value. */
-  private final TextField inputTextField;
+  private final TextField inputTextField = new TextField();
 
   /**
    * @param node JSON object representing this option from config file.
@@ -27,13 +27,10 @@ public final class StringOption extends ConfigOption {
   public StringOption(final ObjectNode node) {
     this.node = node;
 
-    this.configHBox = new HBox();
-
     final Label label = new Label(node.get("name").asText());
     Tooltip.install(label, new Tooltip(node.get("description").asText()));
     this.configHBox.getChildren().add(label);
 
-    this.inputTextField = new TextField();
     this.inputTextField.setText(node.get("currentValue").asText());
     this.inputTextField.setPromptText("None set.");
     this.configHBox.getChildren().add(this.inputTextField);

@@ -6,13 +6,14 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 import uk.ac.bristol.util.configtypes.CheckOption;
 import uk.ac.bristol.util.configtypes.ConfigOption;
 import uk.ac.bristol.util.configtypes.StringOption;
 
 /** Set of static utility methods to aid in the usage and operation of the Configuration menu. */
+@UtilityClass
 public final class ConfigUtil {
 
   // TODO: Store configurations in a more OS-appropriate location (such as appdata for Windows)
@@ -21,9 +22,8 @@ public final class ConfigUtil {
   private static final String CONFIG_FILE = "src/main/resources/config.json";
   /** ObjectMapper to be used for parsing and writing JSON. */
   private static final ObjectMapper OBJECTMAPPER = new ObjectMapper();
-
-  /** This class is not intended to be instantiated. Use methods as functions! */
-  private ConfigUtil() {}
+  /** The default configuration for ghgui. */
+  private static final ObjectNode DEFAULT_CONFIGUTATION;
 
   /**
    * @param type The option type.
@@ -51,12 +51,7 @@ public final class ConfigUtil {
     return node;
   }
 
-  /**
-   * Returns a hardcoded object of default configuration options.
-   *
-   * @return All of the default configuration options
-   */
-  public static ObjectNode getDefaultConfiguration() {
+  static {
     // If it works, it works! Don't come at me.
     final ObjectNode defaultConfig = OBJECTMAPPER.createObjectNode();
 
@@ -80,7 +75,7 @@ public final class ConfigUtil {
             "Commit unstaged files");
     defaultConfig.set("commitNonStaged", commitNonStaged);
 
-    return defaultConfig;
+    DEFAULT_CONFIGUTATION = defaultConfig;
   }
 
   /**
@@ -91,8 +86,7 @@ public final class ConfigUtil {
    */
   public static void ensureConfigFileExists() throws IOException {
     final File file = new File(CONFIG_FILE);
-    if (!file.exists()) {
-      file.createNewFile();
+    if (file.createNewFile()) {
       resetPreferencesToDefault();
     }
   }
@@ -104,28 +98,23 @@ public final class ConfigUtil {
    */
   public static void resetPreferencesToDefault() throws IOException {
     ensureConfigFileExists();
-    final ObjectNode defaultConfig = getDefaultConfiguration();
+    final ObjectNode defaultConfig = DEFAULT_CONFIGUTATION;
     OBJECTMAPPER.writeValue(new File(CONFIG_FILE), defaultConfig);
   }
 
   /**
    * @return Set of ConfigOption children to be used in creating and managing the configuration UI.
+   * @throws IOException
    */
   public static List<ConfigOption> generateConfigList() throws IOException {
     final List<ConfigOption> optionList = new ArrayList<>();
-    final Iterator<JsonNode> iterator = getConfigJSON().iterator();
-    while (iterator.hasNext()) {
-      final JsonNode currentNode = iterator.next();
-      switch (currentNode.get("type").textValue()) {
-        case "string":
-          optionList.add(new StringOption((ObjectNode) currentNode));
-          break;
-        case "check":
-          optionList.add(new CheckOption((ObjectNode) currentNode));
-          break;
-        default:
-          throw new IOException();
-      }
+    for (var currentNode : getConfigJSON()) {
+      optionList.add(
+          switch (currentNode.get("type").textValue()) {
+            case "string" -> new StringOption((ObjectNode) currentNode);
+            case "check" -> new CheckOption((ObjectNode) currentNode);
+            default -> throw new RuntimeException("Attempted to deserialize an incorrect type!");
+          });
     }
     return optionList;
   }
@@ -135,7 +124,7 @@ public final class ConfigUtil {
    * @throws IOException Thrown if the configuration file is unreadable.
    */
   private static JsonNode getConfigJSON() throws IOException {
-    return (ObjectNode) OBJECTMAPPER.readTree(new File(CONFIG_FILE));
+    return (JsonNode) OBJECTMAPPER.readTree(new File(CONFIG_FILE));
   }
 
   /**

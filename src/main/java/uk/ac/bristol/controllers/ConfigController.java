@@ -1,6 +1,5 @@
 package uk.ac.bristol.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,26 +29,17 @@ public class ConfigController implements Initializable {
   /** List of ConfigOption types for all options. */
   private List<ConfigOption> configList;
 
-  /** Construct a new CommitController. */
-  public ConfigController() {}
-
   /** Runs when the Apply button is pressed, and saves all configuration files changed. */
-  public void apply() {
-    try {
-      ConfigUtil.saveConfigList(configList);
-    } catch (IOException e) {
-      ErrorHandler.handle(e);
-    }
+  @FXML
+  private void apply() {
+    ErrorHandler.mightFail(() -> ConfigUtil.saveConfigList(configList));
   }
 
   /** Runs when the Reset to Defaults button is pressed, resetting configurations. */
-  public void reset() {
-    try {
-      ConfigUtil.resetPreferencesToDefault();
-      regenerate();
-    } catch (IOException e) {
-      ErrorHandler.handle(e);
-    }
+  @FXML
+  private void reset() {
+    ErrorHandler.mightFail(ConfigUtil::resetPreferencesToDefault).join();
+    regenerate();
   }
 
   /**
@@ -66,19 +56,15 @@ public class ConfigController implements Initializable {
 
   /** Re-read the configuration file and re-generate the UI. */
   private void regenerate() {
+    configList = new ArrayList<>();
     configVBox.getChildren().clear();
-    try {
-      ConfigUtil.ensureConfigFileExists();
-    } catch (IOException e) {
-      ErrorHandler.handle(e);
-    }
-    try {
-      configList = ConfigUtil.generateConfigList();
-    } catch (IOException e) {
-      ErrorHandler.handle(e);
-      configList = new ArrayList<ConfigOption>();
-    }
-    configVBox.getChildren().addAll(configList.stream().map(x -> x.getHBox()).toList());
-    configVBox.getChildren().add(new Label("Current Configs: " + configList.size()));
+    ErrorHandler.mightFail(ConfigUtil::ensureConfigFileExists).join();
+    ErrorHandler.tryWith(
+        ConfigUtil::generateConfigList,
+        conf -> {
+          configList = conf;
+          configVBox.getChildren().addAll(configList.stream().map(ConfigOption::getHBox).toList());
+          configVBox.getChildren().add(new Label("Current Configs: " + configList.size()));
+        });
   }
 }

@@ -7,20 +7,20 @@ import javafx.scene.layout.HBox;
  * Object to be extended by any type of setting in the configuration option. Configuration Options
  * are placed in the VBox in the configuration menu.
  */
-public abstract class ConfigOption {
+public interface ConfigOption {
 
   /**
    * @return The HBox containing this option UI, to be placed in a config menu.
    */
-  public abstract HBox getHBox();
+  HBox getHBox();
 
   /**
    * @return The key used to store/reference this option in a file.
    */
-  public abstract String getKey();
+  String getKey();
 
   /**
    * @return The ObjectNode updated with the current value of the option.
    */
-  public abstract ObjectNode getNode();
+  ObjectNode getNode();
 }
