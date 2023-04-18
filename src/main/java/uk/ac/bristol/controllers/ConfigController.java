@@ -10,8 +10,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.VBox;
-import uk.ac.bristol.util.ConfigUtil;
-import uk.ac.bristol.util.configtypes.ConfigOption;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.config.configtypes.ConfigOption;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup used for changing configuration options. */

@@ -1,4 +1,4 @@
-package uk.ac.bristol.util;
+package uk.ac.bristol.util.config;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.experimental.UtilityClass;
-import uk.ac.bristol.util.configtypes.CheckOption;
-import uk.ac.bristol.util.configtypes.ConfigOption;
-import uk.ac.bristol.util.configtypes.StringOption;
+import uk.ac.bristol.util.config.configtypes.CheckOption;
+import uk.ac.bristol.util.config.configtypes.ConfigOption;
+import uk.ac.bristol.util.config.configtypes.StringOption;
 
 /** Set of static utility methods to aid in the usage and operation of the Configuration menu. */
 @UtilityClass

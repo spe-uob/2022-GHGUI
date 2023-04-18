@@ -1,4 +1,4 @@
-package uk.ac.bristol.util.configtypes;
+package uk.ac.bristol.util.config.configtypes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.geometry.Pos;
