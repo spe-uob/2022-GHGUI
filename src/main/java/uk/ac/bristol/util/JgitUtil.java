@@ -1,17 +1,21 @@
 package uk.ac.bristol.util;
 
 import java.io.File;
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.api.CommitCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import org.eclipse.jgit.api.errors.CheckoutConflictException;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.api.errors.InvalidRefNameException;
 import org.eclipse.jgit.api.errors.InvalidRemoteException;
+import org.eclipse.jgit.api.errors.RefAlreadyExistsException;
+import org.eclipse.jgit.api.errors.RefNotFoundException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.RefSpec;
 import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
@@ -82,41 +86,24 @@ public final class JgitUtil {
    *
    * @param gitInfo shared git information
    * @param branchName name of new branch to make
+   * @param start whether to create the branch on a specific commit
+   * @throws GitAPIException
+   * @throws InvalidRefNameException
+   * @throws RefNotFoundException
    */
-  public static void newBranch(final GitInfo gitInfo, final String branchName) {
-    // TODO: Figure out what to do with this. It's in need of serious redesign.
-    // Currently this is designed to forcibly overwrite branches with no warning.
-    // Also, pushing doesn't seem entirely necessary just for creating a branch.
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::branchList)::call,
-        refs -> {
-          for (Ref ref : refs) {
-            final String bName = ref.getName().substring(ref.getName().lastIndexOf("/") + 1);
-            if (bName.equals(branchName)) {
-              // log.info("The branch already exists, delete it and create a new
-              // one;{}", baranchName);
-              // delete local branch
-              ErrorHandler.mightFail(
-                  gitInfo.command(Git::branchDelete).setBranchNames(bName).setForce(true)::call);
-
-              // delete remote branch
-
-              final RefSpec refSpec3 =
-                  new RefSpec().setSource(null).setDestination("refs/heads/" + bName);
-
-              ErrorHandler.mightFail(
-                  gitInfo.command(Git::push).setRefSpecs(refSpec3).setRemote("origin")::call);
-              break;
-            }
-          }
-        });
-    // new branch
-    ErrorHandler.mightFail(
-        () ->
-            gitInfo
-                .command(Git::push)
-                .add(gitInfo.command(Git::branchCreate).setName(branchName).call())
-                .call());
+  public static void newBranch(
+      final GitInfo gitInfo, final String branchName, final Optional<RevCommit> start)
+      throws RefNotFoundException, InvalidRefNameException, GitAPIException {
+    final var createBranch = gitInfo.command(Git::branchCreate).setName(branchName);
+    start.ifPresent(commit -> createBranch.setStartPoint(commit));
+    try {
+      createBranch.call();
+    } catch (RefAlreadyExistsException e) {
+      final String msg =
+          "A branch with this name already exists. If you want to overwrite it, please delete it"
+              + " manually first!";
+      AlertBuilder.warn(msg).show();
+    }
   }
 
   /**

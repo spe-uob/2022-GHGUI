@@ -3,6 +3,7 @@ package uk.ac.bristol.controllers;
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -12,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -26,6 +28,7 @@ import uk.ac.bristol.controllers.factories.PushControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
@@ -100,6 +103,20 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
+  }
+
+  /** Open the newBranch dialog. */
+  @FXML
+  void newBranch() {
+    final TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("New branch!");
+    dialog.setHeaderText("Name of new branch: ");
+    dialog.setGraphic(null);
+    dialog
+        .showAndWait()
+        .ifPresent(
+            res ->
+                ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res, Optional.empty())));
   }
 
   /**
