@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.experimental.UtilityClass;
@@ -21,7 +23,7 @@ public final class ConfigUtil {
   /** ObjectMapper to be used for parsing and writing JSON. */
   public static final ObjectMapper OBJECTMAPPER = new ObjectMapper();
   /** Location in which to store the configuration file. */
-  private static final String CONFIG_FILE;
+  private static final File CONFIG_FILE;
   /** The default configuration for GHGUI. */
   private static final Configuration DEFAULT_CONFIGURATION;
 
@@ -51,22 +53,25 @@ public final class ConfigUtil {
     DEFAULT_CONFIGURATION = defaultConfig;
 
     // Set up config file path.
-    String directory;
+    Path directory;
     try {
       // here, we assign the name of the OS, according to Java, to a variable...
       final String operatingSystem = (System.getProperty("os.name")).toUpperCase();
       if (operatingSystem.contains("WIN")) {
         // it is simply the location of the "AppData" folder
-        directory = System.getenv("AppData");
+        directory = Path.of(System.getenv("AppData"));
       } else {
-        directory = System.getProperty("user.home");
+        final String xdg = System.getenv("XDG_CONFIG_HOME");
+        directory =
+            xdg != null ? Path.of(xdg) : Paths.get(System.getProperty("user.home"), ".config");
       }
-      new File(directory + "/GHGUI").mkdirs();
-      directory = directory + "/GHGUI/config.json";
+      directory = directory.resolve("GHGUI");
+      directory.toFile().mkdirs();
+      directory = directory.resolve("config.json");
     } catch (Exception e) {
-      directory = "src/main/resources/config.json";
+      directory = Path.of("src/main/resources/config.json");
     }
-    CONFIG_FILE = directory;
+    CONFIG_FILE = directory.toFile();
   }
 
   /**
@@ -75,8 +80,7 @@ public final class ConfigUtil {
    * @throws IOException Thrown if the creation of a configFile fails.
    */
   public static void ensureConfigFileExists() throws IOException {
-    final File file = new File(CONFIG_FILE);
-    if (file.createNewFile()) {
+    if (CONFIG_FILE.createNewFile()) {
       resetPreferencesToDefault();
     }
   }
@@ -89,7 +93,7 @@ public final class ConfigUtil {
   public static void resetPreferencesToDefault() throws IOException {
     ensureConfigFileExists();
     final ObjectNode defaultConfig = DEFAULT_CONFIGURATION.getObjectNode();
-    OBJECTMAPPER.writeValue(new File(CONFIG_FILE), defaultConfig);
+    OBJECTMAPPER.writeValue(CONFIG_FILE, defaultConfig);
   }
 
   /**
@@ -116,7 +120,7 @@ public final class ConfigUtil {
    */
   private static Configuration getCurrentConfiguration() throws IOException {
     final Configuration config = new Configuration();
-    final ObjectNode inputNode = (ObjectNode) OBJECTMAPPER.readTree(new File(CONFIG_FILE));
+    final ObjectNode inputNode = (ObjectNode) OBJECTMAPPER.readTree(CONFIG_FILE);
     for (var configNode : inputNode) {
       config.addOption(
           configNode.get("type").textValue(),
@@ -144,7 +148,7 @@ public final class ConfigUtil {
     for (ConfigOption configOption : optionList) {
       node.set(configOption.getKey(), configOption.getNode());
     }
-    OBJECTMAPPER.writeValue(new File(CONFIG_FILE), node);
+    OBJECTMAPPER.writeValue(CONFIG_FILE, node);
   }
 
   /**
