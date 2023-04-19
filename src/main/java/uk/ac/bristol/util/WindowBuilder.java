@@ -2,7 +2,11 @@ package uk.ac.bristol.util;
 
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.URL;
 
 /** A class for building Windows. */
 public class WindowBuilder {
@@ -43,6 +47,25 @@ public class WindowBuilder {
    */
   public WindowBuilder root(final Parent root) {
     this.root = root;
+    return this;
+  }
+
+
+  /**
+   * Set icon.
+   *
+   * @param stage set icon stage
+   * @return Modified this
+   */
+  public WindowBuilder setIcon(Stage stage) {
+    URL imageUrl = null;
+    try {
+      imageUrl =new File("src/main/resources/image/logo.png").toURI().toURL();
+    }catch (Exception e){
+      e.printStackTrace();
+    }
+    Image image =new Image(String.valueOf(imageUrl));
+    stage.getIcons().add(image);
     return this;
   }
 
