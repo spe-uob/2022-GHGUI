@@ -13,15 +13,15 @@ import uk.ac.bristol.util.config.OptionDetails;
 /** An option which a user changes using a boolean value. */
 public final class CheckOption implements ConfigOption {
 
-  /** Option JSON information. */
+  /** Option information read from the config file. */
   private final OptionDetails configDetails;
   /** The HBox containing the configuration UI for this option. */
   private final HBox configHBox = new HBox();
-  /** The TextField containing the configuration option value. */
+  /** The CheckBox for this option. */
   private final CheckBox checkBox = new CheckBox();
 
   /**
-   * @param configDetails ObjectNode read from JSON config file.
+   * @param configDetails Option information read from the config file.
    */
   public CheckOption(final OptionDetails configDetails) {
     this.configDetails = configDetails;

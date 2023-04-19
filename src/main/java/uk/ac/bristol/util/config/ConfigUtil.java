@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.util.config.configtypes.CheckOption;
+import uk.ac.bristol.util.config.configtypes.ChoiceOption;
 import uk.ac.bristol.util.config.configtypes.ConfigOption;
 import uk.ac.bristol.util.config.configtypes.StringOption;
 
@@ -40,6 +41,12 @@ public final class ConfigUtil {
         "false",
         "commitNonStaged",
         "Commit unstaged files");
+    defaultConfig.addOption(
+        "choice",
+        "Sample.",
+        "Choice One><Choice Two>Choice Three>",
+        "sampleChoice",
+        "Example ChoiceBox");
 
     DEFAULT_CONFIGURATION = defaultConfig;
 
@@ -96,6 +103,7 @@ public final class ConfigUtil {
           switch (option.type()) {
             case "string" -> new StringOption(option);
             case "check" -> new CheckOption(option);
+            case "choice" -> new ChoiceOption(option);
             default -> throw new RuntimeException("Attempted to deserialize an incorrect type!");
           });
     }
