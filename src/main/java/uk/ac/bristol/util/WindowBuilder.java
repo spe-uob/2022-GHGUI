@@ -127,6 +127,7 @@ public class WindowBuilder {
     final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
     scene.getStylesheets().add(css.toExternalForm());
     stage.setScene(scene);
+    setIcon(stage);
     return stage;
   }
 }
