@@ -17,17 +17,16 @@ import uk.ac.bristol.util.config.configtypes.StringOption;
 @UtilityClass
 public final class ConfigUtil {
 
-  // TODO: Store configurations in a more OS-appropriate location (such as appdata for Windows)
-  // TODO: Detect broken configuration files and reset settings to defaults
-
   /** ObjectMapper to be used for parsing and writing JSON. */
   public static final ObjectMapper OBJECTMAPPER = new ObjectMapper();
   /** Location in which to store the configuration file. */
-  private static final String CONFIG_FILE = "src/main/resources/config.json";
+  private static final String CONFIG_FILE;
   /** The default configuration for GHGUI. */
   private static final Configuration DEFAULT_CONFIGURATION;
 
+  // This code runs on initialization to set up static variables.
   static {
+    // Set up default configuration object.
     final Configuration defaultConfig = new Configuration();
     defaultConfig.addOption(
         "string",
@@ -43,6 +42,24 @@ public final class ConfigUtil {
         "Commit unstaged files");
 
     DEFAULT_CONFIGURATION = defaultConfig;
+
+    // Set up config file path.
+    String directory;
+    try {
+      // here, we assign the name of the OS, according to Java, to a variable...
+      final String operatingSystem = (System.getProperty("os.name")).toUpperCase();
+      if (operatingSystem.contains("WIN")) {
+        // it is simply the location of the "AppData" folder
+        directory = System.getenv("AppData");
+      } else {
+        directory = System.getProperty("user.home");
+      }
+      new File(directory + "/GHGUI").mkdirs();
+      directory = directory + "/GHGUI/config.json";
+    } catch (Exception e) {
+      directory = "src/main/resources/config.json";
+    }
+    CONFIG_FILE = directory;
   }
 
   /**
