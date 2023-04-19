@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import uk.ac.bristol.util.config.OptionDetails;
+import uk.ac.bristol.util.config.ConfigUtil;
 
 /**
  * An option which a user changes using a string value, for example a filepath or default branch
@@ -14,24 +16,24 @@ import javafx.scene.layout.Priority;
  */
 public final class StringOption implements ConfigOption {
 
-  /** Option node. */
-  private final ObjectNode node;
+  /** Option information read from the JSON. */
+  private final OptionDetails configDetails;
   /** The HBox containing the configuration UI for this option. */
   private final HBox configHBox = new HBox();
   /** The TextField containing the configuration option value. */
   private final TextField inputTextField = new TextField();
 
   /**
-   * @param node JSON object representing this option from config file.
+   * @param configDetails Configuration details record for the current state of this option.
    */
-  public StringOption(final ObjectNode node) {
-    this.node = node;
+  public StringOption(final OptionDetails configDetails) {
+    this.configDetails = configDetails;
 
-    final Label label = new Label(node.get("name").asText());
-    Tooltip.install(label, new Tooltip(node.get("description").asText()));
+    final Label label = new Label(configDetails.name());
+    Tooltip.install(label, new Tooltip(configDetails.description()));
     this.configHBox.getChildren().add(label);
 
-    this.inputTextField.setText(node.get("currentValue").asText());
+    this.inputTextField.setText(configDetails.value());
     this.inputTextField.setPromptText("None set.");
     this.configHBox.getChildren().add(this.inputTextField);
 
@@ -48,13 +50,19 @@ public final class StringOption implements ConfigOption {
   /** {@inheritDoc} */
   @Override
   public String getKey() {
-    return node.get("key").asText();
+    return configDetails.key();
   }
 
   /** {@inheritDoc} */
   @Override
   public ObjectNode getNode() {
-    node.put("currentValue", inputTextField.getText());
+    final ObjectNode node = ConfigUtil.OBJECTMAPPER.createObjectNode();
+    node.put("key", configDetails.key());
+    node.put("name", configDetails.name());
+    node.put("description", configDetails.description());
+    node.put("value", inputTextField.getText());
+    node.put("type", configDetails.type());
+
     return node;
   }
 }
