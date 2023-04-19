@@ -7,8 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import uk.ac.bristol.util.config.OptionDetails;
 import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.config.OptionDetails;
 
 /**
  * An option which a user changes using a string value, for example a filepath or default branch

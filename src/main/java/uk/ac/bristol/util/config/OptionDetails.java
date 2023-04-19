@@ -10,4 +10,4 @@ package uk.ac.bristol.util.config;
  * @param name Name of this option as shown to the user.
  */
 public record OptionDetails(
-    String type, String description, String value, String key, String name) { }
+    String type, String description, String value, String key, String name) {}

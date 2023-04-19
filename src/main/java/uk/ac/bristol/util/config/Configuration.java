@@ -1,8 +1,8 @@
 package uk.ac.bristol.util.config;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -74,5 +74,42 @@ public final class Configuration {
       node.set(config.key(), configNode);
     }
     return node;
+  }
+
+  /**
+   * Verifies the integrity of this configuration against the default configuration.
+   *
+   * @param defaults Default configuration file to check against.
+   * @return True if no faults were found. False otherwise.
+   */
+  public boolean verify(final Configuration defaults) {
+    final List<OptionDetails> defaultOptions = defaults.getAllOptions();
+
+    // Check for null strings
+    for (OptionDetails optionDetails : optionList) {
+      final boolean nonNull =
+          optionDetails.name() != null
+              && optionDetails.key() != null
+              && optionDetails.value() != null
+              && optionDetails.description() != null
+              && optionDetails.type() != null;
+      if (!nonNull) {
+        return false;
+      }
+    }
+
+    // Detect duplicate entries
+    if ((new HashSet<OptionDetails>(optionList)).size() != optionList.size()) {
+      return false;
+    }
+
+    // Check if keysets are identical.
+    final List<String> defaultKeys = defaultOptions.stream().map(x -> x.key()).toList();
+    final List<String> ownKeys = optionList.stream().map(x -> x.key()).toList();
+    if (!(defaultKeys.containsAll(ownKeys) && ownKeys.containsAll(defaultKeys))) {
+      return false;
+    }
+
+    return true;
   }
 }

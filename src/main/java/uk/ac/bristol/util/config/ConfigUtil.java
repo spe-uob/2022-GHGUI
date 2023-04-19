@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.util.config.configtypes.CheckOption;
 import uk.ac.bristol.util.config.configtypes.ConfigOption;
 import uk.ac.bristol.util.config.configtypes.StringOption;
 
 /** Set of static utility methods to aid in the usage and operation of the Configuration menu. */
+@Slf4j
 @UtilityClass
 public final class ConfigUtil {
 
@@ -23,7 +25,7 @@ public final class ConfigUtil {
   /** Location in which to store the configuration file. */
   private static final String CONFIG_FILE = "src/main/resources/config.json";
   /** The default configuration for GHGUI. */
-  private static final Configuration DEFAULT_CONFIGUTATION;
+  private static final Configuration DEFAULT_CONFIGURATION;
 
   static {
     final Configuration defaultConfig = new Configuration();
@@ -40,14 +42,13 @@ public final class ConfigUtil {
         "commitNonStaged",
         "Commit unstaged files");
 
-    DEFAULT_CONFIGUTATION = defaultConfig;
+    DEFAULT_CONFIGURATION = defaultConfig;
   }
 
   /**
    * Checks to see if the config exists, and if not, resets all configurations to default.
    *
-   * @throws IOException Should under no circumstances be thrown, as it is caused by the
-   *     configuration file not existing after being created.
+   * @throws IOException Thrown if the creation of a configFile fails.
    */
   public static void ensureConfigFileExists() throws IOException {
     final File file = new File(CONFIG_FILE);
@@ -63,7 +64,7 @@ public final class ConfigUtil {
    */
   public static void resetPreferencesToDefault() throws IOException {
     ensureConfigFileExists();
-    final ObjectNode defaultConfig = DEFAULT_CONFIGUTATION.getObjectNode();
+    final ObjectNode defaultConfig = DEFAULT_CONFIGURATION.getObjectNode();
     OBJECTMAPPER.writeValue(new File(CONFIG_FILE), defaultConfig);
   }
 
@@ -99,6 +100,13 @@ public final class ConfigUtil {
           configNode.get("key").textValue(),
           configNode.get("name").textValue());
     }
+    final boolean correct = config.verify(DEFAULT_CONFIGURATION);
+    if (!correct) {
+      resetPreferencesToDefault();
+      log.info("Configuration file integrity check failed: Resetting preferences to defaults.");
+      // Not technically correct, but easily avoids recursive nonsense.
+      return DEFAULT_CONFIGURATION;
+    }
     return config;
   }
 
@@ -115,12 +123,15 @@ public final class ConfigUtil {
   }
 
   /**
-   * Get the current value of a particular configuration option, accessed via a key name.
-   * This method is the "bulk" of ConfigUtil, in the sense that it is the only feature that the rest of the program should be concerned with.
+   * Get the current value of a particular configuration option, accessed via a key name. This
+   * method is the "bulk" of ConfigUtil, in the sense that it is the only feature that the rest of
+   * the program should be concerned with.
+   *
    * @param key Name of the option to fetch the current value of.
    * @return A string representing the current value for this option.
    */
-  public static String getConfigurationOption(final String key) throws IllegalArgumentException, IOException {
+  public static String getConfigurationOption(final String key)
+      throws IllegalArgumentException, IOException {
     return getCurrentConfiguration().getOption(key).value();
   }
 }
