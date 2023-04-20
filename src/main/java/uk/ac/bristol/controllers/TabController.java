@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
@@ -16,14 +17,18 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.CleanControllerFactory;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
 import uk.ac.bristol.controllers.factories.PullControllerFactory;
 import uk.ac.bristol.controllers.factories.PushControllerFactory;
+import uk.ac.bristol.controllers.factories.ResetControllerFactory;
+import uk.ac.bristol.controllers.factories.RevertControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
@@ -103,6 +108,17 @@ public class TabController implements Initializable, Refreshable {
         new CommitControllerFactory(eventBus, gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
   }
+  /** Open the clean dialog. */
+  @FXML
+  private void clean() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> CleanControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+  }
 
   /** Open the newBranch dialog. */
   @FXML
@@ -116,6 +132,29 @@ public class TabController implements Initializable, Refreshable {
         .ifPresent(res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res)));
   }
 
+  /** Open the reset dialog. */
+  @FXML
+  private void reset() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> ResetControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+  }
+
+  /** Open the revert dialog. */
+  @FXML
+  private void revert() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+        () -> RevertControllerFactory.build(eventBus, gitInfo),
+        root -> {
+          newWindow.setScene(new Scene(root));
+          newWindow.showAndWait();
+        });
+  }
   /**
    * Populate the combobox with the contents of the stored credentials.
    *
