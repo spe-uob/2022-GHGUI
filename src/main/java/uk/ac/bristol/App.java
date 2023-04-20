@@ -1,5 +1,6 @@
 package uk.ac.bristol;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,8 +14,6 @@ import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.controllers.Controller;
 import uk.ac.bristol.controllers.GitCleanController;
-
-import java.io.IOException;
 
 /** Shim class for building fat jars. */
 @UtilityClass
@@ -72,7 +71,7 @@ public class App extends Application {
   }
 }
 
- class Demo extends Application {
+class Demo extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -92,7 +91,6 @@ public class App extends Application {
   }
 }
 
-
 class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -108,6 +106,7 @@ class Main extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
   }
+
   private void showGitCleanDialog(Stage parentStage) {
     try {
       FXMLLoader loader = new FXMLLoader(getClass().getResource("/GitCleanDialog.fxml"));
@@ -127,6 +126,4 @@ class Main extends Application {
   public static void main(String[] args) {
     launch(args);
   }
-
 }
-
