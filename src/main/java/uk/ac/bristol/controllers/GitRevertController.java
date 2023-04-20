@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Optional;
 
-public class RevertController {
+public class GitRevertController {
 
     @FXML
     private void Revert(ActionEvent event) {

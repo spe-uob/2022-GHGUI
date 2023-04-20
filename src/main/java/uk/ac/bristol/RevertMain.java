@@ -7,10 +7,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class GitRevertMain extends Application {
+public class RevertMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("GitRevert.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Revert.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root,320,240);
         primaryStage.setScene(scene);
