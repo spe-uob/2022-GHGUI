@@ -1,13 +1,12 @@
 package uk.ac.bristol;
 
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
-
-import java.io.IOException;
 
 /** Shim class for building fat jars. */
 @UtilityClass
@@ -25,19 +24,13 @@ class Shim {
 /** Base class to start JavaFX application. */
 public class App extends Application {
 
-  /**
-   * Location of main FXML file.
-   */
+  /** Location of main FXML file. */
   private static final String FXML_FILE_PATH = "fxml-resources/ghgui.fxml";
 
-  /**
-   * Location of main stylesheet.
-   */
+  /** Location of main stylesheet. */
   private static final String STYLESHEET_FILE_PATH = "style-sheet/stylesheet.css";
 
-  /**
-   * Initial dimensions of the window.
-   */
+  /** Initial dimensions of the window. */
   private static final int INITIAL_HEIGHT = 1000, INITIAL_WIDTH = 800;
 
   /**
@@ -49,9 +42,7 @@ public class App extends Application {
     launch(args);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public final void start(final Stage primaryStage) throws IOException {
 
