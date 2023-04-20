@@ -2,8 +2,6 @@ package uk.ac.bristol.controllers;
 
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -20,15 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
-import uk.ac.bristol.controllers.factories.CommitControllerFactory;
-import uk.ac.bristol.controllers.factories.InformationControllerFactory;
-import uk.ac.bristol.controllers.factories.LoginControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusControllerFactory;
+import uk.ac.bristol.controllers.factories.*;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
+
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /** The FXML controller for each tab. */
 @Slf4j
@@ -107,7 +104,41 @@ public class TabController implements Initializable, Refreshable {
           newWindow.showAndWait();
         });
   }
+  /** Open the clean dialog. */
+  @FXML
+  private void clean() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+            () -> CleanControllerFactory.build(eventBus, gitInfo),
+            root -> {
+              newWindow.setScene(new Scene(root));
+              newWindow.showAndWait();
+            });
+  }
 
+  /** Open the reset dialog. */
+  @FXML
+  private void reset() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+            () -> ResetControllerFactory.build(eventBus, gitInfo),
+            root -> {
+              newWindow.setScene(new Scene(root));
+              newWindow.showAndWait();
+            });
+  }
+
+  /** Open the revert dialog. */
+  @FXML
+  private void revert() {
+    final Stage newWindow = new Stage();
+    ErrorHandler.tryWith(
+            () -> RevertControllerFactory.build(eventBus, gitInfo),
+            root -> {
+              newWindow.setScene(new Scene(root));
+              newWindow.showAndWait();
+            });
+  }
   /**
    * Populate the combobox with the contents of the stored credentials.
    *
