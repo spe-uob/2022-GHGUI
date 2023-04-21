@@ -17,23 +17,31 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import lombok.experimental.UtilityClass;
 import org.eclipse.jgit.lib.PersonIdent;
 
 /** Class for resolving user Avatars. */
+@UtilityClass
 public class AvatarResolver {
   /** GitHub logo. */
   private static final ImagePattern GITHUB_LOGO =
       new ImagePattern(
           new Image("https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"));
 
+  /**
+   * Generate a fallback image from a user's name.
+   *
+   * @param author The author to generate the profile image for
+   * @return An ImagePattern that can be used as a Paint
+   */
   static final ImagePattern generateFallback(final PersonIdent author) {
-    Label letter = new Label(author.getName().substring(0, 1).toUpperCase());
+    final Label letter = new Label(author.getName().substring(0, 1).toUpperCase());
     // Render the font much larger, so it doesn't look awful when scaled
     letter.setFont(new Font(letter.getFont().getSize() * 10));
     letter.setAlignment(Pos.CENTER);
 
     final Pane pane = new StackPane(letter);
-    Scene scene = new Scene(pane);
+    final Scene scene = new Scene(pane);
 
     pane.applyCss();
     pane.layout();
@@ -43,7 +51,7 @@ public class AvatarResolver {
     pane.setMinSize(height, height);
     pane.setBackground(Background.fill(Color.LIGHTBLUE));
 
-    WritableImage img = new WritableImage(height, height);
+    final WritableImage img = new WritableImage(height, height);
     scene.snapshot(img);
     return new ImagePattern(img);
   }
@@ -61,10 +69,11 @@ public class AvatarResolver {
       if (name.equals("github-actions")) {
         return GITHUB_LOGO;
       } else {
-        Pattern noReplyEmailPattern = Pattern.compile("\\d*\\+(.+)@users\\.noreply\\.github\\.com");
-        Matcher match = noReplyEmailPattern.matcher(email);
-        final String _name = match.find() ? match.group(1) : name;
-        final URL url = new URL(String.format("https://api.github.com/users/%s", _name));
+        final Pattern noReplyEmailPattern =
+            Pattern.compile("\\d*\\+(.+)@users\\.noreply\\.github\\.com");
+        final Matcher match = noReplyEmailPattern.matcher(email);
+        final String urlName = match.find() ? match.group(1) : name;
+        final URL url = new URL(String.format("https://api.github.com/users/%s", urlName));
         final ObjectNode node = new ObjectMapper().readValue(url, ObjectNode.class);
         return new ImagePattern(new Image(node.get("avatar_url").asText()));
       }

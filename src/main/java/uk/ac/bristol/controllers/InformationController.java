@@ -56,7 +56,8 @@ public class InformationController implements Initializable, Refreshable {
     final Button button = new Button(ref.getName().substring(Constants.R_HEADS.length()));
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(event -> JgitUtil.checkoutBranch(gitInfo, ref));
+    button.setOnMouseClicked(
+        __ -> ErrorHandler.mightFail(() -> JgitUtil.checkoutBranch(gitInfo, ref)));
     return button;
   }
 

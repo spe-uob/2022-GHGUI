@@ -138,17 +138,6 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
     </dependency>
-    <!-- Logging framework -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>${logback.version}</version>
-    </dependency>
     <!-- Terminal emulator for JavaFX -->
     <dependency>
       <groupId>com.kodedu.terminalfx</groupId>

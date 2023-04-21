@@ -103,8 +103,6 @@ public final class StatusController implements Initializable, Refreshable {
       label.setMaxWidth(box.getMaxWidth());
       box.getChildren().add(label);
     }
-    // aint no way half is a magic number
-    // CHECKSTYLE:IGNORE MagicNumberCheck 1
     pane.setOpacity(contents.size() == 0 ? 0.5 : 1);
   }
 

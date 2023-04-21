@@ -190,7 +190,7 @@
                                     <Insets bottom="10.0" right="20.0" top="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <TextField fx:id="keyPath11" GridPane.columnIndex="1" />
+                              <TextField fx:id="httpsID" GridPane.columnIndex="1" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />
