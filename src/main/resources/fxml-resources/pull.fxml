@@ -32,7 +32,7 @@
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
          <children>
             <Button mnemonicParsing="false" onAction="#pull" prefHeight="29.0" prefWidth="67.0" text="Pull" />
-            <Button mnemonicParsing="false" onAction="#cancel" prefHeight="29.0" prefWidth="67.0" text="Cancel" />
+            <Button mnemonicParsing="false" onAction="#cancel" prefHeight="24.0" prefWidth="81.0" text="Cancel" />
          </children>
          <padding>
             <Insets top="20.0" />

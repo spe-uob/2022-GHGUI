@@ -3,6 +3,7 @@ package uk.ac.bristol.controllers;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
@@ -28,8 +29,11 @@ public class CommitController {
   /** Whether this commit should amend the last commit. */
   @FXML private CheckBox amendCheck;
 
-  /** Area for creating commit messages. */
-  @FXML private TextArea textBox;
+  /** Field for the commit title. */
+  @FXML private TextField commitField;
+
+  /** Area for creating commit descriptions. */
+  @FXML private TextArea descriptionBox;
 
   /**
    * Construct a new CommitController.
@@ -46,11 +50,15 @@ public class CommitController {
   /** The function to call when the user clicks the confirm button. */
   @FXML
   public final void confirmCommit() {
-    final String messageString = textBox.getText();
+    String message = commitField.getText();
+    if (descriptionBox.getText() == "") {
+      message += "\n\n" + descriptionBox.getText();
+    }
+    final String commitMessage = message;
     final Boolean amendMode = amendCheck.selectedProperty().getValue();
     final Boolean stagedChangesOnly = stagedOnlyCheck.selectedProperty().getValue();
     ErrorHandler.mightFail(
-        () -> JgitUtil.commit(gitInfo, messageString, amendMode, stagedChangesOnly));
+        () -> JgitUtil.commit(gitInfo, commitMessage, amendMode, stagedChangesOnly));
     // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();

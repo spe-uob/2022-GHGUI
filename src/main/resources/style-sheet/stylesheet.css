@@ -69,6 +69,10 @@ img {
 }
 
 
+Text {
+  -fx-text-fill: white;
+}
+
 .label {
   -fx-text-fill: white;
 }
@@ -77,13 +81,6 @@ img {
   background-color: #171717;
   -fx-background-color: #171717;
 }
-
-.root {
-  font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  background-color: #262626;
-  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: #262626;
-} 
 
 .button {
   background-color: #262626;
@@ -314,12 +311,53 @@ table {
 }
 
 .text-area {
-  /* WHY WONT YOU WORK????!?!?!??!? */
-  -fx-text-fill: #ffffff;
-  -fx-display-caret:true;
+  -fx-background-color: #262626;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 3, 2, 2;
+  -fx-padding: 1;
+  -fx-prompt-text-fill: #BBBBBB;
+  -fx-text-fill: white;
+}
+
+.text-area > .scroll-pane {
+  -fx-background-color: transparent;
 }
 
 .text-area .content {
-  -fx-background-color: black;
-  -fx-text-fill: #ffffff;
+  -fx-padding: 3 5 3 5; 
+  -fx-cursor: text;
+  -fx-text-fill:white;
+}
+
+.text-area:focused {
+  -fx-background-color: #262626;
+  -fx-background-insets: -0.4, 1, 2;
+  -fx-background-radius: 3.4, 2, 2;
+  -fx-prompt-text-fill: transparent;
+  -fx-text-fill: white;
+}
+
+.text-area:disabled {
+  -fx-opacity: -fx-disaled-opacity;
+}
+
+.text-field {
+  -fx-background-color: #262626;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 3, 2, 2;
+  -fx-padding: 0.25em 0.416667em  0.333333em 0.416667em; /* 3 5 4 5 */
+  -fx-text-fill: white;
+  -fx-prompt-text-fill: #BBBBBB;
+  -fx-cursor: text;
+}
+
+.text-field:focused {
+  -fx-background-color: #262626;
+  -fx-background-insets: -0.4, 1, 2;
+  -fx-background-radius: 3.4, 2, 2;
+  -fx-prompt-text-fill: transparent;
+}
+
+.text-field:disabled {
+  -fx-opacity: -fx-disabled-opacity;
 }
