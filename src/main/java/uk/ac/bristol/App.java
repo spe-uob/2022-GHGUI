@@ -47,7 +47,6 @@ public class App extends Application {
 
     // TODO: Update stylesheet so this line is no longer necessary:
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
-
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
 

@@ -18,15 +18,21 @@ import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import uk.ac.bristol.util.GitInfo;
 
+/** Extension class over JavaFXPlotRenderer, but draws Avatars too. */
 public class JavaFxAvatarPlotRenderer extends JavaFxPlotRenderer {
-  // /** Resolver for user avatars. */
-  // private final AvatarResolver avatarResolver = new AvatarResolver();
+  /** Fallback colour, currently just uses plain Gray. */
+  private static final Paint FALLBACK = Color.GRAY;
 
+  /** Maps emails to tasks that will attempt to resolve the Avatar. */
   private final Map<String, Task<Paint>> taskMap = new HashMap<>();
 
+  // TODO: Figure out a "certainty" system for resolving Avatars
+  // Certain: The email can be found directly through GitHub's API
+  // Certain: The username can be queried from a "users.noreply.github.com" email
+  // Semi-Certain: The name matches the name found in one of the steps above but the email doesn't
+  // Uncertain: The username matches with a GitHub username
+  /** Maps names to lists of circles that need to be populated. */
   private final Map<String, List<Circle>> resolver = new HashMap<>();
-
-  private static final Paint FALLBACK = Color.GRAY;
 
   /**
    * Construct a new JavaFxPlotRenderer.
@@ -37,11 +43,13 @@ public class JavaFxAvatarPlotRenderer extends JavaFxPlotRenderer {
     super(gitInfo);
   }
 
+  /** {@inheritDoc} */
   @Override
-  public Parent draw() throws MissingObjectException, IncorrectObjectTypeException, IOException {
-    Parent res = super.draw();
+  public final Parent draw()
+      throws MissingObjectException, IncorrectObjectTypeException, IOException {
+    final Parent res = super.draw();
     for (var task : taskMap.values()) {
-      Thread thread = new Thread(task);
+      final Thread thread = new Thread(task);
       thread.start();
     }
     return res;
@@ -62,7 +70,6 @@ public class JavaFxAvatarPlotRenderer extends JavaFxPlotRenderer {
     // Necessary for left-side padding. No touchy.
     currentRow.lines.getChildren().add(new Circle());
 
-    // resolver.put(name, new Pair<AtomicInteger,List<Circle>>(new AtomicInteger(), null))
     if (resolver.containsKey(name)) {
       resolver.get(name).add(circle);
     } else {
@@ -70,7 +77,7 @@ public class JavaFxAvatarPlotRenderer extends JavaFxPlotRenderer {
     }
 
     if (!taskMap.containsKey(email)) {
-      Task<Paint> task =
+      final Task<Paint> task =
           new Task<Paint>() {
             @Override
             protected Paint call() {

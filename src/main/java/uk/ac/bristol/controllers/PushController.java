@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Push pop-up window. */
 public class PushController implements Initializable {
@@ -66,7 +67,7 @@ public class PushController implements Initializable {
     final Boolean allFlag = allCheck.selectedProperty().getValue();
     final Boolean forceFlag = forceCheck.selectedProperty().getValue();
     final Boolean tagsFlag = tagsCheck.selectedProperty().getValue();
-    JgitUtil.push(gitInfo, remoteText, allFlag, forceFlag, tagsFlag);
+    ErrorHandler.mightFail(() -> JgitUtil.push(gitInfo, remoteText, allFlag, forceFlag, tagsFlag));
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }
