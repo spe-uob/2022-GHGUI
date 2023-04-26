@@ -2,30 +2,26 @@ package uk.ac.bristol.controllers;
 
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.errors.GitAPIException;
+import org.eclipse.jgit.revwalk.RevCommit;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
-import uk.ac.bristol.controllers.factories.CommitControllerFactory;
-import uk.ac.bristol.controllers.factories.InformationControllerFactory;
-import uk.ac.bristol.controllers.factories.LoginControllerFactory;
-import uk.ac.bristol.controllers.factories.PullControllerFactory;
-import uk.ac.bristol.controllers.factories.PushControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
-import uk.ac.bristol.controllers.factories.StatusControllerFactory;
+import uk.ac.bristol.controllers.factories.*;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
@@ -186,5 +182,37 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  @FXML
+  public void handleStash() {
+    Optional<String> pathOptional = showPathInputDialog();
+    if (pathOptional.isPresent()) {
+      String path = pathOptional.get();
+      try (Git git = Git.open(new File(path))) {
+        RevCommit stashRef = git.stashCreate().call();
+        if (stashRef == null) {
+          showErrorDialog("Stashing failed.");
+        }
+      } catch (IOException | GitAPIException e) {
+        showErrorDialog("Stashing failed: " + e.getMessage());
+      }
+    }
+  }
+
+  private void showErrorDialog(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+  }
+
+  private Optional<String> showPathInputDialog() {
+    TextInputDialog dialog = new TextInputDialog();
+    dialog.setTitle("Input Path");
+    dialog.setHeaderText(null);
+    dialog.setContentText("Please enter the path:");
+    return dialog.showAndWait();
   }
 }
