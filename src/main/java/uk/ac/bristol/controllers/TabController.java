@@ -184,7 +184,9 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class,
         RemoteController.class,
         StatusBarController.class,
-        StatusController.class);
+        StatusController.class,
+        InformationController.class,
+        RemoteController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
