@@ -3,15 +3,21 @@ package uk.ac.bristol.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
+
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.api.PushCommand;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
+import uk.ac.bristol.util.ProgressBarMonitor;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Push pop-up window. */
@@ -34,6 +40,7 @@ public class PushController implements Initializable {
   @FXML private CheckBox forceCheck;
   /** The checkbox to add the tags flag to the push. */
   @FXML private CheckBox tagsCheck;
+  @FXML private ProgressBar progressBar;
 
   /**
    * Constructor for the PushController. Registers obect to the EventBus.
@@ -67,7 +74,16 @@ public class PushController implements Initializable {
     final Boolean allFlag = allCheck.selectedProperty().getValue();
     final Boolean forceFlag = forceCheck.selectedProperty().getValue();
     final Boolean tagsFlag = tagsCheck.selectedProperty().getValue();
-    ErrorHandler.mightFail(() -> JgitUtil.push(gitInfo, remoteText, allFlag, forceFlag, tagsFlag));
+
+    final PushCommand pushCommand = gitInfo.command(Git::push).setRemote(remoteText).setForce(forceFlag);
+    if (allFlag) {
+      pushCommand.setPushAll();
+    }
+    if (tagsFlag) {
+      pushCommand.setPushTags();
+    }
+    pushCommand.setProgressMonitor(new ProgressBarMonitor(progressBar));
+    ErrorHandler.mightFail(pushCommand::call).join();
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
   }

@@ -40,9 +40,6 @@ public class PullController implements Initializable {
   /** Source branch name selection. */
   @FXML private ComboBox<String> remoteBranch;
 
-  /** Source branch name selection. */
-  @FXML private ComboBox<String> targetBranch;
-
   /**
    * Constructor for the CommitController. Registers obect to the EventBus.
    *
@@ -112,20 +109,6 @@ public class PullController implements Initializable {
             }
           }
           remoteBranch.setItems(branchOptions);
-        });
-  }
-
-  /** Populate local branches. */
-  @FXML
-  private void populateTargetBranches() {
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::branchList)::call,
-        refList -> {
-          final var branches =
-              refList.stream()
-                  .map(ref -> ref.getName().substring(Constants.R_HEADS.length()))
-                  .toList();
-          targetBranch.setItems(FXCollections.observableList(branches));
         });
   }
 

@@ -46,7 +46,7 @@
       </VBox>
       <HBox alignment="CENTER" prefHeight="50.0" prefWidth="600.0">
          <children>
-            <ProgressBar prefWidth="200.0" />
+            <ProgressBar fx:id="progressBar" prefWidth="200.0" />
          </children>
       </HBox>
    </children>
