@@ -386,3 +386,25 @@ table {
 .combo-box-popup > .list-view > .placeholder > .label {
     -fx-text-fill: white;
 }
+
+
+.choice-box {
+  -fx-background-color: #262626;
+}
+.choice-box:focused {
+  -fx-color: #262626;
+  -fx-background-color: #262626;
+}
+.choice-box:hover {
+  -fx-color: #816F9D;
+}
+.choice-box:showing {
+  -fx-color: #4F298F;
+}
+.choice-box > .label {
+  -fx-text-fill: white;
+}
+
+.choice-box > .open-button > .arrow {
+  -fx-background-color: white;
+}
