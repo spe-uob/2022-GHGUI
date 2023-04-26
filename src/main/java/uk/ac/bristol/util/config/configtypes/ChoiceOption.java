@@ -39,7 +39,6 @@ public final class ChoiceOption implements ConfigOption {
     configVBox.getChildren().add(label);
     configVBox.getChildren().add(description);
 
-
     choiceBox.getItems().addAll(getChoices());
     choiceBox.setValue(getStartingChoice());
     configVBox.getChildren().add(choiceBox);

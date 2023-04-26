@@ -1,7 +1,6 @@
 package uk.ac.bristol.util.config.configtypes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
