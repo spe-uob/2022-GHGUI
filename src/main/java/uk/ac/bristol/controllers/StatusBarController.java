@@ -12,6 +12,7 @@ import org.eclipse.jgit.lib.BranchTrackingStatus;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the bottom status bar. */
@@ -70,6 +71,11 @@ public final class StatusBarController implements Initializable, Refreshable {
   /** {@inheritDoc} */
   @Override
   public void refresh() {
-    ErrorHandler.mightFail(this::populateLabels);
+    // ErrorHandler causes this to fail due to the JavaFX main thread bug.
+    try {
+      populateLabels();
+    } catch (Exception e) {
+      AlertBuilder.fromException(e);
+    }
   }
 }
