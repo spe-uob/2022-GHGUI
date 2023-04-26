@@ -1,8 +1,7 @@
 package uk.ac.bristol.util;
 
-import org.eclipse.jgit.lib.ProgressMonitor;
-
 import javafx.scene.control.ProgressBar;
+import org.eclipse.jgit.lib.ProgressMonitor;
 
 public class ProgressBarMonitor implements ProgressMonitor {
 
@@ -22,8 +21,7 @@ public class ProgressBarMonitor implements ProgressMonitor {
   }
 
   @Override
-  public void beginTask(String title, int totalWork) {
-  }
+  public void beginTask(String title, int totalWork) {}
 
   @Override
   public void update(int completed) {
@@ -36,12 +34,10 @@ public class ProgressBarMonitor implements ProgressMonitor {
   }
 
   @Override
-  public void endTask() {
-  }
+  public void endTask() {}
 
   @Override
   public boolean isCancelled() {
     return false;
   }
-  
 }
