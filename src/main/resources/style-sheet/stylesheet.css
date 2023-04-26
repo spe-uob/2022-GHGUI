@@ -194,36 +194,6 @@ table {
   -fx-background-color: #816F9D;
 }
 
-.combo-box {
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-.combo-box > .list-view > .list-cell, .combo-box > .list-cell {
-  -fx-text-fill: white;
-  padding: 2px;
-  -fx-padding: 2px;
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-
-.combo-box > .combo-box-popup > .list-view{
-  background-color: #262626;
-  -fx-background-color: #262626;
-  border-radius: 5px;
-  -fx-border-radius: 5px;
-}
-
-.combo-box > .arrow-button {
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-
-.combo-box-base > .arrow-button > .arrow, 
-.titled-pane > .title > .arrow-button > .arrow {
-  background-color: white;
-  -fx-background-color: white;
-}
-
 .titled-pane > .content {
   padding: 0px;
   -fx-padding: 0px;
@@ -360,4 +330,59 @@ table {
 
 .text-field:disabled {
   -fx-opacity: -fx-disabled-opacity;
+}
+
+.combo-box-base {
+  -fx-background-color: #262626;
+}
+.combo-box-base:hover {
+  -fx-color: #4F298F;
+}
+.combo-box .list-cell{
+  -fx-text-fill: white;
+}
+.combo-box > .combo-box-popup {
+  -fx-background-color: #262626;
+}
+.combo-box > .combo-box-popup > .list-view {
+  -fx-background-color: #262626;
+}
+.combo-box > .combo-box-popup > .list-view > .list-cell {
+  -fx-background-color: #262626;
+  -fx-background-color: white;
+}
+.combo-box-base > .arrow-button {
+  -fx-background-color: #262626;
+}
+.combo-box-base:hover > .arrow-button {
+  -fx-background-color: #262626;
+}
+.combo-box-base:showing > .arrow-button,
+.date-picker:showing > .arrow-button {
+  -fx-color: #4F298F;
+} 
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: white;
+}
+.combo-box .list-cell {
+    -fx-background: #262626;
+    -fx-background-color: #262626;
+    -fx-text-fill: white;
+}
+.combo-box-popup > .list-view {
+    -fx-background-color: #262626;
+    -fx-effect: none;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected, 
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background: #816F9D;
+    -fx-background-color: #816F9D;
+    -fx-text-fill: white;
+}
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background-color: #816F9D;
+    -fx-text-fill: white;
+}
+.combo-box-popup > .list-view > .placeholder > .label {
+    -fx-text-fill: white;
 }
