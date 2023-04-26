@@ -1,7 +1,7 @@
 package uk.ac.bristol.util.config.configtypes;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Object to be extended by any type of setting in the configuration option. Configuration Options
@@ -10,9 +10,9 @@ import javafx.scene.layout.HBox;
 public interface ConfigOption {
 
   /**
-   * @return The HBox containing this option UI, to be placed in a config menu.
+   * @return The VBox containing this option UI, to be placed in a config menu.
    */
-  HBox getHBox();
+  VBox getVBox();
 
   /**
    * @return The key used to store/reference this option in a file.
