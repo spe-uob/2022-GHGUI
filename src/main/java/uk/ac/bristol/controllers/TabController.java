@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
@@ -30,6 +31,8 @@ import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
@@ -109,8 +112,14 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   void newBranch() {
     final TextInputDialog dialog = new TextInputDialog();
-    dialog.setTitle("New branch!");
-    dialog.setHeaderText("Name of new branch: ");
+    try {
+      final var css = getClass().getClassLoader().getResource("style-sheet/stylesheet.css");
+      dialog.getDialogPane().getStylesheets().add(css.toExternalForm());
+      dialog.setTitle("Branch from " + gitInfo.getRepo().getBranch());
+    } catch (Exception e) {
+      AlertBuilder.fromException(e);
+    }
+    dialog.setHeaderText("Branch name:");
     dialog.setGraphic(null);
     dialog
         .showAndWait()

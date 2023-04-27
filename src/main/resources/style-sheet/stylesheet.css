@@ -408,3 +408,11 @@ table {
 .choice-box > .open-button > .arrow {
   -fx-background-color: white;
 }
+
+.dialog-pane {
+  -fx-background-color: #171717;
+}
+
+.dialog-pane:header .header-panel {
+  -fx-background-color: #171717;
+}
