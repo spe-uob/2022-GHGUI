@@ -39,10 +39,10 @@ public final class ConfigUtil {
         "Stylesheet path");
     defaultConfig.addOption(
         "check",
-        "If checked, commits will automatically add unstaged files first.",
+        "All modified files will automatically be added to commits by default, even if not yet staged.",
         "false",
         "commitNonStaged",
-        "Commit unstaged files");
+        "Include -a flag when commiting");
     defaultConfig.addOption(
         "choice",
         "Sample.",
@@ -145,6 +145,7 @@ public final class ConfigUtil {
    */
   public static void saveConfigList(final List<ConfigOption> optionList) throws IOException {
     final ObjectNode node = OBJECTMAPPER.createObjectNode();
+    log.info("SAVING CONFIG");
     for (ConfigOption configOption : optionList) {
       node.set(configOption.getKey(), configOption.getNode());
     }
@@ -161,6 +162,7 @@ public final class ConfigUtil {
    */
   public static String getConfigurationOption(final String key)
       throws IllegalArgumentException, IOException {
+    log.info("Attempting to retrieve from config: " + key);
     return getCurrentConfiguration().getOption(key).value();
   }
 }

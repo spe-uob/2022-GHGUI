@@ -1,6 +1,9 @@
 package uk.ac.bristol.util.config;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -9,6 +12,7 @@ import java.util.List;
  * Utility class to represent an entire configuration in memory, as an alternative to ObjectNodes or
  * JsonNodes.
  */
+@Slf4j
 public final class Configuration {
 
   /** List of configuration options. */
@@ -94,19 +98,23 @@ public final class Configuration {
               && optionDetails.description() != null
               && optionDetails.type() != null;
       if (!nonNull) {
+        log.info("Found null value in configuration.");
         return false;
       }
     }
 
-    // Detect duplicate entries
+    // Check for duplicates
     if ((new HashSet<OptionDetails>(optionList)).size() != optionList.size()) {
+      log.info("Found duplicate configurations.");
       return false;
     }
 
     // Check if keysets are identical.
     final List<String> defaultKeys = defaultOptions.stream().map(x -> x.key()).toList();
     final List<String> ownKeys = optionList.stream().map(x -> x.key()).toList();
+
     if (!(defaultKeys.containsAll(ownKeys) && ownKeys.containsAll(defaultKeys))) {
+      log.info("Configuration keys did not match to what was expected.");
       return false;
     }
 

@@ -1,18 +1,25 @@
 package uk.ac.bristol.controllers;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
+import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for creating commits. */
-public class CommitController {
+@Slf4j
+public class CommitController implements Initializable{
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -62,5 +69,14 @@ public class CommitController {
     // Close the window once finished with the commit.
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
+  }
+
+  @Override
+  public void initialize(final URL location, final ResourceBundle resources) {
+    try {
+      stagedOnlyCheck.setSelected(!ConfigUtil.getConfigurationOption("commitNonStaged").equals("true"));
+    } catch (Exception e) {
+      log.error("Failed to find config option.", e);
+    }
   }
 }
