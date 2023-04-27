@@ -113,7 +113,7 @@ public class TabController implements Initializable, Refreshable {
   void newBranch() {
     final TextInputDialog dialog = new TextInputDialog();
     try {
-      final var css = getClass().getClassLoader().getResource("style-sheet/stylesheet.css");
+      final var css = getClass().getClassLoader().getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
       dialog.getDialogPane().getStylesheets().add(css.toExternalForm());
       dialog.setTitle("Branch from " + gitInfo.getRepo().getBranch());
     } catch (Exception e) {

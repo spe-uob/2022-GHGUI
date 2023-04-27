@@ -6,12 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.errors.AlertBuilder;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building Windows. */
 public class WindowBuilder {
-  /** Location of main stylesheet. */
-  private static final String STYLESHEET_FILE_PATH = "style-sheet/stylesheet.css";
-
   /** The size of the Window. */
   public static class Size {
     /** Dimensions for this size object. */
@@ -127,8 +127,13 @@ public class WindowBuilder {
       scene = size != null ? new Scene(root, size.width, size.height) : new Scene(root);
     }
     stage.setTitle(title);
-    final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
+
+    try {
+    final var css = getClass().getClassLoader().getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
     scene.getStylesheets().add(css.toExternalForm());
+    } catch (Exception e) {
+      AlertBuilder.fromException(e);
+    }
     stage.setScene(scene);
     return stage;
   }
