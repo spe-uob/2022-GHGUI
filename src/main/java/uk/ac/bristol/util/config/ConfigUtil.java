@@ -39,7 +39,8 @@ public final class ConfigUtil {
         "Stylesheet path");
     defaultConfig.addOption(
         "check",
-        "All modified files will automatically be added to commits by default, even if not yet staged.",
+        "All modified files will automatically be added to commits by default, even if not yet"
+            + " staged.",
         "false",
         "commitNonStaged",
         "Include -a flag when commiting");

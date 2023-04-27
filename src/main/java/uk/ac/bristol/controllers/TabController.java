@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
@@ -113,7 +112,10 @@ public class TabController implements Initializable, Refreshable {
   void newBranch() {
     final TextInputDialog dialog = new TextInputDialog();
     try {
-      final var css = getClass().getClassLoader().getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
+      final var css =
+          getClass()
+              .getClassLoader()
+              .getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
       dialog.getDialogPane().getStylesheets().add(css.toExternalForm());
       dialog.setTitle("Branch from " + gitInfo.getRepo().getBranch());
     } catch (Exception e) {

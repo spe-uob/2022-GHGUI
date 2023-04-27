@@ -2,7 +2,6 @@ package uk.ac.bristol.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
@@ -19,7 +18,7 @@ import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for creating commits. */
 @Slf4j
-public class CommitController implements Initializable{
+public class CommitController implements Initializable {
 
   /** The event bus used for refresh events for this tab. */
   private EventBus eventBus;
@@ -74,7 +73,8 @@ public class CommitController implements Initializable{
   @Override
   public void initialize(final URL location, final ResourceBundle resources) {
     try {
-      stagedOnlyCheck.setSelected(!ConfigUtil.getConfigurationOption("commitNonStaged").equals("true"));
+      stagedOnlyCheck.setSelected(
+          !ConfigUtil.getConfigurationOption("commitNonStaged").equals("true"));
     } catch (Exception e) {
       log.error("Failed to find config option.", e);
     }

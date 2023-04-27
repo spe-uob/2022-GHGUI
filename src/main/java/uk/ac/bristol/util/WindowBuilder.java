@@ -8,7 +8,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.errors.AlertBuilder;
-import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** A class for building Windows. */
 public class WindowBuilder {
@@ -129,8 +128,11 @@ public class WindowBuilder {
     stage.setTitle(title);
 
     try {
-    final var css = getClass().getClassLoader().getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
-    scene.getStylesheets().add(css.toExternalForm());
+      final var css =
+          getClass()
+              .getClassLoader()
+              .getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
+      scene.getStylesheets().add(css.toExternalForm());
     } catch (Exception e) {
       AlertBuilder.fromException(e);
     }

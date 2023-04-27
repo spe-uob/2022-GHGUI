@@ -11,7 +11,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
-import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.config.configtypes.ConfigOption;
 import uk.ac.bristol.util.errors.ErrorHandler;
