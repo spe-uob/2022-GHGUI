@@ -50,19 +50,19 @@ public class WindowBuilder {
   }
 
   /**
-   * Set icon.
+   * Set icon. Should only be ran after setting a stage.
    *
-   * @param stage set icon stage
+   * @param filepath Path to icon image.
    * @return Modified this
    */
-  public WindowBuilder setIcon(Stage stage) {
+  public WindowBuilder setIcon(final String filepath) {
     URL imageUrl = null;
     try {
-      imageUrl = new File("src/main/resources/image/logo.png").toURI().toURL();
+      imageUrl = new File(filepath).toURI().toURL();
     } catch (Exception e) {
       e.printStackTrace();
     }
-    Image image = new Image(String.valueOf(imageUrl));
+    final Image image = new Image(String.valueOf(imageUrl));
     stage.getIcons().add(image);
     return this;
   }
@@ -84,8 +84,11 @@ public class WindowBuilder {
    * @param stage stage to update with
    * @return Modified this
    */
-  public final WindowBuilder stage(final Stage stage) {
+  public final WindowBuilder setStage(final Stage stage) {
     this.stage = stage;
+    // Default appearances
+    this.setIcon("src/main/resources/image/git-mark.png");
+    this.setTitle("GHGUI");
     return this;
   }
 
@@ -118,7 +121,7 @@ public class WindowBuilder {
    */
   public final Stage build() {
     if (stage == null) {
-      stage = new Stage();
+      this.setStage(new Stage());
     }
     if (scene == null) {
       scene = size != null ? new Scene(root, size.width, size.height) : new Scene(root);
@@ -127,7 +130,6 @@ public class WindowBuilder {
     final var css = getClass().getClassLoader().getResource(STYLESHEET_FILE_PATH);
     scene.getStylesheets().add(css.toExternalForm());
     stage.setScene(scene);
-    setIcon(stage);
     return stage;
   }
 }

@@ -61,6 +61,6 @@ public class App extends Application {
     // set scene in  Perfect size
     final Size size = new Size(screenWidth - 5, screenHeight - 50);
 
-    new WindowBuilder().root(root).stage(primaryStage).size(size).build().show();
+    new WindowBuilder().root(root).setStage(primaryStage).size(size).build().show();
   }
 }
