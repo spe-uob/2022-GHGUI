@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
@@ -103,6 +104,7 @@ public final class StatusController implements Initializable, Refreshable {
       final Label label = new Label(filename);
       label.setTextOverrun(OverrunStyle.ELLIPSIS);
       label.setMaxWidth(box.getMaxWidth());
+      label.setTooltip(new Tooltip(filename));
       box.getChildren().add(label);
     }
     pane.setOpacity(contents.size() == 0 ? 0.5 : 1);
