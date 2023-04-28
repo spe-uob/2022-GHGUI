@@ -34,4 +34,23 @@ public class AesEncryptionUtil {
     // Encode the encrypted data as a Base64 string
     return Base64.getEncoder().encodeToString(encrypted);
   }
+
+  /**
+   * Decryption method.
+   *
+   * @param encryptedText your encryption text
+   * @param key your Key
+   * @return decrypt text
+   * @throws Exception exception
+   */
+  public static String decrypt(final String encryptedText, final String key) throws Exception {
+    // Create a SecretKeySpec object from the key
+    final SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), ALGORITHM);
+    // Create a Cipher object using the specified transformation
+    final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+    cipher.init(Cipher.DECRYPT_MODE, keySpec); // Initialize the cipher with the key and the mode
+    // Decrypt the encrypted text
+    final byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedText));
+    return new String(decrypted); // Return the decrypted plaintext as a string
+  }
 }
