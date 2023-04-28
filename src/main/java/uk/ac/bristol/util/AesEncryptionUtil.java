@@ -52,6 +52,17 @@ public class AesEncryptionUtil {
         return new String(decrypted); // Return the decrypted plaintext as a string
     }
 
+    public static void main(String[] args) throws Exception {
+        String key = "myEncryptionKey1";
+        String plainText = "Hello, World!";
+
+        String encryptedText = AesEncryptionUtil.encrypt(plainText, key);
+        System.out.println("Encrypted Text: " + encryptedText);
+
+        String decryptedText = AesEncryptionUtil.decrypt(encryptedText, key);
+        System.out.println("Decrypted Text: " + decryptedText);
+    }
+
 
 
 }
