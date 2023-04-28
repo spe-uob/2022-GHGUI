@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import java.lang.*?>
-<BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController" >
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane fx:id="root" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="600.0" minWidth="600.0" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.TabController">
    <bottom>
       <HBox fx:id="statusBarHBox" alignment="CENTER_LEFT" maxHeight="30.0" BorderPane.alignment="CENTER">
          <styleClass>
@@ -32,6 +42,8 @@
                </opaqueInsets>
             </Button>
             <Button mnemonicParsing="false" onAction="#newBranch" text="New Branch" />
+            <Button mnemonicParsing="false" onMouseClicked="#stash" text="Stash" />
+            <Button mnemonicParsing="false" onMouseClicked="#pop" text="Pop" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>
@@ -97,6 +109,6 @@
    </right>
 
    <ToolBar>
-      <Button text="Stash" onAction="#handleStash" />
+      <Button onAction="#handleStash" text="Stash" />
    </ToolBar>
 </BorderPane>
