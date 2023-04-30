@@ -57,6 +57,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </GridPane>
+                        <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="116.0" text="Load Details" />
                         <Button fx:id="TokenLogin" mnemonicParsing="false" onMouseClicked="#addCredentials" text="Add Login Details">
                            <VBox.margin>
                               <Insets />
