@@ -2,64 +2,74 @@ package uk.ac.bristol.model;
 
 import uk.ac.bristol.util.AesEncryptionUtil;
 
-/** * git login info object , */
-public class LoginTokenInfo {
+import java.io.Serializable;
 
-  private String key;
-  private String id;
-  private String encryptToken;
+/**
+ * *  token info
+ **/
+public class LoginTokenInfo implements Serializable {
 
-  public String getKey() {
-    return key;
-  }
+    private String key;
+    private String  id;
+    private String encryptToken;
 
-  public void setKey(String key) {
-    this.key = key;
-  }
 
-  public String getId() {
-    return id;
-  }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getEncryptToken() {
-    return encryptToken;
-  }
-
-  public void setEncryptToken(String encryptToken) {
-    this.encryptToken = encryptToken;
-  }
-
-  public String getDecryptToken() {
-
-    try {
-      return AesEncryptionUtil.decrypt(encryptToken, key);
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    public String getKey() {
+        return key;
     }
-  }
 
-  public LoginTokenInfo(String key, String id, String encryptToken) {
-    this.key = key;
-    this.id = id;
-    this.encryptToken = encryptToken;
-  }
+    public void setKey(String key) {
+        this.key = key;
+    }
 
-  @Override
-  public String toString() {
-    return "LoginTokenInfo{"
-        + "key='"
-        + key
-        + '\''
-        + ", id='"
-        + id
-        + '\''
-        + ", encryptToken='"
-        + encryptToken
-        + '\''
-        + '}';
-  }
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEncryptToken() {
+        return encryptToken;
+    }
+
+    public void setEncryptToken(String encryptToken) {
+        this.encryptToken = encryptToken;
+    }
+
+
+    public String  getDecryptToken(){
+
+        try {
+            return AesEncryptionUtil.decrypt(encryptToken,key);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public LoginTokenInfo(String key, String id, String encryptToken) {
+        this.key = key;
+        this.id = id;
+
+        try {
+            this.encryptToken = AesEncryptionUtil.encrypt(encryptToken,key);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "LoginTokenInfo{" +
+                "key='" + key + '\'' +
+                ", id='" + id + '\'' +
+                ", encryptToken='" + encryptToken + '\'' +
+                '}';
+    }
 }
+
+
