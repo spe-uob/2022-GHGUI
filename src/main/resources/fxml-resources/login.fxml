@@ -73,7 +73,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="214.0" text="Load Details">
+                              <Button mnemonicParsing="false" onAction="#loadToken" prefHeight="23.0" prefWidth="214.0" text="Load Details">
                                  <GridPane.margin>
                                     <Insets left="30.0" />
                                  </GridPane.margin>
@@ -164,7 +164,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="214.0" text="Load Details">
+                              <Button mnemonicParsing="false" onAction="#loadSSH" prefHeight="23.0" prefWidth="214.0" text="Load Details">
                                  <GridPane.margin>
                                     <Insets left="30.0" />
                                  </GridPane.margin>
@@ -251,7 +251,7 @@
                                     <Insets left="10.0" />
                                  </GridPane.margin>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="23.0" prefWidth="214.0" text="Load Details">
+                              <Button mnemonicParsing="false" onAction="#loadHttps" prefHeight="23.0" prefWidth="214.0" text="Load Details">
                                  <GridPane.margin>
                                     <Insets left="30.0" />
                                  </GridPane.margin>
