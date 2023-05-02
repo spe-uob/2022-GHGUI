@@ -45,11 +45,11 @@ public final class ConfigUtil {
         "commitNonStaged",
         "Include -a flag when commiting");
     defaultConfig.addOption(
-          "choice",
-          "Window dimensions to start the application with.",
-          "1280x720><1600x900>Half-screen>Full-screen>",
-          "resolution",
-          "Resolution on start-up");
+        "choice",
+        "Window dimensions to start the application with.",
+        "1280x720><1600x900>Half-screen>Full-screen>",
+        "resolution",
+        "Resolution on start-up");
 
     DEFAULT_CONFIGURATION = defaultConfig;
 

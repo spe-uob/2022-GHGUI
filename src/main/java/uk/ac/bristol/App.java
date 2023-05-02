@@ -29,7 +29,6 @@ class Shim {
 
 /** Base class to start JavaFX application. */
 @Slf4j
-
 public class App extends Application {
 
   /** Location of main FXML file. */
@@ -66,7 +65,8 @@ public class App extends Application {
     // default size in case of failure
     Size size = new Size(1280, 720);
     try {
-      final String resolutionConfiguration = ChoiceOption.decode(ConfigUtil.getConfigurationOption("resolution"));
+      final String resolutionConfiguration =
+          ChoiceOption.decode(ConfigUtil.getConfigurationOption("resolution"));
       if (resolutionConfiguration.equals("Half-screen")) {
         size = new Size(screenWidth / 2, screenHeight);
       } else if (resolutionConfiguration.equals("Full-screen")) {
