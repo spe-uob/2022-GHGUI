@@ -45,11 +45,11 @@ public final class ConfigUtil {
         "commitNonStaged",
         "Include -a flag when commiting");
     defaultConfig.addOption(
-        "choice",
-        "Sample.",
-        "Choice One><Choice Two>Choice Three>",
-        "sampleChoice",
-        "Example ChoiceBox");
+          "choice",
+          "Window dimensions to start the application with.",
+          "1280x720><1600x900>Half-screen>Full-screen>",
+          "resolution",
+          "Resolution on start-up");
 
     DEFAULT_CONFIGURATION = defaultConfig;
 
