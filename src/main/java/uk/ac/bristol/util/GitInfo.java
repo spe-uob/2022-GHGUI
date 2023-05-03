@@ -14,20 +14,19 @@ import org.eclipse.jgit.api.GitCommand;
 import org.eclipse.jgit.api.TransportCommand;
 import org.eclipse.jgit.api.TransportConfigCallback;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.SshSessionFactory;
 import org.eclipse.jgit.transport.SshTransport;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 import org.eclipse.jgit.transport.ssh.jsch.JschConfigSessionFactory;
 // import org.eclipse.jgit.transport.sshd.IdentityPasswordProvider;
 // import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 // import org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder;
 import org.eclipse.jgit.util.FS;
+import uk.ac.bristol.util.auth.HTTPCredentials;
 
 /** A class wrapping information git information. */
 public class GitInfo {
   /** The CredentialsProvider being used for authentication. */
-  @Getter private static Map<String, CredentialsProvider> httpAuth = new HashMap<>();
+  @Getter private static Map<String, HTTPCredentials> httpAuth = new HashMap<>();
   /** The CredentialsProvider being used for authentication. */
   @Getter private static Map<String, TransportConfigCallback> sshAuth = new HashMap<>();
 
@@ -54,7 +53,7 @@ public class GitInfo {
    * @param token The GitHub token to use
    */
   public static void addToken(final String id, final String token) {
-    httpAuth.put(id, new UsernamePasswordCredentialsProvider(token, ""));
+    httpAuth.put(id, new HTTPCredentials(token, ""));
   }
 
   /**
@@ -76,7 +75,7 @@ public class GitInfo {
    * @param password The password to log in with
    */
   public static void addHTTPS(final String id, final String username, final String password) {
-    httpAuth.put(id, new UsernamePasswordCredentialsProvider(username, password));
+    httpAuth.put(id, new HTTPCredentials(username, password));
   }
 
   /**
@@ -142,7 +141,7 @@ public class GitInfo {
   public <U extends GitCommand<?>> U command(final Function<Git, U> f) {
     final U command = f.apply(git);
     if (command instanceof TransportCommand<?, ?> transportCommand) {
-      transportCommand.setCredentialsProvider(httpAuth.get(httpAuthKey));
+      transportCommand.setCredentialsProvider(httpAuth.get(httpAuthKey).getAuth());
       transportCommand.setTransportConfigCallback(sshAuth.get(sshAuthKey));
     }
     return command;
