@@ -26,7 +26,7 @@
    <top>
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#refresh" text="🗘" />
+            <Button mnemonicParsing="false" onMouseClicked="#refresh" text="🗘" />
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
                <HBox.margin>
                   <Insets />
@@ -41,7 +41,7 @@
                   <Insets top="10.0" />
                </opaqueInsets>
             </Button>
-            <Button mnemonicParsing="false" onAction="#newBranch" text="New Branch" />
+            <Button mnemonicParsing="false" onMouseClicked="#newBranch" text="New Branch" />
             <Button mnemonicParsing="false" onMouseClicked="#stash" text="Stash" />
             <Button mnemonicParsing="false" onMouseClicked="#pop" text="Pop" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
@@ -107,8 +107,4 @@
          </content>
       </ScrollPane>
    </right>
-
-   <ToolBar>
-      <Button onAction="#handleStash" text="Stash" />
-   </ToolBar>
 </BorderPane>

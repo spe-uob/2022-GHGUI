@@ -21,7 +21,13 @@ import org.eclipse.jgit.api.StashApplyCommand;
 import org.eclipse.jgit.api.StashCreateCommand;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
-import uk.ac.bristol.controllers.factories.*;
+import uk.ac.bristol.controllers.factories.CommitControllerFactory;
+import uk.ac.bristol.controllers.factories.InformationControllerFactory;
+import uk.ac.bristol.controllers.factories.LoginControllerFactory;
+import uk.ac.bristol.controllers.factories.PullControllerFactory;
+import uk.ac.bristol.controllers.factories.PushControllerFactory;
+import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
+import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
@@ -185,9 +191,10 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
+  /** Stashes the changes in the directory. */
   @FXML
   public void stash() {
-    StashCreateCommand stashcommand = gitInfo.command(Git::stashCreate);
+    final StashCreateCommand stashcommand = gitInfo.command(Git::stashCreate);
     try {
       stashcommand.call();
     } catch (Exception e) {
@@ -195,9 +202,10 @@ public class TabController implements Initializable, Refreshable {
     }
   }
 
+  /** Pops most recent changes from the stash. */
   @FXML
   public void pop() {
-    StashApplyCommand applycommand = gitInfo.command(Git::stashApply);
+    final StashApplyCommand applycommand = gitInfo.command(Git::stashApply);
     try {
       applycommand.call();
     } catch (Exception e) {
