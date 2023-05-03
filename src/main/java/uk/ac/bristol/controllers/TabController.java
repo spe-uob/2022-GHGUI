@@ -210,7 +210,7 @@ public class TabController implements Initializable, Refreshable {
     final File file = fileChooser.showOpenDialog(null);
     if (file != null) {
       final TextInputDialog dialog = new TextInputDialog(null);
-      // dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
+      dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
     }
   }
 

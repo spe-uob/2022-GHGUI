@@ -1,11 +1,15 @@
 package uk.ac.bristol.util.auth;
 
+import java.io.Serializable;
 import lombok.Getter;
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+import uk.ac.bristol.util.GitInfo;
 
 /** A class for managing HTTP credentials. */
-public final class HTTPCredentials implements ToByteStream {
+public final class HTTPCredentials implements Credentials, Serializable {
 
+  /** The name of this set of credentials. */
+  private String id;
   /** The username for this set of credentials. */
   private final String username;
   /** The password for this set of credentials. */
@@ -27,7 +31,7 @@ public final class HTTPCredentials implements ToByteStream {
   }
 
   /** {@inheritDoc} */
-  public byte[] toByteStream() {
-    return String.format("http\0%s\0%s\0", username, password).getBytes();
+  public void reimport() {
+    GitInfo.addHTTPS(id, username, password);
   }
 }
