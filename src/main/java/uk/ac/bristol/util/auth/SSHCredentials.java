@@ -13,6 +13,8 @@ import org.eclipse.jgit.util.FS;
 public final class SSHCredentials implements ToByteStream {
 
   /** The path to the ssh to be used. */
+  private String id;
+  /** The path to the ssh to be used. */
   private String path;
   /** The password for this set of credentials. */
   private String passphrase;
@@ -22,10 +24,12 @@ public final class SSHCredentials implements ToByteStream {
   /**
    * Contstruct a new set of SSH credentials.
    *
+   * @param id The id for these credentials
    * @param path The path for these credentials
    * @param passphrase The passphrase for these credentials
    */
-  public SSHCredentials(final String path, final String passphrase) {
+  public SSHCredentials(final String id, final String path, final String passphrase) {
+    this.id = id;
     this.path = path;
     this.passphrase = passphrase;
     this.auth =

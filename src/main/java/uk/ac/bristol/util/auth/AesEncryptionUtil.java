@@ -6,8 +6,9 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.util.GitInfo;
@@ -19,9 +20,11 @@ import uk.ac.bristol.util.GitInfo;
 @UtilityClass
 public class AesEncryptionUtil {
   /** The encryption algorithm used. */
-  private static final String ALGORITHM = "AES";
+  private static final String ALGORITHM = "PBKDF2WithHmacSHA256";
   /** The mode and padding used. */
   private static final String TRANSFORMATION = "AES/GCM/NoPadding";
+  /** Size of the AES key. */
+  private static final int AES_KEY_LENGTH = 256;
   /** Size of the GCM Initial Vector. */
   private static final int GCM_IV_LENGTH = 12;
   /** Size of the GCM Tag. */
@@ -39,7 +42,11 @@ public class AesEncryptionUtil {
     random.nextBytes(iv);
     try (FileOutputStream st = new FileOutputStream(file, false)) {
       final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
-      final SecretKey secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+      // Probably shouldn't be reusing the iv bytes as a salt, but since both the iv and the salt
+      // are designed to be known, I see no harm. Haven't seen anyone say it's unsafe either yet.
+      final PBEKeySpec pbeKeySpec = new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_LENGTH);
+      final var tmp = SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec);
+      final SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
       final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
       cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
       st.write(iv);
@@ -52,6 +59,7 @@ public class AesEncryptionUtil {
         }
       }
     } catch (Exception e) {
+      e.printStackTrace();
       // TODO: HANDLE
     }
   }
