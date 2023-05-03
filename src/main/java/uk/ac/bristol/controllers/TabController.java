@@ -204,6 +204,7 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
+  /** Import credentials from an encrypted file. */
   @FXML
   private void importCreds() {
     final FileChooser fileChooser = new FileChooser();
@@ -214,6 +215,7 @@ public class TabController implements Initializable, Refreshable {
     }
   }
 
+  /** Export credentials to an encrypted file. */
   @FXML
   private void exportCreds() {
     final FileChooser fileChooser = new FileChooser();
