@@ -47,7 +47,7 @@ public class GitInfo {
    * @param token The GitHub token to use
    */
   public static void addToken(final String id, final String token) {
-    httpAuth.put(id, new HTTPCredentials(token, ""));
+    httpAuth.put(id, new HTTPCredentials(id, token, ""));
   }
 
   /**
@@ -58,7 +58,7 @@ public class GitInfo {
    * @param passphrase The passphrase to unlock this key
    */
   public static void addSSH(final String id, final String path, final String passphrase) {
-    sshAuth.put(id, new SSHCredentials(path, passphrase));
+    sshAuth.put(id, new SSHCredentials(id, path, passphrase));
   }
 
   /**
@@ -69,7 +69,7 @@ public class GitInfo {
    * @param password The password to log in with
    */
   public static void addHTTPS(final String id, final String username, final String password) {
-    httpAuth.put(id, new HTTPCredentials(username, password));
+    httpAuth.put(id, new HTTPCredentials(id, username, password));
   }
 
   /**
