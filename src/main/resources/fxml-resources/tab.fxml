@@ -9,6 +9,7 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -25,7 +26,7 @@
    <top>
       <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#refresh" text="🗘" />
+            <Button mnemonicParsing="false" onMouseClicked="#refresh" text="🗘" />
             <Button mnemonicParsing="false" onMouseClicked="#push" styleClass="main-title-box" text="Push">
                <HBox.margin>
                   <Insets />
@@ -44,6 +45,9 @@
             <Button mnemonicParsing="false" onAction="#clean" text="Clean" />
             <Button mnemonicParsing="false" onAction="#reset" text="Reset" />
             <Button mnemonicParsing="false" onAction="#revert" text="Revert" />
+            <Button mnemonicParsing="false" onMouseClicked="#newBranch" text="New Branch" />
+            <Button mnemonicParsing="false" onMouseClicked="#stash" text="Stash" />
+            <Button mnemonicParsing="false" onMouseClicked="#pop" text="Pop" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>

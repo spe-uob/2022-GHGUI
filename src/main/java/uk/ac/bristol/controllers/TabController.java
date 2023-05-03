@@ -204,6 +204,7 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
+  /** Imports credentials from a file specified with a file explorer. */
   @FXML
   private void importCreds() {
     final FileChooser fileChooser = new FileChooser();
@@ -214,6 +215,7 @@ public class TabController implements Initializable, Refreshable {
     }
   }
 
+  /** Exports credentials to a file specified with a file explorer. */
   @FXML
   private void exportCreds() {
     final FileChooser fileChooser = new FileChooser();
@@ -234,5 +236,17 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  /** Stashes the changes in the directory. */
+  @FXML
+  public void stash() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashCreate)::call);
+  }
+
+  /** Pops most recent changes from the stash. */
+  @FXML
+  public void pop() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashApply)::call);
   }
 }
