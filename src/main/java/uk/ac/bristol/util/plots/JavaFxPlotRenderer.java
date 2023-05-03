@@ -2,8 +2,8 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
@@ -11,6 +11,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -43,7 +44,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     /** This represents the commit that we're currently working on. */
     protected final PlotCommit<JavaFxLane> commit;
     /** This group contains all the lines and squares that graphically respresent the tree. */
-    protected final Group lines = new Group();
+    protected final Pane lines = new Pane();
     /** This shows which branches currently have the active commit as their head. */
     private final VBox heads = new VBox();
     /** This shows the message attached to the current commit. */
@@ -58,9 +59,14 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       this.commit = commit;
       heads.setAlignment(Pos.CENTER_LEFT);
       message.setAlignment(Pos.CENTER_LEFT);
+      lines.setPrefHeight(Pane.USE_COMPUTED_SIZE);
+      lines.setPrefWidth(Pane.USE_COMPUTED_SIZE);
       lines.setOpacity(0.8);
       heads.setOpacity(0.8);
       message.setOpacity(0.8);
+      lines.setPadding(new Insets(0, 5, 0, 5));
+      heads.setPadding(new Insets(0, 5, 0, 5));
+      message.setPadding(new Insets(0, 5, 0, 5));
       final ContextMenu ctx = new ContextMenu();
       final MenuItem newBranch = new MenuItem("Create new branch here");
       newBranch.setOnAction(
@@ -77,7 +83,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       ctx.getItems().addAll(newBranch);
       addContext(ctx, getComponents());
       highlightOnHover();
-      lines.setOnMouseEntered(null);
+      // lines.setOnMouseEntered(null);
     }
 
     /** Highlight this row on mouse hover. */
@@ -152,7 +158,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
 
     final GridPane treeView = new GridPane();
-    treeView.setHgap(10);
+    treeView.setHgap(0);
 
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
