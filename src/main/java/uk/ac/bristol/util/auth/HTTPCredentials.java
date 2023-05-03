@@ -16,10 +16,11 @@ public final class HTTPCredentials implements ToByteStream {
   /**
    * Contstruct a new set of HTTP credentials.
    *
+   * @param id The id for these credentials
    * @param username The username for these credentials
    * @param password The password for these credentials
    */
-  public HTTPCredentials(final String username, final String password) {
+  public HTTPCredentials(final String id, final String username, final String password) {
     this.username = username;
     this.password = password;
     auth = new UsernamePasswordCredentialsProvider(username, password);
