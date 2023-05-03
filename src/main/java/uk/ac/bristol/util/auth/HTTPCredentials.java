@@ -10,7 +10,7 @@ public final class HTTPCredentials implements ToByteStream {
   private final String username;
   /** The password for this set of credentials. */
   private final String password;
-  /** */
+  /** The HTTP authentication provider. */
   @Getter private final UsernamePasswordCredentialsProvider auth;
 
   /**
@@ -19,7 +19,7 @@ public final class HTTPCredentials implements ToByteStream {
    * @param username The username for these credentials
    * @param password The password for these credentials
    */
-  private HTTPCredentials(final String username, final String password) {
+  public HTTPCredentials(final String username, final String password) {
     this.username = username;
     this.password = password;
     auth = new UsernamePasswordCredentialsProvider(username, password);
