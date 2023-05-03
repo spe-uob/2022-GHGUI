@@ -19,8 +19,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.StashApplyCommand;
-import org.eclipse.jgit.api.StashCreateCommand;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
 import uk.ac.bristol.controllers.factories.CleanControllerFactory;
@@ -38,7 +36,6 @@ import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.auth.AesEncryptionUtil;
-import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
@@ -244,22 +241,12 @@ public class TabController implements Initializable, Refreshable {
   /** Stashes the changes in the directory. */
   @FXML
   public void stash() {
-    final StashCreateCommand stashcommand = gitInfo.command(Git::stashCreate);
-    try {
-      stashcommand.call();
-    } catch (Exception e) {
-      AlertBuilder.fromException(e);
-    }
+    ErrorHandler.mightFail(gitInfo.command(Git::stashCreate)::call);
   }
 
   /** Pops most recent changes from the stash. */
   @FXML
   public void pop() {
-    final StashApplyCommand applycommand = gitInfo.command(Git::stashApply);
-    try {
-      applycommand.call();
-    } catch (Exception e) {
-      AlertBuilder.fromException(e);
-    }
+    ErrorHandler.mightFail(gitInfo.command(Git::stashApply)::call);
   }
 }
