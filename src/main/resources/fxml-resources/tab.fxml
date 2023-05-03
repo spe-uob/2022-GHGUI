@@ -41,6 +41,9 @@
                </opaqueInsets>
             </Button>
             <Button mnemonicParsing="false" onAction="#newBranch" text="New Branch" />
+            <Button mnemonicParsing="false" onAction="#clean" text="Clean" />
+            <Button mnemonicParsing="false" onAction="#reset" text="Reset" />
+            <Button mnemonicParsing="false" onAction="#revert" text="Revert" />
             <Separator visible="false" HBox.hgrow="ALWAYS" />
             <Label text="HTTPS:">
                <HBox.margin>
