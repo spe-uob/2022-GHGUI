@@ -5,9 +5,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.ResetCommand;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for resetting the HEAD to a location in history. */
 public class ResetController {
@@ -37,13 +37,7 @@ public class ResetController {
     if (commit == null || commit.isEmpty()) {
       return;
     }
-    try {
-      final ResetCommand resetCommand = gitInfo.command(Git::reset);
-      resetCommand.setRef(commit);
-      resetCommand.call();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    ErrorHandler.mightFail(gitInfo.command(Git::reset).setRef(commit)::call);
   }
 
   /** Method to run when the cancel button is pressed. Closes the window. */

@@ -2,10 +2,10 @@ package uk.ac.bristol.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import org.eclipse.jgit.api.CleanCommand;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for cleaning directories. */
 public class CleanController {
@@ -32,12 +32,8 @@ public class CleanController {
   /** Function to run when the clean confirmation button is pressed. */
   @FXML
   private void clean() {
-    try {
-      final CleanCommand cleanCommand = gitInfo.command(Git::clean);
-      cleanCommand.setDryRun(dryRunCheckbox.isSelected());
-      cleanCommand.setIgnore(ignoreCheckbox.isSelected());
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    final var clean = gitInfo.command(Git::clean);
+    ErrorHandler.mightFail(
+        clean.setDryRun(dryRunCheckbox.isSelected()).setIgnore(ignoreCheckbox.isSelected())::call);
   }
 }

@@ -9,7 +9,6 @@ import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
@@ -17,7 +16,6 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -111,13 +109,9 @@ public class TabController implements Initializable, Refreshable {
   /** Open the clean dialog. */
   @FXML
   private void clean() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> CleanControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new CleanControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /** Open the newBranch dialog. */
@@ -135,25 +129,17 @@ public class TabController implements Initializable, Refreshable {
   /** Open the reset dialog. */
   @FXML
   private void reset() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> ResetControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new ResetControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /** Open the revert dialog. */
   @FXML
   private void revert() {
-    final Stage newWindow = new Stage();
     ErrorHandler.tryWith(
-        () -> RevertControllerFactory.build(eventBus, gitInfo),
-        root -> {
-          newWindow.setScene(new Scene(root));
-          newWindow.showAndWait();
-        });
+        new RevertControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
   /**
    * Populate the combobox with the contents of the stored credentials.

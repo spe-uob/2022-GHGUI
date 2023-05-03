@@ -5,10 +5,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.RevertCommand;
-import org.eclipse.jgit.revwalk.RevCommit;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML controller for the popup window for reverting to a location in history. */
 public class RevertController {
@@ -39,13 +38,11 @@ public class RevertController {
     if (commit == null || commit.isEmpty()) {
       return;
     }
-    try {
-      final RevertCommand revertCommand = gitInfo.command(Git::revert);
-      revertCommand.include(gitInfo.getRepo().exactRef(commit));
-      final RevCommit resultingCommit = revertCommand.call();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    ErrorHandler.mightFail(
+        () -> {
+          final var ref = gitInfo.getRepo().exactRef(commit);
+          gitInfo.command(Git::revert).include(ref).call();
+        });
   }
 
   /** Method to run when the cancel button is pressed. Closes the window. */
