@@ -1,9 +1,16 @@
-package uk.ac.bristol.util;
+package uk.ac.bristol.util.auth;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.security.SecureRandom;
 import java.util.Base64;
 import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
+import uk.ac.bristol.util.GitInfo;
 
 /**
  * The AesEncryptionUtil class is a Java utility class that provides methods for encrypting and
@@ -14,7 +21,40 @@ public class AesEncryptionUtil {
   /** The encryption algorithm used. */
   private static final String ALGORITHM = "AES";
   /** The mode and padding used. */
-  private static final String TRANSFORMATION = "AES/ECB/PKCS5Padding";
+  private static final String TRANSFORMATION = "AES/GCM/NoPadding";
+  /** Size of the GCM Initial Vector. */
+  private static final int GCM_IV_LENGTH = 12;
+  /** Size of the GCM Tag. */
+  private static final int GCM_TAG_LENGTH = 16;
+
+  /**
+   * Write the contents of the current git credentials into a file.
+   *
+   * @param file The file to write to
+   * @param key The key to use to unlock the file
+   */
+  public static void writeToFile(final File file, final String key) {
+    final byte[] iv = new byte[GCM_IV_LENGTH];
+    final SecureRandom random = new SecureRandom();
+    random.nextBytes(iv);
+    try (FileOutputStream st = new FileOutputStream(file, false)) {
+      final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
+      final SecretKey secretKey = new SecretKeySpec(key.getBytes(), ALGORITHM);
+      final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+      cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
+      st.write(iv);
+      try (CipherOutputStream cst = new CipherOutputStream(st, cipher)) {
+        for (var cred : GitInfo.getHttpAuth().values()) {
+          cst.write(cred.toByteStream());
+        }
+        for (var cred : GitInfo.getSshAuth().values()) {
+          cst.write(cred.toByteStream());
+        }
+      }
+    } catch (Exception e) {
+      // TODO: HANDLE
+    }
+  }
 
   /**
    * Encryption method.
