@@ -2,6 +2,7 @@ package uk.ac.bristol.controllers;
 
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -16,6 +17,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
@@ -30,6 +32,7 @@ import uk.ac.bristol.util.GitInfo;
 import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
+import uk.ac.bristol.util.auth.AesEncryptionUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
@@ -174,6 +177,26 @@ public class TabController implements Initializable, Refreshable {
 
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  @FXML
+  private void importCreds() {
+    final FileChooser fileChooser = new FileChooser();
+    final File file = fileChooser.showOpenDialog(null);
+    if (file != null) {
+      final TextInputDialog dialog = new TextInputDialog(null);
+      dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
+    }
+  }
+
+  @FXML
+  private void exportCreds() {
+    final FileChooser fileChooser = new FileChooser();
+    final File file = fileChooser.showSaveDialog(null);
+    if (file != null) {
+      final TextInputDialog dialog = new TextInputDialog(null);
+      dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.writeToFile(file, key));
+    }
   }
 
   /** {@inheritDoc} */
