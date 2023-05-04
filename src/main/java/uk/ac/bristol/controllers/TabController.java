@@ -217,7 +217,6 @@ public class TabController implements Initializable, Refreshable {
       dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
     }
   }
-
   /** Export credentials to an encrypted file. */
   @FXML
   private void exportCreds() {
@@ -239,5 +238,17 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  /** Stashes the changes in the directory. */
+  @FXML
+  public void stash() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashCreate)::call);
+  }
+
+  /** Pops most recent changes from the stash. */
+  @FXML
+  public void pop() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashApply)::call);
   }
 }
