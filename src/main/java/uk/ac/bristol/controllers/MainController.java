@@ -66,7 +66,7 @@ public class MainController {
   private void licensing() {
     ErrorHandler.tryWith(
         new LicenseControllerFactory()::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("GHGUI Licensing").root(root).build().show());
   }
 
   /** Event to start the window containing user preferences. */

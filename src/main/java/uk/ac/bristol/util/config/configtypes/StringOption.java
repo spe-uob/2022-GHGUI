@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.config.OptionDetails;
 
@@ -19,7 +17,7 @@ public final class StringOption implements ConfigOption {
   /** Option information read from the JSON. */
   private final OptionDetails configDetails;
   /** The HBox containing the configuration UI for this option. */
-  private final HBox configHBox = new HBox();
+  private final VBox configVBox = new VBox(10);
   /** The TextField containing the configuration option value. */
   private final TextField inputTextField = new TextField();
 
@@ -30,21 +28,25 @@ public final class StringOption implements ConfigOption {
     this.configDetails = configDetails;
 
     final Label label = new Label(configDetails.name());
-    Tooltip.install(label, new Tooltip(configDetails.description()));
-    this.configHBox.getChildren().add(label);
+    final Label description = new Label(configDetails.description());
+    description.setOpacity(0.6);
+    configVBox.getChildren().add(label);
+    configVBox.getChildren().add(description);
 
-    this.inputTextField.setText(configDetails.value());
-    this.inputTextField.setPromptText("None set.");
-    this.configHBox.getChildren().add(this.inputTextField);
+    inputTextField.setText(configDetails.value());
+    inputTextField.setPromptText("None set.");
+    configVBox.getChildren().add(this.inputTextField);
 
-    HBox.setHgrow(this.configHBox, Priority.ALWAYS);
-    this.configHBox.setAlignment(Pos.CENTER);
+    configVBox.setAlignment(Pos.CENTER_LEFT);
+    configVBox.setOpacity(0.6);
+    configVBox.setOnMouseEntered(e -> configVBox.setOpacity(1));
+    configVBox.setOnMouseExited(e -> configVBox.setOpacity(0.6));
   }
 
   /** {@inheritDoc} */
   @Override
-  public HBox getHBox() {
-    return this.configHBox;
+  public VBox getVBox() {
+    return configVBox;
   }
 
   /** {@inheritDoc} */

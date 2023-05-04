@@ -6,9 +6,7 @@ import java.util.List;
 import javafx.geometry.Pos;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.config.OptionDetails;
 
@@ -25,7 +23,7 @@ public final class ChoiceOption implements ConfigOption {
   /** Option information. */
   private final OptionDetails optionDetails;
   /** The HBox containing the configuration UI for this option. */
-  private final HBox configHBox = new HBox();
+  private final VBox configVBox = new VBox(5);
   /** The ChoiceBox for this option. */
   private final ChoiceBox<String> choiceBox = new ChoiceBox<String>();
 
@@ -36,21 +34,25 @@ public final class ChoiceOption implements ConfigOption {
     this.optionDetails = optionDetails;
 
     final Label label = new Label(optionDetails.name());
-    Tooltip.install(label, new Tooltip(optionDetails.description()));
-    configHBox.getChildren().add(label);
+    final Label description = new Label(optionDetails.description());
+    description.setOpacity(0.6);
+    configVBox.getChildren().add(label);
+    configVBox.getChildren().add(description);
 
     choiceBox.getItems().addAll(getChoices());
     choiceBox.setValue(getStartingChoice());
-    configHBox.getChildren().add(choiceBox);
+    configVBox.getChildren().add(choiceBox);
 
-    HBox.setHgrow(this.configHBox, Priority.ALWAYS);
-    configHBox.setAlignment(Pos.CENTER);
+    configVBox.setAlignment(Pos.CENTER_LEFT);
+    configVBox.setOpacity(0.6);
+    configVBox.setOnMouseEntered(e -> configVBox.setOpacity(1));
+    configVBox.setOnMouseExited(e -> configVBox.setOpacity(0.6));
   }
 
   /** {@inheritDoc} */
   @Override
-  public HBox getHBox() {
-    return configHBox;
+  public VBox getVBox() {
+    return configVBox;
   }
 
   /** {@inheritDoc} */

@@ -114,3 +114,6 @@ If you want to submit a PR, it's important that it's of good quality, so here's 
   - Conversely, any commit that removed a file introduced in an earlier commit should no longer remove that file
   - If a commit ends up empty in accordance with the rules above, delete the commit from the branch history
   - If a commit ends up with ~3 or fewer lines in accordance with the rules above, squash the commit
+
+# Credits
+The icon for this program is the Git Logo by Jason Long is licensed under the [Creative Commons Attribution 3.0 Unported License](https://creativecommons.org/licenses/by/3.0/).

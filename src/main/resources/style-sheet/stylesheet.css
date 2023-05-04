@@ -1,7 +1,7 @@
 /* JavaFX documentation recommends that you put each attribute on it's own line, 
 rather than defining size, colour, style etc. all on one single line.*/
 
-/*
+/* Old colours
 #171717 Russian Violet
 #262626 Dark Purple
 #48639C Lapis Lazuli
@@ -68,19 +68,21 @@ img {
   -fx-border: 0;
 }
 
+
+Text {
+  -fx-text-fill: white;
+}
+
+.label {
+  -fx-text-fill: white;
+}
+
 .generic-background-pane {
   background-color: #171717;
   -fx-background-color: #171717;
 }
 
-.root {
-  font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  background-color: #262626;
-  -fx-font: 12px/1.5tahoma, arial, \5b8b\4f53;
-  -fx-background-color: #262626;
-} 
-
-Button {
+.button {
   background-color: #262626;
   cursor: pointer;
   font-size: 14px;
@@ -90,21 +92,11 @@ Button {
   -fx-text-fill: white;
 }
 
-Button:hover {
+.button:hover {
   background-color: #171717;
   transition: all .5s;
   -fx-background-color: #171717;
   -fx-transition: all .5s;
-}
-
-input,
-select,
-TextArea {
-  font-size: 100%;
-  -fx-font-size: 100%;
-  -fx-text-fill: white;
-  border-color: #262626;
-  -fx-border-color: #262626;
 }
 
 table {
@@ -120,13 +112,14 @@ table {
   -fx-background-color: #171717;
   -fx-text-fill: white;
   border-color: #171717;
-  margin: 0 0 0 0;
-  border: 0 0 0 0;
+  margin: 0px;
+  border-width: 0px;
   -fx-border-color: #171717;
   -fx-margin: 0 0 0 0;
-  -fx-border: 0 0 0 0;
+  -fx-border-width: 0px;
   
 }
+
 .titled-pane > .content{
   border-width: 0;
   -fx-border-width: 0;
@@ -152,6 +145,15 @@ table {
   -fx-background-color: #171717;
 }
 
+.tab-descendant-pane {
+  background-color: #171717;
+  -fx-background-color: #171717;
+}
+
+.tab-label {
+  -fx-text-fill: white;
+}
+
 .menu-bar {
   background-color: #262626;
   -fx-background-color: #262626;
@@ -175,14 +177,13 @@ table {
 }
 
 .context-menu {
-  -fx-skin: "com.sun.javafx.scene.control.skin.ContextMenuSkin";
   -fx-background-color: #816F9D ;
   -fx-border-width: 0.2px;
   -fx-border-color: black;
   -fx-padding: 0; 
   -fx-background-insets: 0;
   -fx-opacity: 1;
-  -fx-background-radius: 0;
+  -fx-background-radius: 6px;
 }
 
 .menu-item {
@@ -191,36 +192,6 @@ table {
 
 .menu-item:hover {
   -fx-background-color: #816F9D;
-}
-
-.combo-box {
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-.combo-box > .list-view > .list-cell, .combo-box > .list-cell {
-  -fx-text-fill: white;
-  padding: 2px;
-  -fx-padding: 2px;
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-
-.combo-box > .combo-box-popup > .list-view{
-  background-color: #262626;
-  -fx-background-color: #262626;
-  border-radius: 5px;
-  -fx-border-radius: 5px;
-}
-
-.combo-box > .arrow-button {
-  background-color: #262626;
-  -fx-background-color: #262626;
-}
-
-.combo-box-base > .arrow-button > .arrow, 
-.titled-pane > .title > .arrow-button > .arrow {
-  background-color: white;
-  -fx-background-color: white;
 }
 
 .titled-pane > .content {
@@ -236,12 +207,12 @@ table {
   padding: 2px 2px 2px 20px;
   -fx-padding: 2px 2px 2px 20px;
 }
+
 .split-pane {
   padding: 0px;
   -fx-padding: 0px;
   border-width: 0px;
   -fx-border-width: 0px;
-
 }
 
 .status-bar {
@@ -282,9 +253,166 @@ table {
   -fx-background-color: #4F298F;
 }
 .scroll-pane > .corner {
-  -fx-background-color: 171717;
+  -fx-background-color: #171717;
 }
 
-Label {
+.split-pane > .split-pane-divider {
+  -fx-background-color: #2c2c2c;
+  -fx-padding: 0px;
+  -fx-border-width: 3px;
+  -fx-border-color: #2c2c2c;
+}
+
+.split-pane > .split-pane-divider > .vertical-grabber, .split-pane > .split-pane-divider > .horizontal-grabber {
+  -fx-background-color: #816F9D;
+}
+
+.tooltip {
+    -fx-background: #816F9D;
+    -fx-text-fill: white;
+    -fx-background-color: #816F9D;
+    -fx-background-radius: 6px;
+    -fx-background-insets: 0;
+    -fx-padding: 5px;
+}
+
+.check-box {
   -fx-text-fill: white;
+}
+
+.text-area {
+  -fx-background-color: #262626;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 3, 2, 2;
+  -fx-padding: 1;
+  -fx-prompt-text-fill: #BBBBBB;
+  -fx-text-fill: white;
+}
+
+.text-area > .scroll-pane {
+  -fx-background-color: transparent;
+}
+
+.text-area .content {
+  -fx-padding: 3 5 3 5; 
+  -fx-cursor: text;
+  -fx-text-fill:white;
+}
+
+.text-area:focused {
+  -fx-background-color: #262626;
+  -fx-background-insets: -0.4, 1, 2;
+  -fx-background-radius: 3.4, 2, 2;
+  -fx-prompt-text-fill: transparent;
+  -fx-text-fill: white;
+}
+
+.text-area:disabled {
+  -fx-opacity: -fx-disaled-opacity;
+}
+
+.text-field {
+  -fx-background-color: #262626;
+  -fx-background-insets: 0, 1, 2;
+  -fx-background-radius: 3, 2, 2;
+  -fx-padding: 0.25em 0.416667em  0.333333em 0.416667em; /* 3 5 4 5 */
+  -fx-text-fill: white;
+  -fx-prompt-text-fill: #BBBBBB;
+  -fx-cursor: text;
+}
+
+.text-field:focused {
+  -fx-background-color: #262626;
+  -fx-background-insets: -0.4, 1, 2;
+  -fx-background-radius: 3.4, 2, 2;
+  -fx-prompt-text-fill: transparent;
+}
+
+.text-field:disabled {
+  -fx-opacity: -fx-disabled-opacity;
+}
+
+.combo-box-base {
+  -fx-background-color: #262626;
+}
+.combo-box-base:hover {
+  -fx-color: #4F298F;
+}
+.combo-box .list-cell{
+  -fx-text-fill: white;
+}
+.combo-box > .combo-box-popup {
+  -fx-background-color: #262626;
+}
+.combo-box > .combo-box-popup > .list-view {
+  -fx-background-color: #262626;
+}
+.combo-box > .combo-box-popup > .list-view > .list-cell {
+  -fx-background-color: #262626;
+  -fx-background-color: white;
+}
+.combo-box-base > .arrow-button {
+  -fx-background-color: #262626;
+}
+.combo-box-base:hover > .arrow-button {
+  -fx-background-color: #262626;
+}
+.combo-box-base:showing > .arrow-button,
+.date-picker:showing > .arrow-button {
+  -fx-color: #4F298F;
+} 
+.combo-box-base > .arrow-button > .arrow {
+    -fx-background-color: white;
+}
+.combo-box .list-cell {
+    -fx-background: #262626;
+    -fx-background-color: #262626;
+    -fx-text-fill: white;
+}
+.combo-box-popup > .list-view {
+    -fx-background-color: #262626;
+    -fx-effect: none;
+}
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected, 
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover {
+    -fx-background: #816F9D;
+    -fx-background-color: #816F9D;
+    -fx-text-fill: white;
+}
+.combo-box-popup  > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+    -fx-background-color: #816F9D;
+    -fx-text-fill: white;
+}
+.combo-box-popup > .list-view > .placeholder > .label {
+    -fx-text-fill: white;
+}
+
+
+.choice-box {
+  -fx-background-color: #262626;
+}
+.choice-box:focused {
+  -fx-color: #262626;
+  -fx-background-color: #262626;
+}
+.choice-box:hover {
+  -fx-color: #816F9D;
+}
+.choice-box:showing {
+  -fx-color: #4F298F;
+}
+.choice-box > .label {
+  -fx-text-fill: white;
+}
+
+.choice-box > .open-button > .arrow {
+  -fx-background-color: white;
+}
+
+.dialog-pane {
+  -fx-background-color: #171717;
+}
+
+.dialog-pane:header .header-panel {
+  -fx-background-color: #171717;
 }

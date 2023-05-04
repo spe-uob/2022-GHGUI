@@ -8,8 +8,11 @@ import javafx.scene.Parent;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.WindowBuilder.Size;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.config.configtypes.ChoiceOption;
 
 /** Shim class for building fat jars. */
 @UtilityClass
@@ -25,6 +28,7 @@ class Shim {
 }
 
 /** Base class to start JavaFX application. */
+@Slf4j
 public class App extends Application {
 
   /** Location of main FXML file. */
@@ -43,10 +47,10 @@ public class App extends Application {
   @Override
   public final void start(final Stage primaryStage) throws IOException {
 
-    primaryStage.setTitle("ghgui");
-
+    primaryStage.setTitle("GHGUI");
     // TODO: Update stylesheet so this line is no longer necessary:
     setUserAgentStylesheet(STYLESHEET_CASPIAN);
+
     // Load and display FXML
     final Parent root = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_FILE_PATH));
 
@@ -58,9 +62,23 @@ public class App extends Application {
     // get screen width and height
     final double screenWidth = bounds.getWidth();
     final double screenHeight = bounds.getHeight();
-    // set scene in  Perfect size
-    final Size size = new Size(screenWidth - 5, screenHeight - 50);
+    // default size in case of failure
+    Size size = new Size(1280, 720);
+    try {
+      final String resolutionConfiguration =
+          ChoiceOption.decode(ConfigUtil.getConfigurationOption("resolution"));
+      if (resolutionConfiguration.equals("Half-screen")) {
+        size = new Size(screenWidth / 2, screenHeight);
+      } else if (resolutionConfiguration.equals("Full-screen")) {
+        size = new Size(screenWidth, screenHeight);
+      } else {
+        final String[] dimensions = resolutionConfiguration.split("x");
+        size = new Size(Integer.parseInt(dimensions[0]), Integer.parseInt(dimensions[1]));
+      }
 
-    new WindowBuilder().root(root).stage(primaryStage).size(size).build().show();
+    } catch (Exception e) {
+      log.error("Could not read resolution preference.", e);
+    }
+    new WindowBuilder().root(root).setStage(primaryStage).size(size).build().show();
   }
 }

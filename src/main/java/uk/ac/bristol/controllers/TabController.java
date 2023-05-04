@@ -36,6 +36,8 @@ import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
 import uk.ac.bristol.util.auth.AesEncryptionUtil;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
@@ -90,7 +92,7 @@ public class TabController implements Initializable, Refreshable {
   private void push(final Event event) {
     ErrorHandler.tryWith(
         new PushControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Push to remote").root(root).build().show());
   }
 
   /**
@@ -102,7 +104,7 @@ public class TabController implements Initializable, Refreshable {
   private void pull(final Event event) {
     ErrorHandler.tryWith(
         new PullControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Pull from remote").root(root).build().show());
   }
 
   /** Open the commit dialog. */
@@ -110,7 +112,7 @@ public class TabController implements Initializable, Refreshable {
   private void commit() {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Commit").root(root).build().show());
   }
   /** Open the clean dialog. */
   @FXML
@@ -122,10 +124,19 @@ public class TabController implements Initializable, Refreshable {
 
   /** Open the newBranch dialog. */
   @FXML
-  void newBranch() {
+  void branch() {
     final TextInputDialog dialog = new TextInputDialog();
-    dialog.setTitle("New branch!");
-    dialog.setHeaderText("Name of new branch: ");
+    try {
+      final var css =
+          getClass()
+              .getClassLoader()
+              .getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
+      dialog.getDialogPane().getStylesheets().add(css.toExternalForm());
+      dialog.setTitle("Branch from " + gitInfo.getRepo().getBranch());
+    } catch (Exception e) {
+      AlertBuilder.fromException(e);
+    }
+    dialog.setHeaderText("Branch name:");
     dialog.setGraphic(null);
     dialog
         .showAndWait()
@@ -235,7 +246,9 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class,
         RemoteController.class,
         StatusBarController.class,
-        StatusController.class);
+        StatusController.class,
+        InformationController.class,
+        RemoteController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }

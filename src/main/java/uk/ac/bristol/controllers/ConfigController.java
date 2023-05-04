@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 import uk.ac.bristol.util.config.ConfigUtil;
 import uk.ac.bristol.util.config.configtypes.ConfigOption;
@@ -22,9 +23,6 @@ public class ConfigController implements Initializable {
 
   /** Scrollpane for the configVBox. */
   @FXML private ScrollPane scrollPane;
-
-  /** Root pane. */
-  @FXML private TitledPane root;
 
   /** List of ConfigOption types for all options. */
   private List<ConfigOption> configList;
@@ -58,13 +56,17 @@ public class ConfigController implements Initializable {
   private void regenerate() {
     configList = new ArrayList<>();
     configVBox.getChildren().clear();
+    configVBox.setAlignment(Pos.TOP_LEFT);
     ErrorHandler.mightFail(ConfigUtil::ensureConfigFileExists).join();
     ErrorHandler.tryWith(
         ConfigUtil::generateConfigList,
         conf -> {
-          configList = conf;
-          configVBox.getChildren().addAll(configList.stream().map(ConfigOption::getHBox).toList());
-          configVBox.getChildren().add(new Label("Current Configs: " + configList.size()));
+          final List<javafx.scene.Node> children = configVBox.getChildren();
+          for (ConfigOption config : conf) {
+            configList.add(config);
+            children.add(config.getVBox());
+            children.add(new Separator(Orientation.HORIZONTAL));
+          }
         });
   }
 }

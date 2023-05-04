@@ -10,7 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand;
@@ -32,16 +32,13 @@ public class PullController implements Initializable {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private TitledPane root;
+  @FXML private VBox root;
 
   /** Remote name selection. */
   @FXML private ComboBox<String> remote;
 
   /** Source branch name selection. */
   @FXML private ComboBox<String> remoteBranch;
-
-  /** Source branch name selection. */
-  @FXML private ComboBox<String> targetBranch;
 
   /**
    * Constructor for the CommitController. Registers obect to the EventBus.
@@ -112,20 +109,6 @@ public class PullController implements Initializable {
             }
           }
           remoteBranch.setItems(branchOptions);
-        });
-  }
-
-  /** Populate local branches. */
-  @FXML
-  private void populateTargetBranches() {
-    ErrorHandler.tryWith(
-        gitInfo.command(Git::branchList)::call,
-        refList -> {
-          final var branches =
-              refList.stream()
-                  .map(ref -> ref.getName().substring(Constants.R_HEADS.length()))
-                  .toList();
-          targetBranch.setItems(FXCollections.observableList(branches));
         });
   }
 
