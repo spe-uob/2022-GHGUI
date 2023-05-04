@@ -124,7 +124,7 @@ public class TabController implements Initializable, Refreshable {
 
   /** Open the newBranch dialog. */
   @FXML
-  void newBranch() {
+  void branch() {
     final TextInputDialog dialog = new TextInputDialog();
     try {
       final var css =

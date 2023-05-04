@@ -14,7 +14,6 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.PushCommand;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.util.GitInfo;
-import uk.ac.bristol.util.ProgressBarMonitor;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /** The FXML class to handle the Push pop-up window. */
@@ -37,7 +36,7 @@ public class PushController implements Initializable {
   @FXML private CheckBox forceCheck;
   /** The checkbox to add the tags flag to the push. */
   @FXML private CheckBox tagsCheck;
-
+  /** Progress bar to be implemented. Ollie said he likes it nonfunctional, so we're keeping it. */
   @FXML private ProgressBar progressBar;
 
   /**
@@ -81,7 +80,6 @@ public class PushController implements Initializable {
     if (tagsFlag) {
       pushCommand.setPushTags();
     }
-    pushCommand.setProgressMonitor(new ProgressBarMonitor(progressBar));
     ErrorHandler.mightFail(pushCommand::call).join();
     final Stage stage = (Stage) root.getScene().getWindow();
     stage.close();
