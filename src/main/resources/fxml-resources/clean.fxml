@@ -6,13 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.CleanController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="140.0" prefWidth="308.0" styleClass="generic-background-pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.CleanController">
     <children>
-        <VBox prefHeight="137.0" prefWidth="400.0" spacing="10.0" style="-fx-padding: 10px;">
-            <Label text="Select options for git clean" />
+        <VBox alignment="CENTER" prefHeight="137.0" prefWidth="306.0" spacing="10.0" style="-fx-padding: 10px;" styleClass="generic-background-pane">
+            <Label text="Select Options" />
             <CheckBox fx:id="ignoreCheckbox" text="Ignore files covered by .gitignore" />
             <CheckBox fx:id="dryRunCheckbox" text="Perform a dry run" />
-            <Button onAction="#clean" text="Execute" />
+            <Button alignment="CENTER" onAction="#clean" text="Clean" />
         </VBox>
     </children>
 </AnchorPane>

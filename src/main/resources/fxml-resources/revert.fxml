@@ -7,15 +7,15 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="117.0" prefWidth="461.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.RevertController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="91.0" prefWidth="461.0" styleClass="generic-background-pane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.RevertController">
    <children>
-      <HBox alignment="CENTER" prefHeight="48.0" prefWidth="524.0" spacing="10.0">
+      <HBox alignment="CENTER" prefHeight="48.0" prefWidth="524.0">
          <children>
-            <Label text="Please enter the commit to revert:" />
+            <Label text="Revert to " />
             <TextField fx:id="commitBox" />
          </children>
       </HBox>
-      <HBox alignment="BOTTOM_RIGHT" prefHeight="47.0" prefWidth="524.0" spacing="10.0">
+      <HBox alignment="CENTER" prefHeight="47.0" prefWidth="524.0" spacing="10.0">
          <children>
             <Button mnemonicParsing="false" onAction="#cancel" text="Cancel">
                <opaqueInsets>
