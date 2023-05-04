@@ -1,8 +1,10 @@
 package uk.ac.bristol.util.errors;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TitledPane;
 import lombok.experimental.UtilityClass;
 
 /** Provides methods for constructing JavaFX alerts from Exceptions. */
@@ -35,30 +37,29 @@ public final class AlertBuilder {
    * Create an alert from an Exception.
    *
    * @param ex The exception to build the message from
-   * @return A string containing the message
    */
-  public static Alert fromException(final Exception ex) {
+  public static void fromException(final Exception ex) {
     final Alert alert = new Alert(AlertType.ERROR);
-    alert.setResizable(true);
+    alert.setResizable(false);
     alert.setTitle(ex.getClass().getSimpleName() + " occured!");
-    alert.setHeaderText(null);
+    alert.setHeaderText(ex.getMessage());
     final TextArea tx = new TextArea(conciseMessage(ex));
-    alert.getDialogPane().setContent(tx);
-    return alert;
+    final TitledPane stackTrace = new TitledPane("See stack trace", tx);
+    alert.getDialogPane().setContent(stackTrace);
+    Platform.runLater(alert::show);
   }
 
   /**
    * Show a warning with a message.
    *
    * @param msg The message to show to the user
-   * @return A string containing the message
    */
-  public static Alert warn(final String msg) {
+  public static void warn(final String msg) {
     final Alert alert = new Alert(AlertType.WARNING);
     alert.setResizable(true);
     alert.setTitle("Warning!");
     alert.setHeaderText(null);
     alert.setContentText(msg);
-    return alert;
+    Platform.runLater(alert::show);
   }
 }

@@ -2,6 +2,7 @@ package uk.ac.bristol.controllers;
 
 import com.kodedu.terminalfx.TerminalBuilder;
 import com.kodedu.terminalfx.TerminalTab;
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
@@ -12,22 +13,31 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import org.eclipse.jgit.api.Git;
 import uk.ac.bristol.controllers.events.EventBus;
 import uk.ac.bristol.controllers.events.Refreshable;
+import uk.ac.bristol.controllers.factories.CleanControllerFactory;
 import uk.ac.bristol.controllers.factories.CommitControllerFactory;
 import uk.ac.bristol.controllers.factories.InformationControllerFactory;
 import uk.ac.bristol.controllers.factories.LoginControllerFactory;
 import uk.ac.bristol.controllers.factories.PullControllerFactory;
 import uk.ac.bristol.controllers.factories.PushControllerFactory;
+import uk.ac.bristol.controllers.factories.ResetControllerFactory;
+import uk.ac.bristol.controllers.factories.RevertControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusBarControllerFactory;
 import uk.ac.bristol.controllers.factories.StatusControllerFactory;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.TerminalConfigThemes;
 import uk.ac.bristol.util.WindowBuilder;
+import uk.ac.bristol.util.auth.AesEncryptionUtil;
+import uk.ac.bristol.util.config.ConfigUtil;
+import uk.ac.bristol.util.errors.AlertBuilder;
 import uk.ac.bristol.util.errors.ErrorHandler;
 import uk.ac.bristol.util.plots.JavaFxAvatarPlotRenderer;
 import uk.ac.bristol.util.plots.JavaFxPlotRenderer;
@@ -43,14 +53,16 @@ public class TabController implements Initializable, Refreshable {
 
   /** The root pane for this controller. */
   @FXML private BorderPane root;
-
   /** The panes used for child FXML controllers. */
-  @FXML private AnchorPane statusPane, informationPane, terminalPane;
+  @FXML private AnchorPane statusPane, informationPane;
   /** The pane used for the bottom status brief. */
   @FXML private HBox statusBarHBox;
-
   /** The pane used for the central tree view. */
   @FXML private ScrollPane treePane;
+  /** The tab pane used for the embedded terminal. */
+  @FXML private TabPane terminalPane;
+  /** Credentials combo boxes. */
+  @FXML private ComboBox<String> sshCredentials, httpsCredentials;
 
   /**
    * Construct a new TabController and register it on the EventBus.
@@ -67,11 +79,12 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     ErrorHandler.tryWith(
-        new LoginControllerFactory()::build, root -> new WindowBuilder().root(root).build().show());
+        new LoginControllerFactory(gitInfo, sshCredentials, httpsCredentials)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
-   * TODO: Link with JGitUtil.
+   * Open the Push Dialog.
    *
    * @param event The event that caused this function to fire.
    */
@@ -79,11 +92,11 @@ public class TabController implements Initializable, Refreshable {
   private void push(final Event event) {
     ErrorHandler.tryWith(
         new PushControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Push to remote").root(root).build().show());
   }
 
   /**
-   * TODO: Link with JGitUtil.
+   * Open the Pull Dialog.
    *
    * @param event The event that caused this function to fire.
    */
@@ -91,7 +104,7 @@ public class TabController implements Initializable, Refreshable {
   private void pull(final Event event) {
     ErrorHandler.tryWith(
         new PullControllerFactory(eventBus, gitInfo)::build,
-        root -> new WindowBuilder().root(root).build().show());
+        root -> new WindowBuilder().setTitle("Pull from remote").root(root).build().show());
   }
 
   /** Open the commit dialog. */
@@ -99,9 +112,52 @@ public class TabController implements Initializable, Refreshable {
   private void commit() {
     ErrorHandler.tryWith(
         new CommitControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().setTitle("Commit").root(root).build().show());
+  }
+  /** Open the clean dialog. */
+  @FXML
+  private void clean() {
+    ErrorHandler.tryWith(
+        new CleanControllerFactory(eventBus, gitInfo)::build,
         root -> new WindowBuilder().root(root).build().show());
   }
 
+  /** Open the newBranch dialog. */
+  @FXML
+  void branch() {
+    final TextInputDialog dialog = new TextInputDialog();
+    try {
+      final var css =
+          getClass()
+              .getClassLoader()
+              .getResource("style-sheet/" + ConfigUtil.getConfigurationOption("styleSheet"));
+      dialog.getDialogPane().getStylesheets().add(css.toExternalForm());
+      dialog.setTitle("Branch from " + gitInfo.getRepo().getBranch());
+    } catch (Exception e) {
+      AlertBuilder.fromException(e);
+    }
+    dialog.setHeaderText("Branch name:");
+    dialog.setGraphic(null);
+    dialog
+        .showAndWait()
+        .ifPresent(res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res)));
+  }
+
+  /** Open the reset dialog. */
+  @FXML
+  private void reset() {
+    ErrorHandler.tryWith(
+        new ResetControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
+  }
+
+  /** Open the revert dialog. */
+  @FXML
+  private void revert() {
+    ErrorHandler.tryWith(
+        new RevertControllerFactory(eventBus, gitInfo)::build,
+        root -> new WindowBuilder().root(root).build().show());
+  }
   /**
    * Populate the combobox with the contents of the stored credentials.
    *
@@ -114,8 +170,8 @@ public class TabController implements Initializable, Refreshable {
     final var sshLogins = FXCollections.observableArrayList(GitInfo.getSshAuth().keySet());
     final var httpLogins = FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet());
     switch (source.getId()) {
-      case "SshCredentials" -> source.setItems(sshLogins);
-      case "HttpsCredentials" -> source.setItems(httpLogins);
+      case "sshCredentials" -> source.setItems(sshLogins);
+      case "httpsCredentials" -> source.setItems(httpLogins);
     }
   }
 
@@ -129,8 +185,8 @@ public class TabController implements Initializable, Refreshable {
     @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
     switch (source.getId()) {
-      case "SshCredentials" -> gitInfo.setSshAuthKey(source.getValue());
-      case "HttpsCredentials" -> gitInfo.setHttpAuthKey(source.getValue());
+      case "sshCredentials" -> gitInfo.setSshAuthKey(source.getValue());
+      case "httpsCredentials" -> gitInfo.setHttpAuthKey(source.getValue());
     }
   }
 
@@ -155,19 +211,32 @@ public class TabController implements Initializable, Refreshable {
           final String cmd = String.format("cd \"%s\"\rclear\r", repo.getDirectory().getParent());
           terminal.onTerminalFxReady(() -> terminal.getTerminal().command(cmd));
 
-          // TODO: Figure out if it's possible to cut down on these
-          final TabPane tabPane = new TabPane();
-          tabPane.setMaxSize(TabPane.USE_COMPUTED_SIZE, TabPane.USE_COMPUTED_SIZE);
-          AnchorPane.setLeftAnchor(tabPane, 0.0);
-          AnchorPane.setRightAnchor(tabPane, 0.0);
-          AnchorPane.setTopAnchor(tabPane, 0.0);
-          AnchorPane.setBottomAnchor(tabPane, 0.0);
-          tabPane.getTabs().add(terminal);
-          terminalPane.getChildren().add(tabPane);
+          terminalPane.getTabs().add(terminal);
         });
 
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  /** Import credentials from an encrypted file. */
+  @FXML
+  private void importCreds() {
+    final FileChooser fileChooser = new FileChooser();
+    final File file = fileChooser.showOpenDialog(null);
+    if (file != null) {
+      final TextInputDialog dialog = new TextInputDialog(null);
+      dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
+    }
+  }
+  /** Export credentials to an encrypted file. */
+  @FXML
+  private void exportCreds() {
+    final FileChooser fileChooser = new FileChooser();
+    final File file = fileChooser.showSaveDialog(null);
+    if (file != null) {
+      final TextInputDialog dialog = new TextInputDialog(null);
+      dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.writeToFile(file, key));
+    }
   }
 
   /** {@inheritDoc} */
@@ -177,8 +246,22 @@ public class TabController implements Initializable, Refreshable {
         StatusController.class,
         RemoteController.class,
         StatusBarController.class,
-        StatusController.class);
+        StatusController.class,
+        InformationController.class,
+        RemoteController.class);
     final JavaFxPlotRenderer plotRenderer = new JavaFxAvatarPlotRenderer(gitInfo);
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
+  }
+
+  /** Stashes the changes in the directory. */
+  @FXML
+  public void stash() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashCreate)::call);
+  }
+
+  /** Pops most recent changes from the stash. */
+  @FXML
+  public void pop() {
+    ErrorHandler.mightFail(gitInfo.command(Git::stashApply)::call);
   }
 }

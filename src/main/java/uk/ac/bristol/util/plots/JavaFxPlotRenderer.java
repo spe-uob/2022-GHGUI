@@ -2,14 +2,16 @@ package uk.ac.bristol.util.plots;
 
 import java.io.IOException;
 import java.util.List;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -25,6 +27,7 @@ import org.eclipse.jgit.revplot.PlotCommit;
 import org.eclipse.jgit.revplot.PlotCommitList;
 import org.eclipse.jgit.revplot.PlotWalk;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.JgitUtil;
 import uk.ac.bristol.util.errors.ErrorHandler;
 
 /**
@@ -41,11 +44,11 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     /** This represents the commit that we're currently working on. */
     protected final PlotCommit<JavaFxLane> commit;
     /** This group contains all the lines and squares that graphically respresent the tree. */
-    protected final Group lines = new Group();
+    protected final Pane lines = new Pane();
     /** This shows which branches currently have the active commit as their head. */
-    protected final VBox heads = new VBox();
+    private final GridPane heads = new GridPane();
     /** This shows the message attached to the current commit. */
-    protected final VBox message = new VBox();
+    private final VBox message = new VBox();
 
     /**
      * Construct an empty CurrentRow.
@@ -56,14 +59,31 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
       this.commit = commit;
       heads.setAlignment(Pos.CENTER_LEFT);
       message.setAlignment(Pos.CENTER_LEFT);
+      lines.setPrefHeight(Pane.USE_COMPUTED_SIZE);
+      lines.setPrefWidth(Pane.USE_COMPUTED_SIZE);
       lines.setOpacity(0.8);
       heads.setOpacity(0.8);
       message.setOpacity(0.8);
+      lines.setPadding(new Insets(0, 5, 0, 5));
+      heads.setPadding(new Insets(0, 5, 0, 5));
+      message.setPadding(new Insets(0, 5, 0, 5));
       final ContextMenu ctx = new ContextMenu();
-      ctx.getItems().addAll(new MenuItem("Create new branch here"));
+      final MenuItem newBranch = new MenuItem("Create new branch here");
+      newBranch.setOnAction(
+          (e) -> {
+            final TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("New branch!");
+            dialog.setHeaderText(String.format("Create branch from commit %s:", commit.getName()));
+            dialog.setGraphic(null);
+            dialog
+                .showAndWait()
+                .ifPresent(
+                    res -> ErrorHandler.mightFail(() -> JgitUtil.newBranch(gitInfo, res, commit)));
+          });
+      ctx.getItems().addAll(newBranch);
       addContext(ctx, getComponents());
       highlightOnHover();
-      lines.setOnMouseEntered(null);
+      // lines.setOnMouseEntered(null);
     }
 
     /** Highlight this row on mouse hover. */
@@ -107,11 +127,11 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
   }
 
-  /** The reposity that we're using to build this commit tree. */
-  private Repository repo;
-
   /** The row that we're currently working on. */
   protected CurrentRow currentRow;
+
+  /** The reposity that we're using to build this commit tree. */
+  private GitInfo gitInfo;
 
   /**
    * Construct a new JavaFxPlotRenderer.
@@ -119,7 +139,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @param gitInfo The reposity that we're using to build this commit tree
    */
   public JavaFxPlotRenderer(final GitInfo gitInfo) {
-    repo = gitInfo.getRepo();
+    this.gitInfo = gitInfo;
   }
 
   /**
@@ -129,7 +149,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
    * @throws MissingObjectException
    */
   public Parent draw() throws MissingObjectException, IncorrectObjectTypeException, IOException {
-
+    final Repository repo = gitInfo.getRepo();
     final PlotWalk plotWalk = new PlotWalk(repo);
     final List<Ref> allRefs = repo.getRefDatabase().getRefs();
     for (Ref ref : allRefs) {
@@ -138,7 +158,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
 
     final GridPane treeView = new GridPane();
-    treeView.setHgap(10);
+    treeView.setHgap(0);
 
     final var pcl = new PlotCommitList<JavaFxLane>();
     pcl.source(plotWalk);
@@ -165,9 +185,9 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     }
 
     final Text text = new Text(refName);
-    // CHECKSTYLE:IGNORE MagicNumberCheck 1
     text.setFill(Color.rgb(0x48, 0x63, 0x9C));
-    currentRow.heads.getChildren().add(text);
+    final var size = currentRow.heads.getChildren().size();
+    currentRow.heads.add(text, size / 3, size % 3);
 
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);

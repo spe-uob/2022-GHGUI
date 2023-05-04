@@ -12,11 +12,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<TabPane prefHeight="350.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.LoginController">
+<TabPane prefHeight="276.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uk.ac.bristol.controllers.LoginController">
    <tabs>
       <Tab closable="false" text="Github Token">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -73,7 +73,7 @@
       </Tab>
       <Tab closable="false" text="SSH key">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -143,7 +143,7 @@
       </Tab>
       <Tab closable="false" text="HTTPS">
          <content>
-            <GridPane>
+            <GridPane styleClass="tab-descendant-pane">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="100.0" />
                   <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" />
@@ -155,7 +155,7 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="TOP_CENTER" text="Note: GitHub has deprecated this method of login in favour of tokens" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
+                  <Label alignment="TOP_CENTER" text="GitHub has deprecated this method of login in favour of tokens" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="SOMETIMES">
                      <GridPane.margin>
                         <Insets top="20.0" />
                      </GridPane.margin>
@@ -190,7 +190,7 @@
                                     <Insets bottom="10.0" right="20.0" top="10.0" />
                                  </GridPane.margin>
                               </Label>
-                              <TextField fx:id="keyPath11" GridPane.columnIndex="1" />
+                              <TextField fx:id="httpsID" GridPane.columnIndex="1" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="10.0" top="10.0" />

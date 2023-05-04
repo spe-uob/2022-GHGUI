@@ -12,8 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.ListBranchCommand.ListMode;
-import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RemoteConfig;
@@ -79,7 +77,8 @@ public class RemoteController implements Initializable, Refreshable {
     final Button button = new Button(branchName);
     button.setPrefWidth(Double.MAX_VALUE);
     button.setAlignment(Pos.BASELINE_LEFT);
-    button.setOnMouseClicked(event -> JgitUtil.checkoutBranch(gitInfo, ref));
+    button.setOnMouseClicked(
+        __ -> ErrorHandler.mightFail(() -> JgitUtil.checkoutBranch(gitInfo, ref)));
     return button;
   }
 
@@ -107,9 +106,9 @@ public class RemoteController implements Initializable, Refreshable {
   /** Function to prune from the remote repo. */
   @FXML
   private void prune() {
-    final var repo = (FileRepository) gitInfo.getRepo();
-    ErrorHandler.mightFail(() -> new GC(repo).prune(null));
-    refresh();
+    ErrorHandler.tryWith(
+        gitInfo.command(Git::fetch).setRemote(remote.getName()).setRemoveDeletedRefs(true)::call,
+        __ -> this.refresh());
   }
 
   /** {@inheritDoc} */
