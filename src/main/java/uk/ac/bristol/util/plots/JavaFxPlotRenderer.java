@@ -46,7 +46,7 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
     /** This group contains all the lines and squares that graphically respresent the tree. */
     protected final Pane lines = new Pane();
     /** This shows which branches currently have the active commit as their head. */
-    private final VBox heads = new VBox();
+    private final GridPane heads = new GridPane();
     /** This shows the message attached to the current commit. */
     private final VBox message = new VBox();
 
@@ -186,7 +186,8 @@ public class JavaFxPlotRenderer extends JavaFxPlotRendererImpl<JavaFxLane> {
 
     final Text text = new Text(refName);
     text.setFill(Color.rgb(0x48, 0x63, 0x9C));
-    currentRow.heads.getChildren().add(text);
+    final var size = currentRow.heads.getChildren().size();
+    currentRow.heads.add(text, size / 3, size % 3);
 
     final double fontSize = text.getFont().getSize();
     final int width = (int) Math.floor(fontSize * refName.trim().length() / 2);
