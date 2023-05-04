@@ -28,7 +28,7 @@ public final class StatusController implements Initializable, Refreshable {
   private GitInfo gitInfo;
 
   /** The root pane for this controller. */
-  @FXML private TitledPane root;
+  @FXML private VBox root;
 
   /** Panes for displaying status information. */
   @FXML
@@ -104,6 +104,7 @@ public final class StatusController implements Initializable, Refreshable {
       final Label label = new Label(filename);
       label.setTextOverrun(OverrunStyle.ELLIPSIS);
       label.setMaxWidth(box.getMaxWidth());
+      label.setTextOverrun(OverrunStyle.LEADING_ELLIPSIS);
       label.setTooltip(new Tooltip(filename));
       box.getChildren().add(label);
     }

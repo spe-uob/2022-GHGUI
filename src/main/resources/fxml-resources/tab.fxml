@@ -108,7 +108,7 @@
             <String fx:value="information-pane" />
          </styleClass>
          <content>
-            <AnchorPane fx:id="statusPane" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="statusPane" maxWidth="1.7976931348623157E308" minWidth="230.0" prefWidth="230.0">
                <styleClass>
                   <String fx:value="generic-background-pane" />
                   <String fx:value="status-pane" />
