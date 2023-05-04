@@ -61,6 +61,8 @@ public class TabController implements Initializable, Refreshable {
   @FXML private ScrollPane treePane;
   /** The tab pane used for the embedded terminal. */
   @FXML private TabPane terminalPane;
+  /** Credentials combo boxes. */
+  @FXML private ComboBox<String> sshCredentials, httpsCredentials;
 
   /**
    * Construct a new TabController and register it on the EventBus.
@@ -77,8 +79,8 @@ public class TabController implements Initializable, Refreshable {
   @FXML
   final void loginClick() {
     ErrorHandler.tryWith(
-        new LoginControllerFactory()::build,
-        root -> new WindowBuilder().setTitle("Add credentials").root(root).build().show());
+        new LoginControllerFactory(gitInfo, sshCredentials, httpsCredentials)::build,
+        root -> new WindowBuilder().root(root).build().show());
   }
 
   /**
@@ -168,8 +170,8 @@ public class TabController implements Initializable, Refreshable {
     final var sshLogins = FXCollections.observableArrayList(GitInfo.getSshAuth().keySet());
     final var httpLogins = FXCollections.observableArrayList(GitInfo.getHttpAuth().keySet());
     switch (source.getId()) {
-      case "SshCredentials" -> source.setItems(sshLogins);
-      case "HttpsCredentials" -> source.setItems(httpLogins);
+      case "sshCredentials" -> source.setItems(sshLogins);
+      case "httpsCredentials" -> source.setItems(httpLogins);
     }
   }
 
@@ -183,8 +185,8 @@ public class TabController implements Initializable, Refreshable {
     @SuppressWarnings("unchecked")
     final ComboBox<String> source = (ComboBox<String>) e.getSource();
     switch (source.getId()) {
-      case "SshCredentials" -> gitInfo.setSshAuthKey(source.getValue());
-      case "HttpsCredentials" -> gitInfo.setHttpAuthKey(source.getValue());
+      case "sshCredentials" -> gitInfo.setSshAuthKey(source.getValue());
+      case "httpsCredentials" -> gitInfo.setHttpAuthKey(source.getValue());
     }
   }
 
@@ -216,7 +218,7 @@ public class TabController implements Initializable, Refreshable {
     ErrorHandler.tryWith(plotRenderer::draw, treePane::setContent);
   }
 
-  /** Imports credentials from a file specified with a file explorer. */
+  /** Import credentials from an encrypted file. */
   @FXML
   private void importCreds() {
     final FileChooser fileChooser = new FileChooser();
@@ -226,8 +228,7 @@ public class TabController implements Initializable, Refreshable {
       dialog.showAndWait().ifPresent(key -> AesEncryptionUtil.readFromFile(file, key));
     }
   }
-
-  /** Exports credentials to a file specified with a file explorer. */
+  /** Export credentials to an encrypted file. */
   @FXML
   private void exportCreds() {
     final FileChooser fileChooser = new FileChooser();

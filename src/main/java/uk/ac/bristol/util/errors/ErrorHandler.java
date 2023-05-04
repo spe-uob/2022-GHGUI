@@ -93,11 +93,11 @@ public class ErrorHandler {
    */
   private static void handle(final Throwable t) {
     if (t instanceof Exception ex) {
-      AlertBuilder.fromException(ex).show();
+      AlertBuilder.fromException(ex);
       log.error(ex.getLocalizedMessage(), ex);
     } else {
       final Exception ex = new RuntimeException(t);
-      AlertBuilder.fromException(ex).show();
+      AlertBuilder.fromException(ex);
       log.error(ex.getLocalizedMessage(), ex);
     }
   }
