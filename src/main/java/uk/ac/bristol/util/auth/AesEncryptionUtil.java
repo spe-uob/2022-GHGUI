@@ -16,6 +16,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import lombok.experimental.UtilityClass;
 import uk.ac.bristol.util.GitInfo;
+import uk.ac.bristol.util.errors.ErrorHandler;
 
 /**
  * The AesEncryptionUtil class is a Java utility class that provides methods for encrypting and
@@ -44,28 +45,32 @@ public class AesEncryptionUtil {
     final byte[] iv = new byte[GCM_IV_LENGTH];
     final SecureRandom random = new SecureRandom();
     random.nextBytes(iv);
-    try (FileOutputStream st = new FileOutputStream(file, false)) {
-      final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
-      // Probably shouldn't be reusing the iv bytes as a salt, but since both the iv and the salt
-      // are designed to be known, I see no harm. Haven't seen anyone say it's unsafe either yet.
-      final PBEKeySpec pbeKeySpec = new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_LENGTH);
-      final var tmp = SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec);
-      final SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-      final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-      cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
-      st.write(iv);
-      try (ObjectOutputStream cst = new ObjectOutputStream(new CipherOutputStream(st, cipher))) {
-        for (var cred : GitInfo.getHttpAuth().values()) {
-          cst.writeObject(cred);
-        }
-        for (var cred : GitInfo.getSshAuth().values()) {
-          cst.writeObject(cred);
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      // TODO: HANDLE
-    }
+    ErrorHandler.mightFail(
+        () -> {
+          try (FileOutputStream st = new FileOutputStream(file, false)) {
+            final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
+            // Probably shouldn't be reusing the iv bytes as a salt, but since both the iv and the
+            // salt
+            // are designed to be known, I see no harm. Haven't seen anyone say it's unsafe either
+            // yet.
+            final PBEKeySpec pbeKeySpec =
+                new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_LENGTH);
+            final var tmp = SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec);
+            final SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+            final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
+            st.write(iv);
+            try (ObjectOutputStream cst =
+                new ObjectOutputStream(new CipherOutputStream(st, cipher))) {
+              for (var cred : GitInfo.getHttpAuth().values()) {
+                cst.writeObject(cred);
+              }
+              for (var cred : GitInfo.getSshAuth().values()) {
+                cst.writeObject(cred);
+              }
+            }
+          }
+        });
   }
 
   /**
@@ -75,27 +80,28 @@ public class AesEncryptionUtil {
    * @param key The key to use to unlock the file
    */
   public static void readFromFile(final File file, final String key) {
-    try (FileInputStream st = new FileInputStream(file)) {
-      final byte[] iv = new byte[GCM_IV_LENGTH];
-      st.read(iv);
-      final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
-      final PBEKeySpec pbeKeySpec = new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_LENGTH);
-      final var tmp = SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec);
-      final SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
-      final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-      cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
-      try (ObjectInputStream cst = new ObjectInputStream(new CipherInputStream(st, cipher))) {
-        while (true) {
-          if (cst.readObject() instanceof Credentials creds) {
-            creds.reimport();
+    ErrorHandler.mightFail(
+        () -> {
+          try (FileInputStream st = new FileInputStream(file)) {
+            final byte[] iv = new byte[GCM_IV_LENGTH];
+            st.read(iv);
+            final GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(GCM_TAG_LENGTH * 8, iv);
+            final PBEKeySpec pbeKeySpec =
+                new PBEKeySpec(key.toCharArray(), iv, 1000, AES_KEY_LENGTH);
+            final var tmp = SecretKeyFactory.getInstance(ALGORITHM).generateSecret(pbeKeySpec);
+            final SecretKeySpec secretKey = new SecretKeySpec(tmp.getEncoded(), "AES");
+            final Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, gcmParameterSpec);
+            try (ObjectInputStream cst = new ObjectInputStream(new CipherInputStream(st, cipher))) {
+              while (true) {
+                if (cst.readObject() instanceof Credentials creds) {
+                  creds.reimport();
+                }
+              }
+            }
+          } catch (EOFException e) {
+            return;
           }
-        }
-      }
-    } catch (EOFException e) {
-      return;
-    } catch (Exception e) {
-      e.printStackTrace();
-      // TODO: HANDLE
-    }
+        });
   }
 }
